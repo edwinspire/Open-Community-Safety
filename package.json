@@ -2,6 +2,9 @@
   "name": "community-safety-pwa",
   "description": "Community Safety PWA",
   "version": "0.0.1",
+  "engines": {
+    "node": "10.21.x"
+  },
   "scripts": {
     "dev": "sapper dev",
     "dev2": "sapper dev port 443",
