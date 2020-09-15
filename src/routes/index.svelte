@@ -16,7 +16,7 @@
   }
 
   async function Login(event) {
-    let data = await FData.login("/pgapi/login", username, password);
+    let data = await FData.login("/pgapi/v2/login", username, password);
     console.log(data);
     if (!data.login) {
       alert("No tiene permisos para ingresar");
