@@ -6,6 +6,4 @@
 *.env
 **.exe
 #farm*
-#*node_modules
 
-node_modules
