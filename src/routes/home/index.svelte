@@ -16,8 +16,8 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/home">
-      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" /> <strong>   SEGURIDAD
-        CIUDADANA</strong> 
+      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" />
+      <strong> SEGURIDAD CIUDADANA</strong>
     </a>
 
     <!-- svelte-ignore a11y-missing-attribute -->
@@ -40,8 +40,6 @@
 
       <!-- svelte-ignore a11y-missing-attribute -->
       <a class="navbar-item"> Reportes </a>
-
-     
     </div>
 
     <div class="navbar-end">
@@ -60,7 +58,7 @@
     <!-- svelte-ignore a11y-missing-attribute -->
     <li
       class:is-active={componentSelected === Report}
-      on:click={(componentSelected = Report)}>
+      on:click={()=>{componentSelected = Report}}>
       <a>
         <span class="icon is-small"><i
             class="fas fa-image"
@@ -69,11 +67,17 @@
       </a>
     </li>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <li class:is-active={componentSelected === Notifications}
-    on:click={(componentSelected = Notifications)}><a>Notificaciones</a></li>
+    <li
+      class:is-active={componentSelected === Notifications}
+      on:click={()=>{componentSelected = Notifications}}>
+      <a>Notificaciones</a>
+    </li>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <li class:is-active={componentSelected === Watched}
-    on:click={(componentSelected = Watched)}><a>Seguimiento</a></li>
+    <li
+      class:is-active={componentSelected === Watched}
+      on:click={()=>{componentSelected = Watched}}>
+      <a>Seguimiento</a>
+    </li>
   </ul>
 </div>
 <svelte:component this={componentSelected} />
