@@ -1,73 +1,108 @@
 <script>
   import { onMount } from "svelte";
-  //import Menu from "../../components/Menu.svelte";
-  import NavSystem from "../../components/NavSystem.svelte";
-  import SummaryDivisions from "../../components/SummaryDivisions.svelte";
+  import Report from "../../components/Report/Main.svelte";
   import { FetchData } from "../../components/FetchData.js";
-  import { IdAccount, APPLocalStorage } from "../../components/Stores.js";
-
-  let FData = new FetchData();
-  let AppLS = new APPLocalStorage();
-
-  export let segment;
-  let promise = new Promise(()=>{}, ()=>{});
-  let idaccount = 0;
-
   
 
-  async function GetData(search) {
-    let query = {};
-    const res = await FData.get("/pgapi/v2/divisions", query, {
-      "Content-Type": "application/json",
-    });
+//  let FData = new FetchData();
+let componentSelected = Report;
+  
 
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw new Error("No se pudo cargar la información");
-    }
-  }
-
+  //export let segment;
+  
   onMount(async () => {
-    //AppLS = new APPLocalStorage();
-    //idaccount = AppLS.getUser().idaccount;
-    promise = GetData();
+    
   });
 </script>
 
-<style>
-/*  .icon_link a {
-    color: white;
-  }
 
-  .icon_link a:hover {
-    color: rgb(255, 102, 0);
-  }*/
-</style>
 
-<NavSystem {segment} >
-  <span slot="title">
-    <strong>OPEN MONITORING SYSTEM</strong>
-  </span>
-</NavSystem>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    </a>
 
-<div class="columns is-multiline is-mobile root">
-  {#await promise}
-    <p>...waiting</p>
-  {:then datas}
-    {#each datas as { iddivision, name}, i}
-      <div
-        class="column is-half-mobile is-one-third-tablet is-one-quarter-fullhd
-        is-one-quarter-widescreen is-one-quarter-desktop">
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
 
-        <SummaryDivisions name={name} iddivision={iddivision}></SummaryDivisions>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        Home
+      </a>
 
+      <a class="navbar-item">
+        Documentation
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
+          </a>
+        </div>
       </div>
+    </div>
 
-      <!-- <User {...{ login, url }} /> -->
-    {/each}
-  {:catch error}
-    <p style="color: red">{error.message}</p>
-  {/await}
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button is-light">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 
+<nav class="level">
+  <p class="level-item has-text-centered">
+    <a class="link is-info">Home</a>
+  </p>
+  <p class="level-item has-text-centered">
+    <a class="link is-info">Menu</a>
+  </p>
+  <p class="level-item has-text-centered">
+    <img src="https://bulma.io/images/bulma-type.png" alt="" style="height: 30px;">
+  </p>
+  <p class="level-item has-text-centered">
+    <a class="link is-info">Reservations</a>
+  </p>
+  <p class="level-item has-text-centered">
+    <a class="link is-info">Contact</a>
+  </p>
+</nav>
+
+<div class="tabs">
+  <ul>
+    <li class="is-active" on:click="{componentSelected = Report}">Reportar</li>
+    <li><a>Music</a></li>
+    <li><a>Videos</a></li>
+    <li><a>Documents</a></li>
+  </ul>
 </div>
+<svelte:component this={componentSelected}/>
+

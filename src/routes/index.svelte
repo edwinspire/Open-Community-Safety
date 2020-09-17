@@ -17,9 +17,11 @@
 
   async function Login(event) {
     let data = await FData.login("/pgapi/v2/login", username, password);
+    window.location.href = "/home";
     console.log(data);
     if (!data.login) {
       alert("No tiene permisos para ingresar");
+      window.location.href = "/home";
     } else {
       window.location.href = "/home";
     }
