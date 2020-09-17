@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import Report from "../../components/Report/Main.svelte";
+  import Watched from "../../components/Watched/Main.svelte";
+  import Notifications from "../../components/Notifications/Main.svelte";
   import { FetchData } from "../../components/FetchData.js";
 
   //  let FData = new FetchData();
@@ -57,7 +59,7 @@
   <ul>
     <!-- svelte-ignore a11y-missing-attribute -->
     <li
-      class:selected={componentSelected === Report}
+      class:is-active={componentSelected === Report}
       on:click={(componentSelected = Report)}>
       <a>
         <span class="icon is-small"><i
@@ -67,9 +69,11 @@
       </a>
     </li>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <li><a>Notificaciones</a></li>
+    <li class:is-active={componentSelected === Notifications}
+    on:click={(componentSelected = Notifications)}><a>Notificaciones</a></li>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <li><a>Seguimiento</a></li>
+    <li class:is-active={componentSelected === Watched}
+    on:click={(componentSelected = Watched)}><a>Seguimiento</a></li>
   </ul>
 </div>
 <svelte:component this={componentSelected} />
