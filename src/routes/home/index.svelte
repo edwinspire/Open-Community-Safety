@@ -2,108 +2,74 @@
   import { onMount } from "svelte";
   import Report from "../../components/Report/Main.svelte";
   import { FetchData } from "../../components/FetchData.js";
-  
 
-//  let FData = new FetchData();
-let componentSelected = Report;
-  
+  //  let FData = new FetchData();
+  let componentSelected = Report;
 
   //export let segment;
-  
-  onMount(async () => {
-    
-  });
+
+  onMount(async () => {});
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    <a class="navbar-item" href="/home">
+      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" /> SEGURIDAD
+      CIUDADANA
     </a>
 
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <a
+      role="button"
+      class="navbar-burger burger"
+      aria-label="menu"
+      aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true" />
+      <span aria-hidden="true" />
+      <span aria-hidden="true" />
     </a>
   </div>
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a class="navbar-item"> Mi cuenta </a>
 
-      <a class="navbar-item">
-        Documentation
-      </a>
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a class="navbar-item"> Reportes </a>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More
-        </a>
-
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
-            About
-          </a>
-          <a class="navbar-item">
-            Jobs
-          </a>
-          <a class="navbar-item">
-            Contact
-          </a>
-          <hr class="navbar-divider">
-          <a class="navbar-item">
-            Report an issue
-          </a>
-        </div>
-      </div>
+     
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light">
-            Log in
-          </a>
+          <!-- svelte-ignore a11y-missing-attribute -->
+          <a class="button is-light"> Logout </a>
         </div>
       </div>
     </div>
   </div>
 </nav>
-  
-<nav class="level is-mobile">
-  <p class="level-item has-text-centered">
-    <a class="link is-info">Home</a>
-  </p>
-  <p class="level-item has-text-centered">
-    <a class="link is-info">Menu</a>
-  </p>
-  <p class="level-item has-text-centered">
-    <img src="https://bulma.io/images/bulma-type.png" alt="" style="height: 30px;">
-  </p>
-  <p class="level-item has-text-centered">
-    <a class="link is-info">Reservations</a>
-  </p>
-  <p class="level-item has-text-centered">
-    <a class="link is-info">Contact</a>
-  </p>
-</nav>
 
 <div class="tabs is-boxed">
   <ul>
-    <li class="is-active" on:click="{componentSelected = Report}">  <a>
-      <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
-      <span>Reportar</span>
-    </a></li>
-    <li><a>Music</a></li>
-    <li><a>Videos</a></li>
-    <li><a>Documents</a></li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <li
+      class:selected={componentSelected === Report}
+      on:click={(componentSelected = Report)}>
+      <a>
+        <span class="icon is-small"><i
+            class="fas fa-image"
+            aria-hidden="true" /></span>
+        <span>Reportar</span>
+      </a>
+    </li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <li><a>Notificaciones</a></li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <li><a>Seguimiento</a></li>
   </ul>
 </div>
-<svelte:component this={componentSelected}/>
-
+<svelte:component this={componentSelected} />
