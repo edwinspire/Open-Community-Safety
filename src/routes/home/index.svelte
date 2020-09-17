@@ -15,8 +15,6 @@ let componentSelected = Report;
   });
 </script>
 
-
-
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="https://bulma.io">
@@ -77,8 +75,8 @@ let componentSelected = Report;
     </div>
   </div>
 </nav>
-
-<nav class="level">
+  
+<nav class="level is-mobile">
   <p class="level-item has-text-centered">
     <a class="link is-info">Home</a>
   </p>
@@ -96,9 +94,12 @@ let componentSelected = Report;
   </p>
 </nav>
 
-<div class="tabs">
+<div class="tabs is-boxed">
   <ul>
-    <li class="is-active" on:click="{componentSelected = Report}">Reportar</li>
+    <li class="is-active" on:click="{componentSelected = Report}">  <a>
+      <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+      <span>Reportar</span>
+    </a></li>
     <li><a>Music</a></li>
     <li><a>Videos</a></li>
     <li><a>Documents</a></li>
