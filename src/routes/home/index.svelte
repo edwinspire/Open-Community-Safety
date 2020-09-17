@@ -16,8 +16,8 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/home">
-      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" /> SEGURIDAD
-      CIUDADANA
+      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" /> <strong>   SEGURIDAD
+        CIUDADANA</strong> 
     </a>
 
     <!-- svelte-ignore a11y-missing-attribute -->
