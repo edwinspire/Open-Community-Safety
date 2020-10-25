@@ -17,13 +17,13 @@
 
   async function Login(event) {
     let data = await FData.login("/pgapi/v2/login", username, password);
-    window.location.href = "/home";
+
     console.log(data);
-    if (!data.login) {
-      alert("No tiene permisos para ingresar");
+    if (data.login) {      
       window.location.href = "/home";
     } else {
-      window.location.href = "/home";
+      //window.location.href = "/";
+      alert(data.message);
     }
 
   }
@@ -300,7 +300,7 @@
             required="required" />
           <input type="submit" name="submit" value="Aceptar" />
           <div class="links_block">
-            <a href="register">Registro</a>
+            <a href="register">Nuevo Usuario</a>
           </div>
         </form>
       </div>

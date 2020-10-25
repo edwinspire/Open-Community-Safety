@@ -1,4 +1,11 @@
 require('dotenv').config({ override: true });
+const fn_move_events_closed = require("@tasks/fn_move_events_closed");
+const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
+const fn_sendemail = require("@tasks/fn_sendemail");
+
+var ExpiredEventsRunning = false;
+var SendEmailRunning = false;
+global.fecha = new Date();
 
 var cluster = require("cluster");
 import * as sapper from "@sapper/server";
@@ -23,6 +30,49 @@ const cookieParser = require("cookie-parser");
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 
+// Esto es para que se ejecute solo en el master y no en los workers
+if (cluster.isMaster) {
+
+  setInterval(() => {
+
+    if (!SendEmailRunning) {
+      SendEmailRunning = true;
+      fn_sendemail()
+        .then((ret) => {
+          console.log("fn_sendemail End", ret);
+          SendEmailRunning = false;
+        })
+        .catch((e) => {
+          console.log("fn_sendemail Error", e);
+          SendEmailRunning = false;
+        });
+    } else {
+      console.log("fn_sendemail Running...");
+    }
+  }, 10000);
+
+
+  setInterval(() => {
+    if (!ExpiredEventsRunning) {
+      ExpiredEventsRunning = true;
+      fn_set_expired_lifetime()
+        .then((ret) => {
+          console.log("ExpiredEvents Running", ret);
+          ExpiredEventsRunning = false;
+        })
+        .catch((e) => {
+          console.log("ExpiredEvents Running Error", e);
+          ExpiredEventsRunning = false;
+        });
+    } else {
+      console.log("ExpiredEvents Running...");
+    }
+  }, 25 * 1000);
+
+
+}
+
+
 
 
 //const PORT = process.env.PORT || 5000 // Esto lo define Heroku
@@ -36,10 +86,13 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
+
+
+
   const app = express(); //instancia de express
   app.use(morgan("dev"));
   app.use(express.urlencoded({ extended: true }));
-  app.use(express.json({strict: false, limit: 50000000})); //-- Limit 50M
+  app.use(express.json({ strict: false, limit: 50000000 })); //-- Limit 50M
   app.use(cookieParser());
   app.use(compression());
   app.use(virtual_route);
@@ -50,14 +103,15 @@ if (cluster.isMaster) {
   );
 
   console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
+  
   if (!process.env.LOCAL_SERVER) {
     var httpServer = http.createServer(app);
     httpServer.listen(PORT, () => {
       console.log(
         "App listening on port " +
-          PORT +
-          " " +
-          cluster.worker.id
+        PORT +
+        " " +
+        cluster.worker.id
       );
     });
   } else {
@@ -65,9 +119,9 @@ if (cluster.isMaster) {
     httpsServer.listen(PORT, () => {
       console.log(
         "App HTTPS listening on port " +
-          PORT +
-          " " +
-          cluster.worker.id
+        PORT +
+        " " +
+        cluster.worker.id
       );
     });
   }
@@ -82,3 +136,4 @@ cluster.on("exit", function (worker) {
   console.log("Worker %d died :(", worker.id);
   cluster.fork();
 });
+

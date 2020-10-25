@@ -2,34 +2,17 @@
   "bundler": "webpack",
   "shimport": null,
   "assets": {
-    "about": "bd603bef4bc1ea56be62/about.about.js",
-    "blog": "bd603bef4bc1ea56be62/blog.blog.js",
-    "blog_$slug": "bd603bef4bc1ea56be62/blog_$slug.blog_$slug.js",
-    "contact": "bd603bef4bc1ea56be62/contact.contact.js",
-    "contact~endpoints": "bd603bef4bc1ea56be62/contact~endpoints.contact~endpoints.js",
-    "contact~system": "bd603bef4bc1ea56be62/contact~system.contact~system.js",
-    "endpoints": "bd603bef4bc1ea56be62/endpoints.endpoints.js",
-    "endpoints~monitor~system": "bd603bef4bc1ea56be62/endpoints~monitor~system.endpoints~monitor~system.js",
-    "home": "bd603bef4bc1ea56be62/home.home.js",
-    "home~monitor~system": "bd603bef4bc1ea56be62/home~monitor~system.home~monitor~system.js",
-    "index": "bd603bef4bc1ea56be62/index.index.js",
-    "main": "bd603bef4bc1ea56be62/main.js",
-    "monitor": "bd603bef4bc1ea56be62/monitor.monitor.js",
-    "register": "bd603bef4bc1ea56be62/register.register.js",
-    "system": "bd603bef4bc1ea56be62/system.system.js",
-    "vendors~endpoints~monitor~system": "bd603bef4bc1ea56be62/vendors~endpoints~monitor~system.vendors~endpoints~monitor~system.js"
+    "about": "0f4d5f801901b38725ce/about.about.js",
+    "home": "0f4d5f801901b38725ce/home.home.js",
+    "index": "0f4d5f801901b38725ce/index.index.js",
+    "main": "0f4d5f801901b38725ce/main.js",
+    "register": "0f4d5f801901b38725ce/register.register.js"
   },
   "css": {
     "chunks": {
       "index.svelte": [],
-      "endpoints/index.svelte": [],
       "register/index.svelte": [],
-      "contact/index.svelte": [],
-      "monitor/index.svelte": [],
-      "system/index.svelte": [],
       "about.svelte": [],
-      "blog/index.svelte": [],
-      "blog/[slug].svelte": [],
       "home/index.svelte": []
     }
   }

@@ -3,6 +3,7 @@
   import Report from "../../components/Report/Main.svelte";
   import Watched from "../../components/Watched/Main.svelte";
   import Notifications from "../../components/Notifications/Main.svelte";
+  import MapAccount from "../../components/Map/Map.svelte";
   import { FetchData } from "../../components/FetchData.js";
 
   //  let FData = new FetchData();
@@ -78,6 +79,13 @@
       on:click={()=>{componentSelected = Watched}}>
       <a>Seguimiento</a>
     </li>
+    <li
+      class:is-active={componentSelected === MapAccount}
+      on:click={()=>{componentSelected = MapAccount}}>
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a>Mapa</a>
+    </li>
+
   </ul>
 </div>
 <svelte:component this={componentSelected} />

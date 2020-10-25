@@ -1,4 +1,87 @@
+<script>
+  import { onMount } from "svelte";
+  import { FetchData } from "../../components/FetchData.js";
+
+  let Params = { geox: 0, geoy: 0, country: "default", firstname: '', lastname: ''};
+  let FData = new FetchData();
+  let ReturnRegister = {idaccountuser: 0};
+
+  function Country() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        Params.geox = position.coords.latitude;
+        Params.geoy = position.coords.longitude;
+        GetCountry();
+      });
+    } else {
+      console.log("No se pudo obtener las coordenadas");
+    }
+  }
+
+  async function Register() {
+    console.log("Registro.");
+    try {
+      const res = await FData.post(
+        "/pgapi/v2/register/community-safety-pwa",
+        Params,
+        {
+          "Content-Type": "application/json",
+        }
+      );
+
+      if (res.ok) {
+        ReturnRegister = await res.json();
+        console.log(ReturnRegister);
+      }
+    } catch (error) {
+      ReturnRegister = {};
+      console.log(error);
+    }
+  }
+
+  async function GetCountry() {
+    //data=[timeout:10][out:json];is_in(-0.21263,-78.41053)->.a;way(pivot.a);out+tags+bb;out+ids+geom(-0.21803,-78.41111,-0.21141,-78.40560);relation(pivot.a);out+tags+bb;
+    let query = `[out:json][timeout:10];is_in(${Params.geox},${Params.geoy})->.a;relation(pivot.a);out tags qt;(way(around:20,${Params.geox},${Params.geoy}););out tags qt;`;
+    let r = await fetch("https://overpass-api.de/api/interpreter", {
+      credentials: "omit",
+      headers: {
+        accept: "*/*",
+        "accept-language": "es-ES,es;q=0.9,en;q=0.8",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
+      },
+      referrer: `https://www.openstreetmap.org/query?lat=${Params.geox}&lon=${Params.geoy}`,
+      referrerPolicy: "no-referrer-when-downgrade",
+      //"body": `data=%5Btimeout%3A10%5D%5Bout%3Ajson%5D%3Bis_in(${this.Params.geox}%2C${this.Params.geoy})-%3E.a%3Bway(pivot.a)%3Bout+tags+bb%3Bout+ids+geom(${Number(this.Params.geox).toFixed(5)}%2C${Number(this.Params.geoy).toFixed(5)}%2C${this.Params.geox}%2C${this.Params.geoy})%3Brelation(pivot.a)%3Bout+tags+bb%3B`,
+      body: query,
+      method: "POST",
+      mode: "cors",
+    });
+    let data = await r.json();
+
+    if (Array.isArray(data.elements) && data.elements.length > 0) {
+      if (
+        data.elements[0] &&
+        data.elements[0].tags &&
+        data.elements[0].tags.name
+      ) {
+        Params.country = data.elements[0].tags.name;
+      }
+    }
+  }
+
+  onMount(() => {
+    console.log("Inicia");
+    Country();
+  });
+</script>
+
 <style>
+
+
+
   @font-face {
     font-family: "Source Sans Pro";
     font-style: normal;
@@ -250,29 +333,53 @@
     <div class="wrapper">
       <div class="container">
         <h1>Registro</h1>
-        <form
+
+        {#if ReturnRegister.idaccountuser <= 0}
+        <div >
+          <form
           class="form"
-          action="/register"
-          method="post">
+          action="/pgapi/v2/register"
+          method="post"
+          on:submit|preventDefault={Register}>
+          <input
+            name="geox"
+            type="hidden"
+            placeholder="Geox"
+            bind:value={Params.geox} />
+          <input
+            name="geoy"
+            type="hidden"
+            placeholder="Geoy"
+            bind:value={Params.geoy} />
+          <input
+            name="country"
+            type="text"
+            readonly
+            placeholder="Country"
+            bind:value={Params.country} />
           <input
             name="firstname"
-            type="text"
+            type="hidden"
             placeholder="Nombre"
+            bind:value={Params.firstname}
             required="required" />
           <input
             name="lastname"
-            type="text"
+            type="hidden"
             placeholder="Apellido"
+            bind:value={Params.lastname}
             required="required" />
           <input
-            name="username"
+            name="email"
             type="email"
             placeholder="Email"
+            bind:value={Params.email}
             required="required" />
           <input
             name="pwd"
             type="password"
             placeholder="Contraseña"
+            bind:value={Params.pwd}
             required="required" />
           <input
             name="pwd2"
@@ -280,10 +387,20 @@
             placeholder="Confirme Contraseña"
             required="required" />
           <input name="register" type="submit" value="Aceptar" />
-          <div class="links_block">
-            <a href="login">Login</a>
-          </div>
+          <div class="links_block"><a href="/">Login</a></div>
         </form>
+        
+        </div>
+
+        {:else}
+<h2>
+  {ReturnRegister.message}
+</h2>
+        {/if }
+          
+
+
+
       </div>
     </div>
   </div>
