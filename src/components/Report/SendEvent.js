@@ -49,6 +49,7 @@ async function Send(code, glocation) {
     } else {
       console.error(res);
     }
+    
   } catch (err) {
     console.warn(err);
   }

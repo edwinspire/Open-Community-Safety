@@ -69,7 +69,7 @@ export class FetchData {
     
   }
 
-  async login(url, user, password) {
+  async login(url, user, password, country) {
     let LStorage = new APPLocalStorage();
     let pwdoff = await this.digestMessage(user + password);
     try {
@@ -78,6 +78,7 @@ export class FetchData {
         {
           username: user,
           pwd: password,
+          country: country
         },
         {
           "Content-Type": "application/json",

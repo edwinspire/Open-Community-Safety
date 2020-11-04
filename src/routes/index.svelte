@@ -1,9 +1,58 @@
 <script>
+    import { onMount } from "svelte";
   import { FetchData } from "../components/FetchData.js";
 
+  let country = "";
   let username = "";
   let password = "";
   let FData = new FetchData();
+
+  function Country() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        let Params = {};
+        Params.geox = position.coords.latitude;
+        Params.geoy = position.coords.longitude;
+        GetCountry(Params);
+      });
+    } else {
+      console.log("No se pudo obtener las coordenadas");
+    }
+  }
+
+  async function GetCountry(Params) {
+    //data=[timeout:10][out:json];is_in(-0.21263,-78.41053)->.a;way(pivot.a);out+tags+bb;out+ids+geom(-0.21803,-78.41111,-0.21141,-78.40560);relation(pivot.a);out+tags+bb;
+    let query = `[out:json][timeout:10];is_in(${Params.geox},${Params.geoy})->.a;relation(pivot.a);out tags qt;(way(around:20,${Params.geox},${Params.geoy}););out tags qt;`;
+    let r = await fetch("https://overpass-api.de/api/interpreter", {
+      credentials: "omit",
+      headers: {
+        accept: "*/*",
+        "accept-language": "es-ES,es;q=0.9,en;q=0.8",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
+      },
+      referrer: `https://www.openstreetmap.org/query?lat=${Params.geox}&lon=${Params.geoy}`,
+      referrerPolicy: "no-referrer-when-downgrade",
+      //"body": `data=%5Btimeout%3A10%5D%5Bout%3Ajson%5D%3Bis_in(${this.Params.geox}%2C${this.Params.geoy})-%3E.a%3Bway(pivot.a)%3Bout+tags+bb%3Bout+ids+geom(${Number(this.Params.geox).toFixed(5)}%2C${Number(this.Params.geoy).toFixed(5)}%2C${this.Params.geox}%2C${this.Params.geoy})%3Brelation(pivot.a)%3Bout+tags+bb%3B`,
+      body: query,
+      method: "POST",
+      mode: "cors",
+    });
+    let data = await r.json();
+
+    if (Array.isArray(data.elements) && data.elements.length > 0) {
+      if (
+        data.elements[0] &&
+        data.elements[0].tags &&
+        data.elements[0].tags.name
+      ) {
+        country = data.elements[0].tags.name;
+      }
+    }
+  }
+
 
   async function digestMessage(message) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
@@ -16,17 +65,23 @@
   }
 
   async function Login(event) {
-    let data = await FData.login("/pgapi/v2/login", username, password);
+    let data = await FData.login("/pgapi/v2/login", username, password, country);
 
     console.log(data);
-    if (data.login) {      
+    if (data.login) {
       window.location.href = "/home";
     } else {
       //window.location.href = "/";
       alert(data.message);
     }
-
   }
+
+
+  onMount(() => {
+    console.log("Inicia");
+    Country();
+  });
+
 </script>
 
 <style>
@@ -287,6 +342,12 @@
           method="post"
           on:submit|preventDefault={Login}>
           <input
+            bind:value={country}
+            name="country"
+            type="text"
+            placeholder="País"
+            required="required" />
+          <input
             bind:value={username}
             name="username"
             type="text"
@@ -299,9 +360,7 @@
             placeholder="Contraseña"
             required="required" />
           <input type="submit" name="submit" value="Aceptar" />
-          <div class="links_block">
-            <a href="register">Nuevo Usuario</a>
-          </div>
+          <div class="links_block"><a href="register">Nuevo Usuario</a></div>
         </form>
       </div>
     </div>

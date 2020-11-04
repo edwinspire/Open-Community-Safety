@@ -18,27 +18,6 @@
     }
   }
 
-  async function Register() {
-    console.log("Registro.");
-    try {
-      const res = await FData.post(
-        "/pgapi/v2/register/community-safety-pwa",
-        Params,
-        {
-          "Content-Type": "application/json",
-        }
-      );
-
-      if (res.ok) {
-        ReturnRegister = await res.json();
-        console.log(ReturnRegister);
-      }
-    } catch (error) {
-      ReturnRegister = {};
-      console.log(error);
-    }
-  }
-
   async function GetCountry() {
     //data=[timeout:10][out:json];is_in(-0.21263,-78.41053)->.a;way(pivot.a);out+tags+bb;out+ids+geom(-0.21803,-78.41111,-0.21141,-78.40560);relation(pivot.a);out+tags+bb;
     let query = `[out:json][timeout:10];is_in(${Params.geox},${Params.geoy})->.a;relation(pivot.a);out tags qt;(way(around:20,${Params.geox},${Params.geoy}););out tags qt;`;
@@ -71,6 +50,29 @@
       }
     }
   }
+
+  async function Register() {
+    console.log("Registro.");
+    try {
+      const res = await FData.post(
+        "/pgapi/v2/register/community-safety-pwa",
+        Params,
+        {
+          "Content-Type": "application/json",
+        }
+      );
+
+      if (res.ok) {
+        ReturnRegister = await res.json();
+        console.log(ReturnRegister);
+      }
+    } catch (error) {
+      ReturnRegister = {};
+      console.log(error);
+    }
+  }
+
+ 
 
   onMount(() => {
     console.log("Inicia");
