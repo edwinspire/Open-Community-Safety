@@ -22,7 +22,7 @@
 
   onMount(async  () => {
 
-    await registration();
+    //await registration();
     await subscription();
     /*
     try {
