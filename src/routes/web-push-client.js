@@ -41,7 +41,7 @@ module.exports.registration =    async () => {
   // We use this function to subscribe to our push notifications
   // As soon as you run this code once, it shouldn't run again if the initial subscription went well
   // Except if you clear your storage
-  module.exports.subscription = async (registration) => {
+   const subscribe = async (registration) => {
     // this is an annoying part of the process we have to turn our public key
     // into a Uint8Array
     const Uint8ArrayPublicKey = urlBase64ToUint8Array(WEBPUSH_PUBLICK);
