@@ -53,8 +53,7 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="button is-light"> Logout </a>
+          <a class="button is-light" href="/"> Logout </a>
         </div>
       </div>
     </div>
