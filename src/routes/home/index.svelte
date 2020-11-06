@@ -23,15 +23,7 @@
   onMount(async  () => {
 
     await registration();
-    //await subscription();
-    /*
-    try {
-      const {webpush} = await import ("../web-push-client.js");
-    webpush();
-    } catch (error) {
-      console.log(error);
-    }
-*/
+ 
 
   });
 </script>
