@@ -8,7 +8,12 @@ const to_cache = shell.concat(files);
 const cached = new Set(to_cache);
 
 self.addEventListener('push', event => {
-	console.log(event.data.json());
+	
+const data = event.data.json();
+console.log(data);
+	self.registration.showNotification(data.title, {
+		body: data.message
+	});
 });
 
 
