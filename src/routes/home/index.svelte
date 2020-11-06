@@ -4,7 +4,7 @@
   import Watched from "../../components/Watched/Main.svelte";
   import Events from "../../components/Events/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
-  import { subscription, registration } from "../web-push-client.js";
+  import { registration } from "../web-push-client.js";
 
 
 //  let FData = new FetchData();
@@ -22,8 +22,7 @@
 
   onMount(async  () => {
 
-    await registration();
- 
+    await registration(); 
 
   });
 </script>
