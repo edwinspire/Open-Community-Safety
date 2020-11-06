@@ -7,6 +7,12 @@ const ASSETS = `cache${timestamp}`;
 const to_cache = shell.concat(files);
 const cached = new Set(to_cache);
 
+self.addEventListener('push', event => {
+	console.log(event.data.json());
+});
+
+
+
 self.addEventListener('install', event => {
 	event.waitUntil(
 		caches
