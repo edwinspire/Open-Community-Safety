@@ -4,8 +4,10 @@
   import Watched from "../../components/Watched/Main.svelte";
   import Events from "../../components/Events/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
+  import { FetchData } from "../../components/FetchData.js";
 
-  //  let FData = new FetchData();
+  const WEBPUSH_PUBLICK = "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
+  let FData = new FetchData();
   let componentSelected = Report;
 
   let MenuOpen = false;
@@ -15,7 +17,21 @@
     MenuOpen = !MenuOpen;
   }
 
-  onMount(async () => {});
+  async function  WebPushSubscription(){
+  const res = await FData.post("/wp-subscription", {}, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+console.log("");
+}
+
+  onMount( () => {
+
+WebPushSubscription();
+
+
+  });
 </script>
 
 

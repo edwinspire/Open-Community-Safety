@@ -28,7 +28,8 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "soap": "^0.32.0",
-    "socket.io-server": "^1.0.0-b"
+    "socket.io-server": "^1.0.0-b",
+    "web-push": "^3.4.4"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
