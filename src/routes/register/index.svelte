@@ -397,7 +397,13 @@
         {:else}
 <h2>
   {ReturnRegister.message}
+
+  
 </h2>
+<div>
+  <div class="links_block"><a href="/">Login</a></div>
+  <div class="links_block"><a href="/">Recuperar clave</a></div>
+</div>
         {/if }
           
 
