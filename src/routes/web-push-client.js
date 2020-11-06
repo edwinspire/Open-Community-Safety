@@ -28,9 +28,9 @@ module.exports.registration =    async () => {
       let subscription = await registration.pushManager.getSubscription();
   console.log(subscription);
       // If we don't have a subscription we have to create and register it!
-      if (!subscription) {
+      //if (!subscription) {
         subscription = await subscribe(registration);
-      }
+      //}
       // Implementing an unsubscribe button
       //document.getElementById('unsubscribe').onclick = () => unsubscribe();
     }else{
