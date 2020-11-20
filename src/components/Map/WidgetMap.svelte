@@ -1,76 +1,69 @@
-<style>
-    .map{
-        height: 800px;
-        width: 100%;
-    }
-</style>
-
 <script>
   //import 'ol/ol.css';
-import Feature from 'ol/Feature';
-import Map from 'ol/Map';
-import Point from 'ol/geom/Point';
-//import Select from 'ol/interaction/Select';
-import VectorSource from 'ol/source/Vector';
-import OSM from 'ol/source/OSM';
-import View from 'ol/View';
-import * as Geom from 'ol/geom';
-import * as Proj from 'ol/proj';
-import {Icon, Style} from 'ol/style';
-import TileLayer from 'ol/layer/Tile';
-import VectorLayer from 'ol/layer/Vector';
+  import Feature from "ol/Feature";
+  import Map from "ol/Map";
+  import Point from "ol/geom/Point";
+  //import Select from 'ol/interaction/Select';
+  import VectorSource from "ol/source/Vector";
+  import OSM from "ol/source/OSM";
+  import View from "ol/View";
+  import * as Geom from "ol/geom";
+  import * as Proj from "ol/proj";
+  import { Icon, Style } from "ol/style";
+  import TileLayer from "ol/layer/Tile";
+  import VectorLayer from "ol/layer/Vector";
 
-import {onMount} from 'svelte';
+  import { onMount } from "svelte";
 
-let viewMap;
-let map;
-let geox = 0;
-let geoy = 0;
+  let viewMap;
+  let map;
+  let geox = 0;
+  let geoy = 0;
 
-export let  points = [];
+  export let points = [];
 
-onMount(()=>{
+  onMount(() => {
+    console.log("WMaps", points);
 
+    var iconFeature = new Feature(new Point([0, 0]));
+    iconFeature.set("style", createStyle("img/icon.png", undefined));
 
-var iconFeature = new Feature(new Point([0, 0]));
-iconFeature.set('style', createStyle('img/icon.png', undefined));
-
-  var VLayer = new VectorLayer({
+    var VLayer = new VectorLayer({
       style: function (feature) {
-        return feature.get('style');
+        return feature.get("style");
       },
-      source: new VectorSource({features: [iconFeature]}),
+      source: new VectorSource({ features: [iconFeature] }),
     });
 
+    var vectorSource = VLayer.getSource();
 
-  var vectorSource = VLayer.getSource();
+    function createStyle(src, img) {
+      return new Style({
+        image: new Icon({
+          anchor: [0.5, 0.96],
+          crossOrigin: "anonymous",
+          src: src,
+          img: img,
+          imgSize: img ? [img.width, img.height] : undefined,
+        }),
+      });
+    }
 
-  function createStyle(src, img) {
-  return new Style({
-    image: new Icon({
-      anchor: [0.5, 0.96],
-      crossOrigin: 'anonymous',
-      src: src,
-      img: img,
-      imgSize: img ? [img.width, img.height] : undefined,
-    }),
-  });
-}
+    var map = new Map({
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+        VLayer,
+      ],
+      target: document.getElementById("map"),
+      view: new View({
+        center: [0, 0],
+        zoom: 3,
+      }),
+    });
 
-var map = new Map({
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-    VLayer ],
-  target: document.getElementById('map'),
-  view: new View({
-    center: [0, 0],
-    zoom: 3,
-  }),
-});
-
-/*
+    /*
 var selectStyle = {};
 var select = new Select({
   style: function (feature) {
@@ -103,33 +96,43 @@ map.on('pointermove', function (evt) {
 });
 */
 
-function addMarker(coordinates) {
-    console.log(coordinates);
-    var marker = new Feature(new Geom.Point(coordinates));
-    var zIndex = 1;
-    marker.setStyle(createStyle('img/icon.png', undefined));
-    vectorSource.addFeature(marker);
-  }
+    function addMarker(coordinates) {
+      console.log(coordinates);
+      var marker = new Feature(new Geom.Point(coordinates));
+      var zIndex = 1;
+      marker.setStyle(createStyle("img/icon.png", undefined));
+      vectorSource.addFeature(marker);
+    }
 
-map.on('dblclick', function (evt) {
-    console.log(Proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'), evt.coordinate);
-    //addMarker(evt.coordinate);
+    map.on("dblclick", function (evt) {
+      console.log(
+        Proj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326"),
+        evt.coordinate
+      );
+      //addMarker(evt.coordinate);
+    });
+
+    if (points) {
+      points.forEach((element) => {
+        console.log(element);
+        console.log(
+          Proj.transform(element.geolocation, "EPSG:4326", "EPSG:3857")
+        );
+        addMarker(
+          Proj.transform(element.geolocation, "EPSG:4326", "EPSG:3857")
+        );
+      });
+    } else {
+      console.log("Points no es valido");
+    }
   });
-
-points.forEach(element => {
-  console.log(element);
-  console.log(Proj.transform(element.geolocation, 'EPSG:4326', 'EPSG:3857'));
-  addMarker(Proj.transform(element.geolocation, 'EPSG:4326', 'EPSG:3857'));
-});
-
-});
-
-
-
-
-
 </script>
 
+<style>
+  .map {
+    height: 800px;
+    width: 100%;
+  }
+</style>
 
-
-<div class="map" id="map"></div>
+<div class="map" id="map" />

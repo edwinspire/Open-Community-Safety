@@ -2,12 +2,12 @@
   "bundler": "webpack",
   "shimport": null,
   "assets": {
-    "about": "d0c48efa461c02e27e12/about.about.js",
-    "home": "d0c48efa461c02e27e12/home.home.js",
-    "index": "d0c48efa461c02e27e12/index.index.js",
-    "main": "d0c48efa461c02e27e12/main.js",
-    "register": "d0c48efa461c02e27e12/register.register.js",
-    "vendors~home": "d0c48efa461c02e27e12/vendors~home.vendors~home.js"
+    "about": "52222453f657db19efd9/about.about.js",
+    "home": "52222453f657db19efd9/home.home.js",
+    "index": "52222453f657db19efd9/index.index.js",
+    "main": "52222453f657db19efd9/main.js",
+    "register": "52222453f657db19efd9/register.register.js",
+    "vendors~home": "52222453f657db19efd9/vendors~home.vendors~home.js"
   },
   "css": {
     "chunks": {

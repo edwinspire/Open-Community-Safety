@@ -84,7 +84,9 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   </div>
 </nav>
 <p>
-  <WMap points={[details.geo.latitude, details.geo.longitude]}></WMap>
+  <WMap points={()=>{
+  return [details.geo.latitude, details.geo.longitude]  
+  }}></WMap>
   {label} reportado
   {description}
 </p>
