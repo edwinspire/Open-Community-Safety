@@ -6,8 +6,7 @@
   import MapAccount from "../../components/Map/Map.svelte";
   import { registration } from "../web-push-client.js";
 
-
-//  let FData = new FetchData();
+  //  let FData = new FetchData();
   let componentSelected = Report;
 
   let MenuOpen = false;
@@ -17,16 +16,10 @@
     MenuOpen = !MenuOpen;
   }
 
-
-
-
-  onMount(async  () => {
-
-    await registration(); 
-
+  onMount(async () => {
+    await registration();
   });
 </script>
-
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -37,8 +30,8 @@
 
     <!-- svelte-ignore a11y-missing-attribute -->
     <a
-    class:is-active={MenuOpen}
-    on:click={ToggleClassMenu}
+      class:is-active={MenuOpen}
+      on:click={ToggleClassMenu}
       role="button"
       class="navbar-burger burger"
       aria-label="menu"

@@ -19,10 +19,10 @@
     <Suspect />
   </div>
 
-  <div class="container">
-    <div class="notification is-primary">
-      Presionar un botón de la parte superior emitirá <strong>inmediatamente</strong>  una alerta a todos los usuarios cercanos.
-    </div>
-    
-  </div>
+</div>
+
+<div class="container">
+  <div class="notification is-primary">
+    Presionar un botón de la parte superior emitirá <strong>inmediatamente</strong>  una alerta a todos los usuarios cercanos.
+  </div>    
 </div>
