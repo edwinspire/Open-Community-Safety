@@ -1,6 +1,7 @@
 <script>
   import { FetchData } from "../FetchData.js";
   import { onMount } from "svelte";
+  import WMap from "../Map/WidgetMap.svelte";
 
   let GeoLatitude = 0;
   let GeoLongitude = 0;
@@ -56,7 +57,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
     <!-- svelte-ignore a11y-missing-attribute -->
     <a class="is-loading">Cargando...</a>
   {:then datas}
-    {#each datas as { idevent, label, dateevent, meters, description, num_comments }, i}
+    {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
       <div class="event">
 
 <!-- Main container -->
@@ -83,6 +84,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   </div>
 </nav>
 <p>
+  <WMap points={[details.geo.latitude, details.geo.longitude]}></WMap>
   {label} reportado
   {description}
 </p>
