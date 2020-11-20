@@ -112,7 +112,7 @@ map.on('pointermove', function (evt) {
       //addMarker(evt.coordinate);
     });
 
-    if (points) {
+    if (points && Array.isArray(points)) {
       points.forEach((element) => {
         console.log(element);
         console.log(
@@ -123,7 +123,7 @@ map.on('pointermove', function (evt) {
         );
       });
     } else {
-      console.log("Points no es valido");
+      console.log("Points no es valido", points);
     }
   });
 </script>
