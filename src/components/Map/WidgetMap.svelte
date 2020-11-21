@@ -17,8 +17,7 @@
 
   let viewMap;
   let map;
-  let geox = 0;
-  let geoy = 0;
+  let mapContainer;
 
   export let points = [];
 
@@ -54,9 +53,9 @@
         new TileLayer({
           source: new OSM(),
         }),
-        VLayer,
+//        VLayer,
       ],
-      target: document.getElementById("map"),
+      target: mapContainer,
       view: new View({
         center: [0, 0],
         zoom: 3,
@@ -112,12 +111,11 @@ map.on('pointermove', function (evt) {
       //addMarker(evt.coordinate);
     });
 
+
+    //map.setSize([100]);
+
     if (points && Array.isArray(points)) {
       points.forEach((element) => {
-        console.log(element);
-        console.log(
-          Proj.transform(element.geolocation, "EPSG:4326", "EPSG:3857")
-        );
         addMarker(
           Proj.transform(element.geolocation, "EPSG:4326", "EPSG:3857")
         );
@@ -135,4 +133,4 @@ map.on('pointermove', function (evt) {
   }
 </style>
 
-<div class="map" id="map" />
+<div class="map" bind:this={mapContainer}/>
