@@ -24,14 +24,14 @@
   onMount(() => {
     console.log("WMaps", points);
 
-    var iconFeature = new Feature(new Point([0, 0]));
-    iconFeature.set("style", createStyle("img/icon.png", undefined));
+    //var iconFeature = new Feature(new Point([0, 0]));
+    //iconFeature.set("style", createStyle("img/icon.png", undefined));
 
     var VLayer = new VectorLayer({
       style: function (feature) {
         return feature.get("style");
       },
-      source: new VectorSource({ features: [iconFeature] }),
+      source: new VectorSource({ features: [] }),
     });
 
     var vectorSource = VLayer.getSource();
@@ -53,9 +53,10 @@
         new TileLayer({
           source: new OSM(),
         }),
-//        VLayer,
+        VLayer,
       ],
       target: mapContainer,
+      //target: document.getElementById( "mapContainer"),
       view: new View({
         center: [0, 0],
         zoom: 3,
@@ -96,28 +97,26 @@ map.on('pointermove', function (evt) {
 */
 
     function addMarker(coordinates) {
-      console.log(coordinates);
-      var marker = new Feature(new Geom.Point(coordinates));
+      let coord = Proj.transform(coordinates, "EPSG:4326", "EPSG:3857")
+      console.log(coordinates, coord);
+      var marker = new Feature(new Geom.Point(coord));
       var zIndex = 1;
       marker.setStyle(createStyle("img/icon.png", undefined));
       vectorSource.addFeature(marker);
     }
 
     map.on("dblclick", function (evt) {
-      console.log(
-        Proj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326"),
-        evt.coordinate
+      console.log('Doble click', evt.coordinate);
+      addMarker(
+        Proj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326")
       );
-      //addMarker(evt.coordinate);
     });
 
-
-    //map.setSize([100]);
 
     if (points && Array.isArray(points)) {
       points.forEach((element) => {
         addMarker(
-          Proj.transform(element.geolocation, "EPSG:4326", "EPSG:3857")
+          element.geolocation
         );
       });
     } else {
