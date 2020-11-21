@@ -12,6 +12,8 @@
   import { Icon, Style } from "ol/style";
   import TileLayer from "ol/layer/Tile";
   import VectorLayer from "ol/layer/Vector";
+  
+import {Attribution, defaults as defaultControls} from 'ol/control';
 
   import { onMount } from "svelte";
 
@@ -26,6 +28,7 @@
   export let center = [0, 0];
 
 
+
   let viewMap = new View({
         center: center,
         zoom: zoom,
@@ -34,10 +37,6 @@
   onMount(() => {
     console.log("WMaps", points);
 
-  
-
-    //var iconFeature = new Feature(new Point([0, 0]));
-    //iconFeature.set("style", createStyle("img/icon.png", undefined));
 
     var VLayer = new VectorLayer({
       style: function (feature) {
@@ -57,6 +56,9 @@
         VLayer,
       ],
       target: mapContainer,
+      controls:  defaultControls({
+        attribution: false, // Oculta las atribuciones, como el texto OpenStreetMaps Contributor
+    }),
       //target: document.getElementById( "mapContainer"),
       view: viewMap,
     });
@@ -145,9 +147,9 @@ map.on('pointermove', function (evt) {
 </script>
 
 <style>
-  .map {
+.map {
     height: 100vh;
-    width: 100%;
+    width: 100vw;
   }
 </style>
 

@@ -1,5 +1,8 @@
 <style>
-    
+.map {
+    height: 100vh;
+    width: 100%;
+  }    
 </style>
 
 <script>
@@ -30,4 +33,4 @@ points =  [{geolocation: [-78.28557014465333, -0.6888001640038084] }, {geolocati
 
 
 
-<WMap points={points}></WMap>
+<WMap class="map" points={points}></WMap>
