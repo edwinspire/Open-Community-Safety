@@ -83,11 +83,17 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
     
   </div>
 </nav>
-<p>
-  <WMap points={[{geolocation: [details.geo.longitude, details.geo.latitude]}] }></WMap>
-  {label} reportado
+
+
+<div class="columns is-mobile">
+  <div class="column">
+    <WMap points={[{geolocation: [details.geo.longitude, details.geo.latitude]}] }></WMap>
+  </div>
+  <div class="column">
+    {label} reportado
   {description}
-</p>
+  </div>
+</div>
 
 
 <nav class="level is-mobile">

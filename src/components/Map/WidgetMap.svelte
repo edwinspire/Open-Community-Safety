@@ -118,7 +118,7 @@ map.on('pointermove', function (evt) {
       return new Style({
         image: new Icon({
           anchor: [0.5, 0.96],
-          crossOrigin: "anonymous",
+          //crossOrigin: "anonymous",
           src: src,
           img: img,
           imgSize: img ? [img.width, img.height] : undefined,
@@ -146,7 +146,7 @@ map.on('pointermove', function (evt) {
 
 <style>
   .map {
-    height: 200px;
+    height: 100vh;
     width: 100%;
   }
 </style>
