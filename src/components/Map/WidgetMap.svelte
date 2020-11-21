@@ -15,14 +15,21 @@
 
   import { onMount } from "svelte";
 
-  let viewMap;
+  
   let map;
   let mapContainer;
+  var vectorSource;
+  let viewMap = new View({
+        center: [0, 0],
+        zoom: 3,
+      });
 
   export let points = [];
 
   onMount(() => {
     console.log("WMaps", points);
+
+  
 
     //var iconFeature = new Feature(new Point([0, 0]));
     //iconFeature.set("style", createStyle("img/icon.png", undefined));
@@ -34,19 +41,8 @@
       source: new VectorSource({ features: [] }),
     });
 
-    var vectorSource = VLayer.getSource();
+      vectorSource = VLayer.getSource();
 
-    function createStyle(src, img) {
-      return new Style({
-        image: new Icon({
-          anchor: [0.5, 0.96],
-          crossOrigin: "anonymous",
-          src: src,
-          img: img,
-          imgSize: img ? [img.width, img.height] : undefined,
-        }),
-      });
-    }
 
     var map = new Map({
       layers: [
@@ -57,10 +53,7 @@
       ],
       target: mapContainer,
       //target: document.getElementById( "mapContainer"),
-      view: new View({
-        center: [0, 0],
-        zoom: 3,
-      }),
+      view: viewMap,
     });
 
     /*
@@ -96,20 +89,11 @@ map.on('pointermove', function (evt) {
 });
 */
 
-    function addMarker(coordinates) {
-      let coord = Proj.transform(coordinates, "EPSG:4326", "EPSG:3857")
-      console.log(coordinates, coord);
-      var marker = new Feature(new Geom.Point(coord));
-      var zIndex = 1;
-      marker.setStyle(createStyle("img/icon.png", undefined));
-      vectorSource.addFeature(marker);
-    }
+
 
     map.on("dblclick", function (evt) {
       console.log('Doble click', evt.coordinate);
-      addMarker(
-        Proj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326")
-      );
+      //addMarker( Proj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326")    );
     });
 
 
@@ -123,6 +107,36 @@ map.on('pointermove', function (evt) {
       console.log("Points no es valido", points);
     }
   });
+
+
+  function createStyle(src, img) {
+      return new Style({
+        image: new Icon({
+          anchor: [0.5, 0.96],
+          crossOrigin: "anonymous",
+          src: src,
+          img: img,
+          imgSize: img ? [img.width, img.height] : undefined,
+        }),
+      });
+    }
+
+
+
+  function addMarker(coordinates) {
+      let coord = Proj.transform(coordinates, "EPSG:4326", "EPSG:3857")
+      console.log(coordinates, coord);
+      var marker = new Feature(new Geom.Point(coord));
+      var zIndex = 1;
+      marker.setStyle(createStyle("img/icon.png", undefined));
+      vectorSource.addFeature(marker);
+      //viewMap.center = coord;
+      viewMap.animate({zoom: 20}, {center: coord});
+    }
+
+
+
+
 </script>
 
 <style>
