@@ -21,7 +21,7 @@
   var vectorSource;
   let viewMap = new View({
         center: [0, 0],
-        zoom: 3,
+        zoom: 1,
       });
 
   export let points = [];
@@ -131,7 +131,7 @@ map.on('pointermove', function (evt) {
       marker.setStyle(createStyle("img/icon.png", undefined));
       vectorSource.addFeature(marker);
       //viewMap.center = coord;
-      viewMap.animate({zoom: 20}, {center: coord});
+      viewMap.animate({zoom: 15}, {center: coord});
     }
 
 
@@ -141,7 +141,7 @@ map.on('pointermove', function (evt) {
 
 <style>
   .map {
-    height: 800px;
+    height: 200px;
     width: 100%;
   }
 </style>
