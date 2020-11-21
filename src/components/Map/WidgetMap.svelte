@@ -19,12 +19,17 @@
   let map;
   let mapContainer;
   var vectorSource;
-  let viewMap = new View({
-        center: [0, 0],
-        zoom: 1,
-      });
+
 
   export let points = [];
+  export let zoom = 16;
+  export let center = [0, 0];
+
+
+  let viewMap = new View({
+        center: center,
+        zoom: zoom,
+      });
 
   onMount(() => {
     console.log("WMaps", points);
@@ -131,7 +136,7 @@ map.on('pointermove', function (evt) {
       marker.setStyle(createStyle("img/icon.png", undefined));
       vectorSource.addFeature(marker);
       //viewMap.center = coord;
-      viewMap.animate({zoom: 15}, {center: coord});
+      viewMap.animate({zoom: zoom}, {center: coord});
     }
 
 
