@@ -1,37 +1,68 @@
-<style>
-.general_map {
-    height: 100vh;
-    width: 100%;
-  }    
-</style>
-
 <script>
-  //import 'ol/ol.css';
-import WMap from './WidgetMap.svelte';
+  import { FetchData } from "../FetchData.js";
+  import WMap from "./WidgetMap.svelte";
 
+  import { onMount } from "svelte";
+  //let points = [];
+  let GeoLatitude = 0;
+  let GeoLongitude = 0;
+  let FData = new FetchData();
+  let promise = new Promise(
+    () => {},
+    () => {}
+  );
 
-import {onMount} from 'svelte';
+  async function GetEventsAround(search) {
+    let query = { latitude: GeoLatitude, longitude: GeoLongitude };
+    const res = await FData.get("/pgapi/v2/events/around", query, {
+      "Content-Type": "application/json",
+    });
 
-let viewMap;
-let map;
-let geox = 0;
-let geoy = 0;
-let points = [{geolocation: [-78.28557014465333, -0.6888001640038084] }, {geolocation: [-63.17345470190049, -17.73649467854382]}, {geolocation: [-104.74772985341974, 46.485123460637766]}, {geolocation:[-78.48848570690652, -0.20005187232716537]}];
+    if (res.ok) {
+      return res.json();
+      console.log(datas);
+    } else {
+      throw new Error("No se pudo cargar la información");
+    }
+  }
 
+  function GeoLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        GeoLatitude = position.coords.latitude;
+        GeoLongitude = position.coords.longitude;
+        promise = GetEventsAround();
+      });
+    } else {
+      console.log("No se pudo obtener las coordenadas");
+    }
+  }
 
-onMount(()=>{
-
-points =  [{geolocation: [-78.28557014465333, -0.6888001640038084] }, {geolocation: [-63.17345470190049, -17.73649467854382]}, {geolocation: [-104.74772985341974, 46.485123460637766]}, {geolocation:[-78.48848570690652, -0.20005187232716537]}];
-
-});
-
-
-
-
-
+  onMount(async () => {
+    GeoLocation();
+  });
 </script>
 
-<div class="general_map" >
+<style>
+  .general_map {
+    height: 100vh;
+    width: 100%;
+  }
+</style>
 
-  <WMap points={points}></WMap>
+
+
+
+{#await promise}
+	<p>...Cargando</p>
+{:then points}
+<div class="general_map">
+  <WMap {points} />
 </div>
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
+
+
+
+
