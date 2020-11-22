@@ -34,9 +34,15 @@ import {Attribution, defaults as defaultControls} from 'ol/control';
         zoom: zoom,
       });
 
+      function checkSize(ev) {
+  console.log(ev);
+}
+
   onMount(() => {
     console.log("WMaps", points);
 
+    window.addEventListener('resize', checkSize);
+    checkSize();
 
     var VLayer = new VectorLayer({
       style: function (feature) {
@@ -147,10 +153,10 @@ map.on('pointermove', function (evt) {
 </script>
 
 <style>
-.map {
+.mapw {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
   }
 </style>
 
-<div class="map" bind:this={mapContainer}/>
+<div class="mapw" bind:this={mapContainer}/>

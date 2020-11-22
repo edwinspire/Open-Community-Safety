@@ -1,5 +1,5 @@
 <style>
-.map {
+.general_map {
     height: 100vh;
     width: 100%;
   }    
@@ -31,6 +31,7 @@ points =  [{geolocation: [-78.28557014465333, -0.6888001640038084] }, {geolocati
 
 </script>
 
+<div class="general_map" >
 
-
-<WMap class="map" points={points}></WMap>
+  <WMap points={points}></WMap>
+</div>

@@ -50,7 +50,7 @@
 -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   }
-  .map {
+  .mapevent {
     height: 30vh;
     width: 100%;
   }
@@ -67,8 +67,10 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 
 
 <div class="columns is-mobile">
-  <div class="column">
-    <WMap class="map" points={[{geolocation: [details.geo.longitude, details.geo.latitude]}] }></WMap>
+  <div class="column ">
+<div class="mapevent">
+  <WMap  points={[{geolocation: [details.geo.longitude, details.geo.latitude]}] }></WMap>
+</div>
   </div>
   <div class="column">
 
