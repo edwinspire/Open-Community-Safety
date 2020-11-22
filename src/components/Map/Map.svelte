@@ -20,7 +20,7 @@ import { DEFAULT_TILE_SIZE } from "ol/tilegrid/common";
     });
 
     if (res.ok) {
-let events = res.json();
+let events = await res.json();
 console.log(events);
 points  = events.map((event)=> {
   return { geolocation: [event.details.geo.longitude, event.details.geo.latitude] };
