@@ -3,7 +3,8 @@
   import WMap from "./WidgetMap.svelte";
 
   import { onMount } from "svelte";
-  //let points = [];
+import { DEFAULT_TILE_SIZE } from "ol/tilegrid/common";
+  let points = [];
   let GeoLatitude = 0;
   let GeoLongitude = 0;
   let FData = new FetchData();
@@ -19,8 +20,12 @@
     });
 
     if (res.ok) {
-      return res.json();
-      console.log(datas);
+let events = res.json();
+points  = events.map((event)=> {
+  return { geolocation: [event.details.geo.longitude, event.details.geo.latitude] };
+});
+
+      return true;
     } else {
       throw new Error("No se pudo cargar la información");
     }
@@ -55,7 +60,7 @@
 
 {#await promise}
 	<p>...Cargando</p>
-{:then points}
+{:then Result}
 <div class="general_map">
   <WMap {points} />
 </div>
