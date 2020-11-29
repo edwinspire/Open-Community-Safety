@@ -108,4 +108,8 @@
     </li>
   </ul>
 </div>
-<svelte:component this={componentSelected} />
+<svelte:component
+  this={componentSelected}
+  on:event_selected={(e) => {
+    console.log('Event master: ', e);
+  }} />

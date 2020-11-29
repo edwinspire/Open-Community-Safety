@@ -131,7 +131,7 @@
                     class="button is-link is-small"
                     on:click={(e) => {
 console.log({idevent});
-                      dispatch('cancel', e);
+                      dispatch('event_selected', {idevent});
                     }}>Comentar</a>
                 </p>
               </div>
