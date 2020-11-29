@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
 
   
-  let idevent = 0;
+  let IdEvent = -1;
   let FData = new FetchData();
   let promise = new Promise(
     () => {},
@@ -15,7 +15,7 @@
   );
 
   async function GetEvent() {
-    let query = { idevent: idevent };
+    let query = { idevent: IdEvent };
     const res = await FData.get("/pgapi/v2/event", query, {
       "Content-Type": "application/json",
     });
@@ -49,9 +49,9 @@
 <div>
   {#await promise}
     <!-- svelte-ignore a11y-missing-attribute -->
-    <div class="control is-loading">
+    <span class="control is-loading">
       Cargando
-    </div>
+    </span>
   {:then datas}
     {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }}
       <div class="mapevent">

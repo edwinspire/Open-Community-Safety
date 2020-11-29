@@ -98,7 +98,7 @@
       on:click={() => {
         componentSelected = Event;
       }}>
-      <a>Seguimiento</a>
+      <a>Evento</a>
     </li>
     <li
       class:is-active={componentSelected === MapAccount}
@@ -112,9 +112,10 @@
 </div>
 <svelte:component
   this={componentSelected}
-  {idevent}
+  IdEvent = {idevent}
   on:event_selected={(e) => {
-    console.log('Event master: ', e);
+    
     idevent = e.detail.idevent;
+    console.log('Event master: ', idevent);
     componentSelected = Event;
   }} />
