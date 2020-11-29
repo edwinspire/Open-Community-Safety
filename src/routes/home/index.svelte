@@ -3,11 +3,13 @@
   import Report from "../../components/Report/Main.svelte";
   import Watched from "../../components/Watched/Main.svelte";
   import Events from "../../components/Events/Main.svelte";
+  import Event from "../../components/Event/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
   import { registration } from "../web-push-client.js";
 
   //  let FData = new FetchData();
   let componentSelected = Report;
+  let idevent = 0;
 
   let MenuOpen = false;
 
@@ -94,7 +96,7 @@
     <li
       class:is-active={componentSelected === Watched}
       on:click={() => {
-        componentSelected = Watched;
+        componentSelected = Event;
       }}>
       <a>Seguimiento</a>
     </li>
@@ -110,6 +112,7 @@
 </div>
 <svelte:component
   this={componentSelected}
+  {idevent}
   on:event_selected={(e) => {
     console.log('Event master: ', e);
   }} />
