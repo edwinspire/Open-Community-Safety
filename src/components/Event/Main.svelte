@@ -22,7 +22,6 @@
 
     if (res.ok) {
       return res.json();
-      console.log(datas);
     } else {
       throw new Error("No se pudo cargar la información");
     }
@@ -54,7 +53,7 @@
       Cargando
     </div>
   {:then datas}
-    {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
+    {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }}
       <div class="mapevent">
         <WMap
           points={[{ geolocation: [details.geo.longitude, details.geo.latitude] }]} />
