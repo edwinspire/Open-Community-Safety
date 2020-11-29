@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
 
   
-  let IdEvent = -1;
+  export let IdEvent = -1;
   let FData = new FetchData();
   let promise = new Promise(
     () => {},
