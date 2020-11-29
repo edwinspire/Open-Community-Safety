@@ -115,6 +115,6 @@
   {idevent}
   on:event_selected={(e) => {
     console.log('Event master: ', e);
-    idevent = e.details.idevent;
+    idevent = e.detail.idevent;
     componentSelected = Event;
   }} />
