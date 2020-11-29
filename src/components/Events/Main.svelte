@@ -1,7 +1,10 @@
 <script>
   import { FetchData } from "../FetchData.js";
+  //import MModal from "../ModalMessage.svelte";
   import { onMount } from "svelte";
   import WMap from "../Map/WidgetMap.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   let GeoLatitude = 0;
   let GeoLongitude = 0;
@@ -124,7 +127,12 @@
                 </span>
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <p class="level-item">
-                  <a class="button is-link is-small">Comentar</a>
+                  <a
+                    class="button is-link is-small"
+                    on:click={(e) => {
+console.log({idevent});
+                      dispatch('cancel', e);
+                    }}>Comentar</a>
                 </p>
               </div>
             </nav>
