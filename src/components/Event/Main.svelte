@@ -14,9 +14,9 @@
     () => {}
   );
 
-  async function GetEventsAround(search) {
-    let query = { latitude: GeoLatitude, longitude: GeoLongitude };
-    const res = await FData.get("/pgapi/v2/events/around", query, {
+  async function GetEvent() {
+    let query = { idevent: idevent };
+    const res = await FData.get("/pgapi/v2/event", query, {
       "Content-Type": "application/json",
     });
 
@@ -27,16 +27,15 @@
       throw new Error("No se pudo cargar la información");
     }
   }
+
+  onMount(() => {
+    promise = GetEvent();
+  });
+
 </script>
 
 <style>
-  .event {
-    padding: 0.5em;
-    margin: 0.2em;
-    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  }
+  
   .mapevent {
     height: 30vh;
     width: 100%;
@@ -45,15 +44,15 @@
     font-style: italic;
     font-weight: bold;
   }
-  .event_text {
-    min-height: 100px;
-  }
+  
 </style>
 
 <div>
   {#await promise}
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a class="is-loading">Cargando...</a>
+    <div class="control is-loading">
+      Cargando
+    </div>
   {:then datas}
     {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
       <div class="mapevent">

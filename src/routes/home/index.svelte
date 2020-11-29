@@ -115,4 +115,5 @@
   {idevent}
   on:event_selected={(e) => {
     console.log('Event master: ', e);
+    componentSelected = Event;
   }} />
