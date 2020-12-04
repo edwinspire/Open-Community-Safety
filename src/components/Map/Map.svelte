@@ -3,7 +3,7 @@
   import WMap from "./WidgetMap.svelte";
 
   import { onMount } from "svelte";
-import { DEFAULT_TILE_SIZE } from "ol/tilegrid/common";
+  import { DEFAULT_TILE_SIZE } from "ol/tilegrid/common";
   let points = [];
   let GeoLatitude = 0;
   let GeoLongitude = 0;
@@ -20,11 +20,16 @@ import { DEFAULT_TILE_SIZE } from "ol/tilegrid/common";
     });
 
     if (res.ok) {
-let events = await res.json();
-console.log(events);
-points  = events.map((event)=> {
-  return { geolocation: [event.details.geo.longitude, event.details.geo.latitude] };
-});
+      let events = await res.json();
+      console.log(events);
+      points = events.map((event) => {
+        return {
+          geolocation: [
+            event.details.geo.longitude,
+            event.details.geo.latitude,
+          ],
+        };
+      });
 
       return true;
     } else {
@@ -56,19 +61,12 @@ points  = events.map((event)=> {
   }
 </style>
 
-
-
-
 {#await promise}
-	<p>...Cargando</p>
+  <p>...Cargando</p>
 {:then Result}
-<div class="general_map">
-  <WMap {points} />
-</div>
+  <div class="general_map">
+    <WMap {points} />
+  </div>
 {:catch error}
-	<p style="color: red">{error.message}</p>
+  <p style="color: red">{error.message}</p>
 {/await}
-
-
-
-
