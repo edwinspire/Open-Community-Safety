@@ -8,7 +8,7 @@
   export let latitude = 0;
   export let label = "";
   export let distance = -1;
-  export let dateevent = "";
+  export let dateevent = new Date();
   export let description = "";
   export let number_comments = "";
 
@@ -49,7 +49,7 @@
       {description}
     <a href="#">{number_comments}</a> Comentarios
       <br>
-    <time datetime={dateevent}>{dateevent.event.toLocaleString('en-US', { timeZone: 'UTC' })}</time>
+    <time datetime={dateevent}>{dateevent.toLocaleString('en-US', { timeZone: 'UTC' })}</time>
     </div>
   </div>
 </div>
