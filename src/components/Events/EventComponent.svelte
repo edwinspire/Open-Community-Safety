@@ -4,31 +4,30 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
+  export let longitude = 0;
+  export let latitude = 0;
+  export let label = "";
+  export let distance = -1;
+  export let dateevent = "";
+  export let description = "";
+  export let number_comments = "";
+
 </script>
 
 
 <style>
-  .event {
-    padding: 0.5em;
-    margin: 0.2em;
-    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  }
   .mapevent {
     height: 30vh;
     width: 100%;
   }
-  .event_text {
-    min-height: 100px;
-  }
+
 </style>
 
 
 <div class="card">
   <div class="card-image">
     <div class="image mapevent">
-      <WMap ></WMap>
+      <WMap points={[{ geolocation: [longitude, latitude] }]}></WMap>
     </div>
       
     
@@ -41,17 +40,16 @@
         </figure>
       </div>
       <div class="media-content">
-        <p class="title is-4">John Smith</p>
+      <p class="title is-4">{label} - {distance} metros</p>
         <p class="subtitle is-6">@johnsmith</p>
       </div>
     </div>
 
     <div class="content">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-      <a href="#">#css</a> <a href="#">#responsive</a>
+      {description}
+    <a href="#">{number_comments}</a> <a href="#">#responsive</a>
       <br>
-      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+      <time datetime={dateevent}>-</time>
     </div>
   </div>
 </div>
