@@ -16,7 +16,7 @@
 
 <style>
   .mapevent {
-    height: 30vh;
+    height: 40vh;
     width: 100%;
   }
 </style>
@@ -25,11 +25,11 @@
   <div class="card">
     <header class="card-header">
       <p class="card-header-title">{label} - {distance} metros</p>
-      <a href="#" class="card-header-icon" aria-label="more options">
+      <span  class="card-header-icon" aria-label="more options">
         <span class="icon">
-          <i class="fas fa-angle-down" aria-hidden="true" />
+          <i class="fa fa-shield" aria-hidden="true"></i>
         </span>
-      </a>
+      </span>
     </header>
     <div class="card-image">
       <div class="image mapevent">
@@ -60,9 +60,9 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Like</a>
-      <a href="#" class="card-footer-item">Comentar</a>
-      <a href="#" class="card-footer-item">Seguir</a>
+      <span class="card-footer-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like</span>
+      <span class="card-footer-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> Comentar</span>
+      <span href="#" class="card-footer-item"><i class="fa fa-eye" aria-hidden="true"></i> Seguir</span>
     </footer>
   </div>
   <hr />
