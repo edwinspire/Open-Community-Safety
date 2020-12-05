@@ -23,6 +23,7 @@
 
 </style>
 
+<div>
 
 <div class="card">
   <div class="card-image">
@@ -52,4 +53,6 @@
     <time datetime={dateevent}>{dateevent.toLocaleString('en-US', { timeZone: 'UTC' })}</time>
     </div>
   </div>
+</div>
+<hr>
 </div>
