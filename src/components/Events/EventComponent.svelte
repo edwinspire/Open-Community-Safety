@@ -12,47 +12,61 @@
   export let description = "";
   export let number_comments = "";
   export let username = "";
-
 </script>
-
 
 <style>
   .mapevent {
     height: 30vh;
     width: 100%;
   }
-
 </style>
 
 <div>
-
-<div class="card">
-  <div class="card-image">
-    <div class="image mapevent">
-      <WMap points={[{ geolocation: [longitude, latitude] }]}></WMap>
-    </div>
-      
-  </div>
-  <div class="card-content">
-    <div class="media">
-      <div class="media-left">
-        <figure class="image is-48x48">
-          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-        </figure>
-      </div>
-      <div class="media-content">
-      <p class="title is-4">{label} - {distance} metros</p>
-      <p class="subtitle is-6">{username}</p>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">{label} - {distance} metros</p>
+      <a href="#" class="card-header-icon" aria-label="more options">
+        <span class="icon">
+          <i class="fas fa-angle-down" aria-hidden="true" />
+        </span>
+      </a>
+    </header>
+    <div class="card-image">
+      <div class="image mapevent">
+        <WMap points={[{ geolocation: [longitude, latitude] }]} />
       </div>
     </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img
+              src="https://bulma.io/images/placeholders/96x96.png"
+              alt="Placeholder image" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">{username}</p>
+        <p class="subtitle is-6">{dateevent.toLocaleDateString()} {dateevent.toLocaleTimeString()}</p>
+        </div>
+      </div>
 
-    <div class="content">
-      {description}
-    <a href="#">{number_comments}</a> Comentarios
-      <br>
-    <time datetime={dateevent}>{dateevent.toLocaleString('en-US', { timeZone: 'UTC' })}</time>
+      <div class="content">
+        {description}
+        <a href="#">{number_comments}</a>
+        Comentarios
+        <br />
+        <time
+          datetime={dateevent}>{dateevent.toLocaleString('en-US', {
+            timeZone: 'UTC',
+          })}</time>
+      </div>
     </div>
+    <footer class="card-footer">
+      <a href="#" class="card-footer-item">Like</a>
+      <a href="#" class="card-footer-item">Comentar</a>
+      <a href="#" class="card-footer-item">Seguir</a>
+    </footer>
   </div>
-</div>
-<hr>
+  <hr />
 </div>
