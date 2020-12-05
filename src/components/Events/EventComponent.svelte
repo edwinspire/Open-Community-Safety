@@ -47,7 +47,7 @@
         </div>
         <div class="media-content">
           <p class="title is-4">{username}</p>
-        <p class="subtitle is-6">{dateevent.toLocaleDateString()} {dateevent.toLocaleTimeString()}</p>
+        <p class="subtitle is-6">{dateevent.toLocaleString()}</p>
         </div>
       </div>
 
@@ -56,10 +56,7 @@
         <a href="#">{number_comments}</a>
         Comentarios
         <br />
-        <time
-          datetime={dateevent}>{dateevent.toLocaleString('en-US', {
-            timeZone: 'UTC',
-          })}</time>
+        
       </div>
     </div>
     <footer class="card-footer">
