@@ -27,8 +27,10 @@
 
 <div class="card">
   <div class="card-image">
-    
-      <WMap class="image mapevent"></WMap>
+    <div class="image mapevent">
+      <WMap ></WMap>
+    </div>
+      
     
   </div>
   <div class="card-content">
