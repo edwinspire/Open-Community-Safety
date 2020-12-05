@@ -46,7 +46,7 @@
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{username}</p>
+          <p class="title is-4">{username}  {dateevent.toLocaleTimeString()}</p>
         <p class="subtitle is-6">{dateevent.toLocaleString('en-GB', { timeZone: 'UTC' })}</p>
         </div>
       </div>
