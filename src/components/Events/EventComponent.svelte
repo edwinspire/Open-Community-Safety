@@ -6,11 +6,30 @@
 
 </script>
 
+
+<style>
+  .event {
+    padding: 0.5em;
+    margin: 0.2em;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+  .mapevent {
+    height: 30vh;
+    width: 100%;
+  }
+  .event_text {
+    min-height: 100px;
+  }
+</style>
+
+
 <div class="card">
   <div class="card-image">
-    <figure class="image is-4by3">
-      <WMap></WMap>
-    </figure>
+    
+      <WMap class="image is-4by3 mapevent"></WMap>
+    
   </div>
   <div class="card-content">
     <div class="media">
