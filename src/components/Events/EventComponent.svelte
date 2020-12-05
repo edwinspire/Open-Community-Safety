@@ -28,7 +28,7 @@
 <div class="card">
   <div class="card-image">
     
-      <WMap class="image is-4by3 mapevent"></WMap>
+      <WMap class="image mapevent"></WMap>
     
   </div>
   <div class="card-content">
