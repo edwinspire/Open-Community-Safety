@@ -27,7 +27,7 @@
       <p class="card-header-title">{label} - {distance} metros</p>
       <span  class="card-header-icon" aria-label="more options">
         <span class="icon">
-          <i class="fa fa-shield" aria-hidden="true"></i>
+          <i class="fas fa-bell"></i>
         </span>
       </span>
     </header>
@@ -47,22 +47,18 @@
         </div>
         <div class="media-content">
           <p class="title is-4">{username}</p>
-        <p class="subtitle is-6">{dateevent.toLocaleString()}</p>
+        <p class="subtitle is-6">{dateevent.toLocaleDateString()} {dateevent.toLocaleTimeString()}</p>
         </div>
       </div>
 
       <div class="content">
-        {description}
-        <a href="#">{number_comments}</a>
-        Comentarios
-        <br />
-        
+        {description}        
       </div>
     </div>
     <footer class="card-footer">
-      <span class="card-footer-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like</span>
-      <span class="card-footer-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> Comentar</span>
-      <span href="#" class="card-footer-item"><i class="fa fa-eye" aria-hidden="true"></i> Seguir</span>
+      <span class="card-footer-item"><i class="far fa-thumbs-up"></i> Like</span>
+      <span class="card-footer-item"><i class="far fa-comments"></i>{number_comments} Comentarios</span>
+      <span class="card-footer-item"><i class="far fa-eye"></i> Seguir</span>
     </footer>
   </div>
   <hr />
