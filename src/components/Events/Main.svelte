@@ -57,6 +57,7 @@
   {:then datas}
     {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
       <EventComponent
+      {dateevent}
       number_comments = {num_comments}
       {description}
         distance={Math.ceil(meters)}
