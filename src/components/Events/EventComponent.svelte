@@ -44,8 +44,8 @@
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{username}</p>
-          <p class="subtitle is-6">{dateevent.toLocaleString('sv-SE')}</p>
+          <p class="title is-6">{username}</p>
+          <p class="subtitle is-7">{dateevent.toLocaleString('sv-SE')}</p>
         </div>
       </div>
 
@@ -60,12 +60,12 @@
           <i class="far fa-comments" />
         </span>
         {number_comments}
-        Comentarios</span>
+        Comentar</span>
       <span class="card-footer-item"><span class="icon has-text-info">
           <i class="far fa-eye" />
         </span>
         Seguir</span>
     </footer>
   </div>
-  <hr />
+  
 </div>
