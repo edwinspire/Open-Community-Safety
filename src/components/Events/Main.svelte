@@ -4,6 +4,8 @@
   import { onMount } from "svelte";
   import WMap from "../Map/WidgetMap.svelte";
   import { createEventDispatcher } from "svelte";
+  import EventComponent from "./EventComponent.svelte";
+
   const dispatch = createEventDispatcher();
 
   let GeoLatitude = 0;
@@ -68,8 +70,11 @@
     <a class="is-loading">Cargando...</a>
   {:then datas}
     {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
-      <div class="event">
-        <div class="columns is-mobile">
+
+<EventComponent></EventComponent>
+
+      <div class="event" style="visibility: hidden;">
+        <div class="columns">
           <div class="column ">
             <div class="mapevent">
               <WMap
@@ -78,7 +83,7 @@
           </div>
           <div class="column">
             <!-- Main container -->
-            <nav class="level is-mobile">
+            <nav class="level">
               <!-- Left side -->
               <div class="level-left">
                 <div class="level-item">
