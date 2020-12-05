@@ -47,9 +47,9 @@
 
     <div class="content">
       {description}
-    <a href="#">{number_comments}</a> <a href="#">#responsive</a>
+    <a href="#">{number_comments}</a> Comentarios
       <br>
-      <time datetime={dateevent}>-</time>
+    <time datetime={dateevent}>{dateevent.event.toLocaleString('en-US', { timeZone: 'UTC' })}</time>
     </div>
   </div>
 </div>

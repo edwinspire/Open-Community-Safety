@@ -61,8 +61,8 @@
       {description}
         distance={Math.ceil(meters)}
         {label}
-        latitude={details.geo.longitude}
-        longitude={details.geo.latitude} />
+        latitude={details.geo.latitude}
+        longitude={details.geo.longitude} />
 
     {/each}
   {:catch error}
