@@ -25,10 +25,8 @@
   <div class="card">
     <header class="card-header">
       <p class="card-header-title">{label} - {distance} metros</p>
-      <span  class="card-header-icon" aria-label="more options">
-        <span class="icon">
-          <i class="fas fa-bell"></i>
-        </span>
+      <span class="card-header-icon" aria-label="more options">
+        <span class="icon"> <i class="fas fa-bell" /> </span>
       </span>
     </header>
     <div class="card-image">
@@ -46,19 +44,27 @@
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{username}  {dateevent.toLocaleTimeString()}</p>
-        <p class="subtitle is-6">{dateevent.toLocaleString('en-GB', { timeZone: 'UTC' })}</p>
+          <p class="title is-4">{username}</p>
+          <p class="subtitle is-6">{dateevent.toLocaleString('sv-SE')}</p>
         </div>
       </div>
 
-      <div class="content">
-        {description}        
-      </div>
+      <div class="content">{description}</div>
     </div>
     <footer class="card-footer">
-      <span class="card-footer-item"><i class="far fa-thumbs-up"></i> Like</span>
-      <span class="card-footer-item"><i class="far fa-comments"></i>{number_comments} Comentarios</span>
-      <span class="card-footer-item"><i class="far fa-eye"></i> Seguir</span>
+      <span class="card-footer-item"><span class="icon has-text-info">
+          <i class="far fa-thumbs-up" />
+        </span>
+        Like</span>
+      <span class="card-footer-item"><span class="icon has-text-info">
+          <i class="far fa-comments" />
+        </span>
+        {number_comments}
+        Comentarios</span>
+      <span class="card-footer-item"><span class="icon has-text-info">
+          <i class="far fa-eye" />
+        </span>
+        Seguir</span>
     </footer>
   </div>
   <hr />
