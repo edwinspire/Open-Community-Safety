@@ -55,13 +55,14 @@
     <!-- svelte-ignore a11y-missing-attribute -->
     <a class="is-loading">Cargando...</a>
   {:then datas}
-    {#each datas as { idevent, label, dateevent, meters, description, num_comments, details }, i}
+    {#each datas as { idevent, eventtype_label, username, dateevent, meters, description, num_comments, details }, i}
       <EventComponent
       {dateevent}
       number_comments = {num_comments}
       {description}
+      {username}
         distance={Math.ceil(meters)}
-        {label}
+        label = {eventtype_label}
         latitude={details.geo.latitude}
         longitude={details.geo.longitude} />
 

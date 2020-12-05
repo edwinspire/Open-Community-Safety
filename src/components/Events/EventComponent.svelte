@@ -11,6 +11,7 @@
   export let dateevent = new Date();
   export let description = "";
   export let number_comments = "";
+  export let username = "";
 
 </script>
 
@@ -31,7 +32,6 @@
       <WMap points={[{ geolocation: [longitude, latitude] }]}></WMap>
     </div>
       
-    
   </div>
   <div class="card-content">
     <div class="media">
@@ -42,7 +42,7 @@
       </div>
       <div class="media-content">
       <p class="title is-4">{label} - {distance} metros</p>
-        <p class="subtitle is-6">@johnsmith</p>
+      <p class="subtitle is-6">{username}</p>
       </div>
     </div>
 
