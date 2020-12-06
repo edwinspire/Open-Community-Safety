@@ -20,7 +20,7 @@
     height: 40vh;
     width: 100%;
   }
-  .divisor{
+  .divisor {
     padding-top: 2px;
     padding-bottom: 5px;
   }
@@ -62,21 +62,22 @@
 
     <footer class="card-footer">
       <span class="card-footer-item">
-        <span class="icon is-small"> <i class="far fa-thumbs-up" /> </span>
-        <span>Like</span></span>
+        <span class="icon"> <i class="far fa-thumbs-up" /> </span>
+
+        <span>Like</span>
+      </span>
       <span class="card-footer-item"><span
-          class="button"
-          on:click={(e) => {
+                    on:click={(e) => {
             dispatch('comment', { idevent });
           }}>
           {number_comments}
-          <span class="icon is-small"> <i class="far fa-comments" /> </span>
+          <span class="icon"> <i class="far fa-comments" /> </span>
           <span>Comentar</span>
         </span></span>
       <span class="card-footer-item">
-        <span class="icon is-small"><i class="fas fa-ruler" /> </span>
-        <span>Seguir</span></span>
+        <span class="icon "><i class="fas fa-ruler" /> </span>
+      <span>{distance} metros</span></span>
     </footer>
   </div>
-  <hr class="divisor">
+  <hr class="divisor" />
 </div>
