@@ -65,8 +65,11 @@
   {username}
   distance={Math.ceil(meters)}
   label={eventtype_label}
+  {idevent}
   {latitude}
-  {longitude} />
+  {longitude} on:comment = {(ev)=>{
+    dispatch('event_selected', {idevent});
+  }} />
 {/each}  
 {:else}
 <div>No se han encontrado datos</div>

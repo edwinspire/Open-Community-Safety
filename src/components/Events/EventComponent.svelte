@@ -4,6 +4,7 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
+  export let idevent = 0;
   export let longitude = 0;
   export let latitude = 0;
   export let label = "";
@@ -56,16 +57,24 @@
           <i class="far fa-thumbs-up" />
         </span>
         Like</span>
-      <span class="card-footer-item"><span class="icon has-text-info">
+      <span class="card-footer-item">{number_comments}<span
+          class="icon has-text-info">
           <i class="far fa-comments" />
         </span>
-        {number_comments}
-        Comentar</span>
+
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <a
+          class="button is-link is-small"
+          on:click={(e) => {
+            console.log({ idevent });
+            dispatch('comment', { idevent });
+          }}>Comentar</a>
+      </span>
+
       <span class="card-footer-item"><span class="icon has-text-info">
           <i class="far fa-eye" />
         </span>
         Seguir</span>
     </footer>
   </div>
-  
 </div>
