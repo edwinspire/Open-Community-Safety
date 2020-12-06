@@ -75,7 +75,7 @@
         </span></span>
       <span class="card-footer-item">
         <span class="icon "><i class="fas fa-ruler" /> </span>
-      <span>{distance} metros</span></span>
+      <span>  {distance} metros</span></span>
     </footer>
   </div>
   
