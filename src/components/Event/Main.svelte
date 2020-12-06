@@ -64,6 +64,9 @@
     font-style: italic;
     font-weight: bold;
   }
+  .input_comment{
+    width: 100%;
+  }
 </style>
 
 <div>
@@ -117,12 +120,12 @@
         </div>
 
         <div>
-          <div class="field has-addons">
+          <div class="field has-addons input_comment">
             <div class="control">
-              <input class="input" type="text" placeholder="Comentar" />
+              <input class="input is-small" type="text" placeholder="Comentar" />
             </div>
             <div class="control">
-              <span class="button is-info"> <i class="far fa-comment" /> </span>
+              <span class="button is-info is-small"> <i class="far fa-comment" /> </span>
             </div>
           </div>
         </div>
