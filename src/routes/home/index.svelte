@@ -76,7 +76,7 @@
         <span class="icon is-small"><i
             class="fa fa-exclamation-triangle"
             aria-hidden="true" /></span>
-        <span>Urgente</span>
+        <span>SOS</span>
       </a>
     </li>
     <!-- svelte-ignore a11y-missing-attribute -->

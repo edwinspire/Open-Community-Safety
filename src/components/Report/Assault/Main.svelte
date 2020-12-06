@@ -1,7 +1,8 @@
 <script>
     import {SendEvent} from "../SendEvent.js";  
     function Send(params) {
-      SendEvent('cspwa-assault-alarm');
+      //SendEvent('cspwa-assault-alarm');
+      SendEvent({code: 'cspwa-assault-alarm', description: 'Alarma por botón SOS.'});
     }
   </script>
 

@@ -2,27 +2,27 @@ import { FetchData } from "../FetchData.js";
 
 let FData = new FetchData();
 
-export function SendEvent(code) {
+export function SendEvent(data_event) {
   if ("geolocation" in navigator) {
     console.log("Obtiene localización");
     navigator.geolocation.getCurrentPosition(
        (position) => {
         //console.log(position);
-         Send(code, position);
+         Send(data_event, position);
       },
        (err) => {
         console.log(err);
-         Send(code, err);
+         Send(data_event, err);
       },
       { enableHighAccuracy: true }
     );
   } else {
     alert("GeoLocalización no soportada");
-    Send(code, { location: "unsoported" });
+    Send(data_event, { location: "unsoported" });
   }
 }
 
-async function Send(code, glocation) {
+async function Send(data_event, glocation) {
   let geo = {
     latitude: glocation.coords.latitude,
     longitude: glocation.coords.longitude,
@@ -32,7 +32,7 @@ async function Send(code, glocation) {
     heading: glocation.coords.heading,
     speed: glocation.coords.speed
   };
-  let dataUser = { code: code, details: { geo: geo} };
+  let dataUser = { data_event: data_event, details: { geo: geo} };
   console.log(dataUser);
   try {
     const res = await FData.post(
