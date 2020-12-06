@@ -21,15 +21,14 @@
     width: 100%;
   }
   .divisor {
-    padding-top: 2px;
-    padding-bottom: 5px;
+    border-bottom: double;
   }
 </style>
 
-<div>
+<div class="divisor">
   <div class="card">
     <header class="card-header">
-      <p class="card-header-title">{label} - {distance} metros</p>
+      <p class="card-header-title">{label}</p>
       <span class="card-header-icon" aria-label="more options">
         <span class="icon"><i class="far fa-bell" /></span>
       </span>
@@ -42,7 +41,7 @@
     <div class="card-content">
       <div class="media">
         <div class="media-left">
-          <figure class="image is-32x32">
+          <figure class="image is-48x48">
             <img
               src="https://bulma.io/images/placeholders/96x96.png"
               alt="Placeholder image" />
@@ -79,5 +78,5 @@
       <span>{distance} metros</span></span>
     </footer>
   </div>
-  <hr class="divisor" />
+  
 </div>
