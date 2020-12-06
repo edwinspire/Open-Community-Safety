@@ -67,6 +67,9 @@
   .input_comment{
     width: 100%;
   }
+  .input_size{
+    width: inherit;
+  }
 </style>
 
 <div>
@@ -121,7 +124,7 @@
 
         <div>
           <div class="field has-addons input_comment">
-            <div class="control">
+            <div class="control input_size">
               <input class="input is-small" type="text" placeholder="Comentar" />
             </div>
             <div class="control">
