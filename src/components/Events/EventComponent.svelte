@@ -52,38 +52,34 @@
 
       <div class="content">{description}</div>
     </div>
-    <footer class="card-footer">
 
-
-      
-      <span class="card-footer-item">
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="button">
-          <span class="icon is-small">
-            <i class="far fa-thumbs-up"></i>
+    <footer>
+      <div class="field has-addons is-right">
+        <p class="control">
+          <span class="button">
+            <span class="icon is-small"> <i class="far fa-thumbs-up" /> </span>
+            <span>Like</span>
           </span>
-          <span>Like</span>
-        </a>
-        
-        
-      <span class="card-footer-item has-text-info">{number_comments}<span
-          class="icon">
-          <i class="far fa-comments" />
-        </span>
-
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a
-          class="is-link"
-          on:click={(e) => {
-            console.log({ idevent });
-            dispatch('comment', { idevent });
-          }}>Comentar</a>
-      </span>
-
-      <span class="card-footer-item"><span class="icon has-text-info">
-          <i class="far fa-eye" />
-        </span>
-        Seguir</span>
+        </p>
+        <p class="control">
+          <span
+            class="button"
+            on:click={(e) => {
+              console.log({ idevent });
+              dispatch('comment', { idevent });
+            }}>
+            {number_comments}
+            <span class="icon is-small"> <i class="far fa-comments" /> </span>
+            <span>Comentar</span>
+          </span>
+        </p>
+        <p class="control">
+          <span class="button">
+            <span class="icon is-small"> <i class="far fa-eye" /> </span>
+            <span>Seguir</span>
+          </span>
+        </p>
+      </div>
     </footer>
   </div>
 </div>
