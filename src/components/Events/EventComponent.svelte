@@ -20,6 +20,10 @@
     height: 40vh;
     width: 100%;
   }
+  .divisor{
+    padding-top: 2px;
+    padding-bottom: 5px;
+  }
 </style>
 
 <div>
@@ -27,7 +31,7 @@
     <header class="card-header">
       <p class="card-header-title">{label} - {distance} metros</p>
       <span class="card-header-icon" aria-label="more options">
-        <span class="icon"> <i class="fas fa-bell" /> </span>
+        <span class="icon"><i class="far fa-bell" /></span>
       </span>
     </header>
     <div class="card-image">
@@ -46,40 +50,33 @@
         </div>
         <div class="media-content">
           <p class="title is-6">{username}</p>
-          <p class="subtitle is-7">{dateevent.toLocaleString('sv-SE')}</p>
+          <p class="subtitle is-7">
+            {new Date(dateevent).toLocaleDateString()}
+            {new Date(dateevent).toLocaleTimeString()}
+          </p>
         </div>
       </div>
 
       <div class="content">{description}</div>
     </div>
 
-    <footer>
-      <div class="field has-addons is-right">
-        <p class="control">
-          <span class="button">
-            <span class="icon is-small"> <i class="far fa-thumbs-up" /> </span>
-            <span>Like</span>
-          </span>
-        </p>
-        <p class="control">
-          <span
-            class="button"
-            on:click={(e) => {
-              console.log({ idevent });
-              dispatch('comment', { idevent });
-            }}>
-            {number_comments}
-            <span class="icon is-small"> <i class="far fa-comments" /> </span>
-            <span>Comentar</span>
-          </span>
-        </p>
-        <p class="control">
-          <span class="button">
-            <span class="icon is-small"> <i class="far fa-eye" /> </span>
-            <span>Seguir</span>
-          </span>
-        </p>
-      </div>
+    <footer class="card-footer">
+      <span class="card-footer-item">
+        <span class="icon is-small"> <i class="far fa-thumbs-up" /> </span>
+        <span>Like</span></span>
+      <span class="card-footer-item"><span
+          class="button"
+          on:click={(e) => {
+            dispatch('comment', { idevent });
+          }}>
+          {number_comments}
+          <span class="icon is-small"> <i class="far fa-comments" /> </span>
+          <span>Comentar</span>
+        </span></span>
+      <span class="card-footer-item">
+        <span class="icon is-small"><i class="fas fa-ruler" /> </span>
+        <span>Seguir</span></span>
     </footer>
   </div>
+  <hr class="divisor">
 </div>
