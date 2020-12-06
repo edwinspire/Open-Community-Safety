@@ -53,18 +53,27 @@
       <div class="content">{description}</div>
     </div>
     <footer class="card-footer">
-      <span class="card-footer-item"><span class="icon has-text-info">
-          <i class="far fa-thumbs-up" />
-        </span>
-        Like</span>
-      <span class="card-footer-item">{number_comments}<span
-          class="icon has-text-info">
+
+
+      
+      <span class="card-footer-item">
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <a class="button">
+          <span class="icon is-small">
+            <i class="far fa-thumbs-up"></i>
+          </span>
+          <span>Like</span>
+        </a>
+        
+        
+      <span class="card-footer-item has-text-info">{number_comments}<span
+          class="icon">
           <i class="far fa-comments" />
         </span>
 
         <!-- svelte-ignore a11y-missing-attribute -->
         <a
-          class="button is-link is-small"
+          class="is-link"
           on:click={(e) => {
             console.log({ idevent });
             dispatch('comment', { idevent });
