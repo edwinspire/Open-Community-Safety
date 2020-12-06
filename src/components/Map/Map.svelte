@@ -25,8 +25,8 @@
       points = events.map((event) => {
         return {
           geolocation: [
-            event.details.geo.longitude,
-            event.details.geo.latitude,
+            event.longitude,
+            event.latitude,
           ],
         };
       });

@@ -55,18 +55,25 @@
     <!-- svelte-ignore a11y-missing-attribute -->
     <a class="is-loading">Cargando...</a>
   {:then datas}
-    {#each datas as { idevent, eventtype_label, username, dateevent, meters, description, num_comments, details }, i}
-      <EventComponent
-      {dateevent}
-      number_comments = {num_comments}
-      {description}
-      {username}
-        distance={Math.ceil(meters)}
-        label = {eventtype_label}
-        latitude={details.geo.latitude}
-        longitude={details.geo.longitude} />
 
-    {/each}
+{#if datas && datas.length > 0}
+{#each datas as { idevent, eventtype_label, username, dateevent, meters, description, num_comments, latitude, longitude }, i}
+<EventComponent
+  {dateevent}
+  number_comments={num_comments}
+  {description}
+  {username}
+  distance={Math.ceil(meters)}
+  label={eventtype_label}
+  {latitude}
+  {longitude} />
+{/each}  
+{:else}
+<div>No se han encontrado datos</div>
+{/if}
+
+
+
   {:catch error}
     <!-- svelte-ignore a11y-missing-attribute -->
     <a style="color: red" class="is-loading">{error.message}</a>
