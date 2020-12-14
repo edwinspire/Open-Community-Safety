@@ -118,15 +118,7 @@ try {
     <span class="control is-loading"> Cargando </span>
   {:then datas}
     {#each datas as { idevent, eventtype_label, dateevent, longitude, latitude, meters, description, num_comments, details, username }}
-      <style>
-        .mapevent {
-          height: 40vh;
-          width: 100%;
-        }
-        .divisor {
-          border-bottom: double;
-        }
-      </style>
+
       <div class="divisor">
         <div class="card">
           <header class="card-header">
