@@ -7,6 +7,7 @@
   const dispatch = createEventDispatcher();
 
   export let IdEvent = -1;
+  let comment_text = '';
   let FData = new FetchData();
   let promise = new Promise(
     () => {},
@@ -15,6 +16,45 @@
 
   let GeoLatitude = 0;
   let GeoLongitude = 0;
+
+  async function SendComment() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        GeoLatitude = position.coords.latitude;
+        GeoLongitude = position.coords.longitude;
+  
+try {
+  let query = {
+      idevent: IdEvent,
+      latitude: GeoLatitude,
+      longitude: GeoLongitude,
+      comment_text: comment_text
+    };
+
+    const res = await FData.get(
+      "/pgapi/v2/events/comment",
+      query,
+      {
+        "Content-Type": "application/json",
+      }
+    );
+
+    if (res.ok) {
+       let data = await res.json();
+       console.log(data);
+    }else{
+      console.log(res.status);
+    }
+    
+} catch (error) {
+  console.log(error);
+}
+        
+      });
+    } else {
+      console.log("No se pudo obtener las coordenadas");
+    }
+  }
 
   function GeoLocation() {
     if (navigator.geolocation) {
@@ -125,10 +165,10 @@
         <div>
           <div class="field has-addons input_comment">
             <div class="control input_size">
-              <input class="input is-small" type="text" placeholder="Comentar" />
+              <input class="input is-small" type="text" placeholder="Comentar" bind:value={comment_text}/>
             </div>
             <div class="control">
-              <span class="button is-info is-small"> <i class="far fa-comment" /> </span>
+              <span class="button is-info is-small" on:click={SendComment}> <i class="far fa-comment" /> </span>
             </div>
           </div>
         </div>
