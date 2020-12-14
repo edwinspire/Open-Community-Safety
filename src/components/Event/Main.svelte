@@ -1,6 +1,6 @@
 <script>
   import { FetchData } from "../FetchData.js";
-  //import MModal from "../ModalMessage.svelte";
+ import Comments from "./Comments.svelte";
   import { onMount } from "svelte";
   import WMap from "../Map/WidgetMap.svelte";
   import { createEventDispatcher } from "svelte";
@@ -164,6 +164,10 @@ try {
             </div>
           </div>
         </div>
+<div>
+  <Comments {IdEvent}></Comments>
+</div>
+
       </div>
     {/each}
   {:catch error}
