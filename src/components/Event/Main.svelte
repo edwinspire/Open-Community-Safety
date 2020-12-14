@@ -1,13 +1,13 @@
 <script>
   import { FetchData } from "../FetchData.js";
- import Comments from "./Comments.svelte";
+  import Comments from "./Comments.svelte";
   import { onMount } from "svelte";
   import WMap from "../Map/WidgetMap.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   export let IdEvent = -1;
-  let comment_text = '';
+  
   let FData = new FetchData();
   let promise = new Promise(
     () => {},
@@ -17,44 +17,7 @@
   let GeoLatitude = 0;
   let GeoLongitude = 0;
 
-  async function SendComment() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        GeoLatitude = position.coords.latitude;
-        GeoLongitude = position.coords.longitude;
-  
-try {
-  let query = {
-      idevent: IdEvent,
-      latitude: GeoLatitude,
-      longitude: GeoLongitude,
-      comment_text: comment_text
-    };
-
-    const res = await FData.post(
-      "/pgapi/v2/events/comment",
-      query,
-      {
-        "Content-Type": "application/json",
-      }
-    );
-
-    if (res.ok) {
-       let data = await res.json();
-       console.log(data);
-    }else{
-      console.log(res.status);
-    }
-    
-} catch (error) {
-  console.log(error);
-}
-        
-      });
-    } else {
-      console.log("No se pudo obtener las coordenadas");
-    }
-  }
+ 
 
   function GeoLocation() {
     if (navigator.geolocation) {
@@ -104,12 +67,7 @@ try {
     font-style: italic;
     font-weight: bold;
   }
-  .input_comment{
-    width: 100%;
-  }
-  .input_size{
-    width: inherit;
-  }
+
 </style>
 
 <div>
@@ -118,7 +76,6 @@ try {
     <span class="control is-loading"> Cargando </span>
   {:then datas}
     {#each datas as { idevent, eventtype_label, dateevent, longitude, latitude, meters, description, num_comments, details, username }}
-
       <div class="divisor">
         <div class="card">
           <header class="card-header">
@@ -155,19 +112,8 @@ try {
         </div>
 
         <div>
-          <div class="field has-addons input_comment">
-            <div class="control input_size">
-              <input class="input is-small" type="text" placeholder="Comentar" bind:value={comment_text}/>
-            </div>
-            <div class="control">
-              <span class="button is-info is-small" on:click={SendComment}> <i class="far fa-comment" /> </span>
-            </div>
-          </div>
+          <Comments {IdEvent} />
         </div>
-<div>
-  <Comments {IdEvent}></Comments>
-</div>
-
       </div>
     {/each}
   {:catch error}
