@@ -31,7 +31,7 @@ try {
       comment_text: comment_text
     };
 
-    const res = await FData.get(
+    const res = await FData.post(
       "/pgapi/v2/events/comment",
       query,
       {
