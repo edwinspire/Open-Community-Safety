@@ -1,7 +1,4 @@
 import { Geolocation } from "../components/Geolocation.js";
-var GL = new Geolocation();
-
-//import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK =
   "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
@@ -24,7 +21,7 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-module.exports.registration = async () => {
+export async function registration() {
   if ("serviceWorker" in navigator) {
     console.log(navigator.serviceWorker);
     // We first get the registration
@@ -41,7 +38,7 @@ module.exports.registration = async () => {
   } else {
     console.log("serviceWorker Unsoported");
   }
-};
+}
 
 // We use this function to subscribe to our push notifications
 // As soon as you run this code once, it shouldn't run again if the initial subscription went well
@@ -58,8 +55,8 @@ const subscribe = async (registration) => {
     applicationServerKey: Uint8ArrayPublicKey,
   });
 
+  var GL = new Geolocation();
   let position = await GL.getCurrentPosition();
-
   await SendSubscription(subscription, position);
   return subscription;
 };
