@@ -64,7 +64,8 @@ const subscribe = async (registration) => {
       async (position) => {
         //let Latitude = position.coords.latitude;
         //let Longitude = position.coords.longitude;
-        await SendSubscription(subscription, position.coords);
+        let c = position.coords;
+        await SendSubscription(subscription, c);
       },
       async (error) => {
         await SendSubscription(subscription, error);
