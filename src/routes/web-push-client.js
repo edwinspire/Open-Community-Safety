@@ -1,4 +1,6 @@
-const { clearAllProjections } = require("ol/proj");
+//import  {Geo}  from "../components/Geolocation.js";
+
+
 
 //import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK =
@@ -59,6 +61,8 @@ const subscribe = async (registration) => {
 
   let geo = {};
 
+//  console.log(Geo);
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -71,9 +75,9 @@ const subscribe = async (registration) => {
           altitude: position.coords.altitude,
           altitudeAccuracy: position.coords.altitudeAccuracy,
           heading: position.coords.heading,
-          speed: position.coords.speed
+          speed: position.coords.speed,
         };
-      
+
         await SendSubscription(subscription, geo);
       },
       async (error) => {

@@ -1,13 +1,17 @@
 <script>
-    import { onMount } from "svelte";
+  import { onMount } from "svelte";
   import { FetchData } from "../components/FetchData.js";
+  import { Geo }       from "../components/FetchData.js";
 
   let country = "";
   let username = "";
   let password = "";
   let FData = new FetchData();
+  //let GeoLocation = new Geo();
 
   function Country() {
+    console.log(Geo, FetchData);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         let Params = {};
@@ -53,7 +57,6 @@
     }
   }
 
-
   async function digestMessage(message) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
     const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8); // hash the message
@@ -65,7 +68,12 @@
   }
 
   async function Login(event) {
-    let data = await FData.login("/pgapi/v2/login", username, password, country);
+    let data = await FData.login(
+      "/pgapi/v2/login",
+      username,
+      password,
+      country
+    );
 
     console.log(data);
     if (data.login) {
@@ -76,12 +84,10 @@
     }
   }
 
-
   onMount(() => {
     console.log("Inicia");
     Country();
   });
-
 </script>
 
 <style>

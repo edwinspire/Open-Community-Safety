@@ -1,7 +1,6 @@
 import { APPLocalStorage } from "./Stores.js";
 import { hex_sha1, str_sha1 } from "./sha1.js";
 
-
 export class FetchData {
   async put(url, data, headers) {
     let response;
@@ -29,7 +28,7 @@ export class FetchData {
     let response;
 
     try {
-       response = await fetch(url, {
+      response = await fetch(url, {
         method: "POST",
         body: JSON.stringify(data),
         headers: headers,
@@ -65,8 +64,6 @@ export class FetchData {
       if (response) return response;
       throw err;
     }
-
-    
   }
 
   async login(url, user, password, country) {
@@ -78,7 +75,7 @@ export class FetchData {
         {
           username: user,
           pwd: password,
-          country: country
+          country: country,
         },
         {
           "Content-Type": "application/json",
