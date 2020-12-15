@@ -1,5 +1,8 @@
+const { clearAllProjections } = require("ol/proj");
+
 //import Geolocation from "ol/Geolocation";
-const WEBPUSH_PUBLICK = "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
+const WEBPUSH_PUBLICK =
+  "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
 // I have found this code (or variations of) from; multiple sources
 // but I could not find the original author
@@ -56,36 +59,35 @@ const subscribe = async (registration) => {
 
   let geo = {};
 
-  
-  try {
-    //var geolocation = new Geolocation();
-    geo = await getPosition().coords;
-  } catch (error) {
-    console.error(error);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        //let Latitude = position.coords.latitude;
+        //let Longitude = position.coords.longitude;
+        await SendSubscription(subscription, position.coords);
+      },
+      async (error) => {
+        await SendSubscription(subscription, error);
+      }
+    );
+  } else {
+    console.log("No se pudo obtener las coordenadas");
+    await SendSubscription(subscription, { geolocation: "unsuported" });
   }
-  
 
+  return subscription;
+};
 
+function SendSubscription(subscription, geo) {
   let data = {
     subscription: subscription.toJSON(),
-    geolocation: geo
+    geolocation: geo,
   };
-
   console.log(data);
-
   // Sending the subscription object to our Express server
-  await fetch("/webpush-subscription", {
+  return fetch("/webpush-subscription", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  return subscription;
-};
-
-function getPosition() {
-  // Simple wrapper
-  return new Promise((res, rej) => {
-      navigator.geolocation.getCurrentPosition(res, rej);
-  });
 }
-
