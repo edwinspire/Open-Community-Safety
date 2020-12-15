@@ -56,14 +56,14 @@ const subscribe = async (registration) => {
 
   let geo = {};
 
-  /*
+  
   try {
     var geolocation = new Geolocation();
-    geo = geolocation.getPosition();
+  //  geo = geolocation.getPosition();
   } catch (error) {
     console.error(error);
   }
-  */
+  
 
   let data = {
     subscription: subscription.toJSON(),
