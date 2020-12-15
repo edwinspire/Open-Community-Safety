@@ -24,7 +24,7 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-exports.registration = async () => {
+module.exports.registration = async () => {
   if ("serviceWorker" in navigator) {
     console.log(navigator.serviceWorker);
     // We first get the registration
