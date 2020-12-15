@@ -59,7 +59,7 @@ const subscribe = async (registration) => {
   
   try {
     //var geolocation = new Geolocation();
-    geo = await getPosition();
+    geo = await getPosition().coords;
   } catch (error) {
     console.error(error);
   }
