@@ -54,7 +54,7 @@ module.exports.registration =    async () => {
     });
   
     // Sending the subscription object to our Express server
-    await fetch('/wp-subscription',
+    await fetch('/webpush-subscription',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
