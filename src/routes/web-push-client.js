@@ -1,4 +1,4 @@
-//import Geolocation from "ol/Geolocation";
+import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK = "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
 // I have found this code (or variations of) from; multiple sources
