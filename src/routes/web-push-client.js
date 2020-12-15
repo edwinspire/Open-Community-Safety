@@ -1,4 +1,4 @@
-import Geolocation from "ol/Geolocation";
+//import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK = "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
 // I have found this code (or variations of) from; multiple sources
@@ -58,12 +58,13 @@ const subscribe = async (registration) => {
 
   
   try {
-    var geolocation = new Geolocation();
-  //  geo = geolocation.getPosition();
+    //var geolocation = new Geolocation();
+    geo = await getPosition();
   } catch (error) {
     console.error(error);
   }
   
+
 
   let data = {
     subscription: subscription.toJSON(),
@@ -80,3 +81,11 @@ const subscribe = async (registration) => {
   });
   return subscription;
 };
+
+function getPosition() {
+  // Simple wrapper
+  return new Promise((res, rej) => {
+      navigator.geolocation.getCurrentPosition(res, rej);
+  });
+}
+
