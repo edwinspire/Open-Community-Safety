@@ -1,6 +1,5 @@
-import Geolocation from "ol/Geolocation";
-const WEBPUSH_PUBLICK =
-  "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
+//import Geolocation from "ol/Geolocation";
+const WEBPUSH_PUBLICK = "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
 // I have found this code (or variations of) from; multiple sources
 // but I could not find the original author
@@ -57,12 +56,14 @@ const subscribe = async (registration) => {
 
   let geo = {};
 
+  /*
   try {
-    var geolocation = new Geolocation({});
+    var geolocation = new Geolocation();
     geo = geolocation.getPosition();
   } catch (error) {
     console.error(error);
   }
+  */
 
   let data = {
     subscription: subscription.toJSON(),
