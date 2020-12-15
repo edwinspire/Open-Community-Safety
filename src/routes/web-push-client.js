@@ -1,6 +1,5 @@
-//import  {Geo}  from "../components/Geolocation.js";
-
-
+import { Geolocation } from "../components/Geolocation.js";
+var GL = new Geolocation();
 
 //import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK =
@@ -25,7 +24,7 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-module.exports.registration = async () => {
+exports.registration = async () => {
   if ("serviceWorker" in navigator) {
     console.log(navigator.serviceWorker);
     // We first get the registration
@@ -59,36 +58,9 @@ const subscribe = async (registration) => {
     applicationServerKey: Uint8ArrayPublicKey,
   });
 
-  let geo = {};
+  let position = await GL.getCurrentPosition();
 
-//  console.log(Geo);
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        //let Latitude = position.coords.latitude;
-        //let Longitude = position.coords.longitude;
-        let geo = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-          altitude: position.coords.altitude,
-          altitudeAccuracy: position.coords.altitudeAccuracy,
-          heading: position.coords.heading,
-          speed: position.coords.speed,
-        };
-
-        await SendSubscription(subscription, geo);
-      },
-      async (error) => {
-        await SendSubscription(subscription, error);
-      }
-    );
-  } else {
-    console.log("No se pudo obtener las coordenadas");
-    await SendSubscription(subscription, { geolocation: "unsuported" });
-  }
-
+  await SendSubscription(subscription, position);
   return subscription;
 };
 

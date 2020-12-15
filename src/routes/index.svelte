@@ -1,30 +1,30 @@
 <script>
   import { onMount } from "svelte";
   import { FetchData } from "../components/FetchData.js";
-  import { Geo }       from "../components/FetchData.js";
+  import { Geolocation } from "../components/Geolocation.js";
 
   let country = "";
   let username = "";
   let password = "";
   let FData = new FetchData();
-  //let GeoLocation = new Geo();
+  let GeoLocation = new Geolocation();
 
-  function Country() {
-    console.log(Geo, FetchData);
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        let Params = {};
-        Params.geox = position.coords.latitude;
-        Params.geoy = position.coords.longitude;
-        GetCountry(Params);
-      });
-    } else {
-      console.log("No se pudo obtener las coordenadas");
+  async function Country() {
+    /// console.log(Geolocation, FetchData);
+    try {
+      let position = await GeoLocation.getCurrentPosition();
+      console.log(position);
+      GetCountry(position);
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  async function GetCountry(Params) {
+  async function GetCountry(position) {
+    let Params = {
+      geox: position.coords.latitude,
+      geoy: position.coords.longitude
+    };
     //data=[timeout:10][out:json];is_in(-0.21263,-78.41053)->.a;way(pivot.a);out+tags+bb;out+ids+geom(-0.21803,-78.41111,-0.21141,-78.40560);relation(pivot.a);out+tags+bb;
     let query = `[out:json][timeout:10];is_in(${Params.geox},${Params.geoy})->.a;relation(pivot.a);out tags qt;(way(around:20,${Params.geox},${Params.geoy}););out tags qt;`;
     let r = await fetch("https://overpass-api.de/api/interpreter", {
