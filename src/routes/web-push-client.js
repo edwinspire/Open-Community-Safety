@@ -1,4 +1,4 @@
-import Geolocation from 'ol/Geolocation';
+import Geolocation from "ol/Geolocation";
 const WEBPUSH_PUBLICK =
   "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 
@@ -55,11 +55,18 @@ const subscribe = async (registration) => {
     applicationServerKey: Uint8ArrayPublicKey,
   });
 
-  
-  var geolocation = new Geolocation({});
+  let geo = {};
+
+  try {
+    var geolocation = new Geolocation({});
+    geo = geolocation.getPosition();
+  } catch (error) {
+    console.error(error);
+  }
+
   let data = {
     subscription: subscription.toJSON(),
-    geolocation: geolocation.getPosition()
+    geolocation: geo
   };
 
   console.log(data);
@@ -72,4 +79,3 @@ const subscribe = async (registration) => {
   });
   return subscription;
 };
-
