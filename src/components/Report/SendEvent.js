@@ -1,46 +1,18 @@
+/*
 import { FetchData } from "../FetchData.js";
 import { Geolocation } from "../Geolocation.js";
 
 let FData = new FetchData();
 let GL = new Geolocation();
+*/
 
+/*
 export function SendEvent(data_event) {
   Send(data_event);
-
-  /*
-  if ("geolocation" in navigator) {
-    console.log("Obtiene localización");
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        //console.log(position);
-        Send(data_event, position);
-      },
-      (err) => {
-        console.log(err);
-        Send(data_event, err);
-      },
-      { enableHighAccuracy: true }
-    );
-  } else {
-    alert("GeoLocalización no soportada");
-    Send(data_event, { location: "unsoported" });
-  }
-  */
 }
-
+*/
+/*
 async function Send(data_event, glocation) {
-  /*
-  let geo = {
-    latitude: glocation.coords.latitude,
-    longitude: glocation.coords.longitude,
-    accuracy: glocation.coords.accuracy,
-    altitude: glocation.coords.altitude,
-    altitudeAccuracy: glocation.coords.altitudeAccuracy,
-    heading: glocation.coords.heading,
-    speed: glocation.coords.speed,
-  };
-  //let dataUser = { data_event: data_event, details: { geo: geo } };
-  */
   let position = await GL.getCurrentPosition();
   let dataUser = { data_event: data_event, details: position };
   console.log(dataUser);
@@ -73,3 +45,4 @@ async function Send(data_event, glocation) {
     localStorage.setItem("offline_sendevents", JSON.stringify(EventsOffline));
   }
 }
+*/

@@ -10,7 +10,7 @@
   //  let FData = new FetchData();
   let componentSelected = Report;
   let idevent = 0;
-
+  let NavOnLine = false;
   let MenuOpen = false;
 
   function ToggleClassMenu() {
@@ -19,16 +19,42 @@
   }
 
   onMount(async () => {
+    NavOnLine = window.navigator.onLine;
+    console.log(NavOnLine, navigator);
+
     await registration();
+
+    window.addEventListener("offline", (event) => {
+      //alert("Esta offline");
+      NavOnLine = false;
+    });
+
+    window.addEventListener("online", (event) => {
+      //alert("está online");
+      NavOnLine = true;
+      
+    });
   });
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/home">
-      <img src="logo.png" width="25" height="25" alt="Seguridad Comunitaria" />
+      <span class="icon">
+        <img
+          src="logo.png"
+          width="20"
+          height="20"
+          alt="Seguridad Comunitaria" />
+      </span>
+
       <strong> SEGURIDAD CIUDADANA</strong>
     </a>
+    <span class="navbar-item">
+      <span class="icon" class:has-text-success={NavOnLine} class:has-text-danger={!NavOnLine}>
+        <i class="fas fa-wifi" />
+      </span>
+    </span>
 
     <!-- svelte-ignore a11y-missing-attribute -->
     <a
@@ -112,9 +138,8 @@
 </div>
 <svelte:component
   this={componentSelected}
-  IdEvent = {idevent}
+  IdEvent={idevent}
   on:event_selected={(e) => {
-    
     idevent = e.detail.idevent;
     console.log('Event master: ', idevent);
     componentSelected = Event;
