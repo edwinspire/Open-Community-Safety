@@ -6,6 +6,7 @@ let GL = new Geolocation();
 
 export class Events {
   constructor() {
+    console.log('Construye Clase Events');
     window.addEventListener("online", (event) => {
       // Verifica si hay eventos Pendientes de Enviar
       console.log("Eventos Offline por enviar", this.ListOffline());
@@ -27,7 +28,13 @@ export class Events {
   }
 
   async Send(data_event) {
-    let position = await GL.getCurrentPosition();
+    let position = {};
+    try {
+      position = await GL.getCurrentPosition();
+    } catch (error) {
+      position = error;
+    }
+
     let dataUser = { data_event: data_event, details: position };
     console.log(dataUser);
     try {
@@ -44,11 +51,11 @@ export class Events {
         console.warn(data);
       } else {
         console.error(res);
-        offline(dataUser);
+        this.offline(dataUser);
       }
     } catch (err) {
       console.warn(err);
-      offline(dataUser);
+      this.offline(dataUser);
     }
   }
 }

@@ -1,9 +1,12 @@
 <script>
-  import {SendEvent} from "../SendEvent.js";  
-  function Send(params) {
-    //SendEvent('cspwa-suspect-alarm');
-    SendEvent({code: 'cspwa-suspect-alarm', description: 'Alarma por botón SOS.'});
+  import { Events } from "../../Comunications.js";
 
+  function Send(params) {
+    let Ev = new Events();
+    Ev.Send({
+      code: "cspwa-suspect-alarm",
+      description: "Alarma por botón SOS.",
+    });
   }
 </script>
 
