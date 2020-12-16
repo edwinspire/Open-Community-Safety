@@ -5,10 +5,9 @@ let FData = new FetchData();
 let GL = new Geolocation();
 
 export function SendEvent(data_event) {
-
   Send(data_event, position);
 
-/*
+  /*
   if ("geolocation" in navigator) {
     console.log("Obtiene localización");
     navigator.geolocation.getCurrentPosition(
@@ -30,10 +29,7 @@ export function SendEvent(data_event) {
 }
 
 async function Send(data_event, glocation) {
-
-let position = await GL.getCurrentPosition();
-
-/*
+  /*
   let geo = {
     latitude: glocation.coords.latitude,
     longitude: glocation.coords.longitude,
@@ -45,8 +41,8 @@ let position = await GL.getCurrentPosition();
   };
   //let dataUser = { data_event: data_event, details: { geo: geo } };
   */
-
-  let dataUser = { data_event: data_event, details: position};
+  let position = await GL.getCurrentPosition();
+  let dataUser = { data_event: data_event, details: position };
   console.log(dataUser);
 
   let EventsOfflineTxt = localStorage.getItem("offline_sendevents") | "[]";
