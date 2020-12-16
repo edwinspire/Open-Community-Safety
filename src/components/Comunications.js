@@ -17,7 +17,7 @@ export class Events {
   }
 
   ListOffline() {
-    let EventsOfflineTxt = localStorage.getItem("offline_sendevents") | "[]";
+    let EventsOfflineTxt = localStorage.getItem("offline_sendevents");
     console.log("ListOffline", EventsOfflineTxt);
     return JSON.parse(EventsOfflineTxt);
   }
