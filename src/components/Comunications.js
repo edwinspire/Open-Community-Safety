@@ -6,7 +6,7 @@ let GL = new Geolocation();
 
 export class Events {
   constructor() {
-    console.log('Construye Clase Events');
+    console.log("Construye Clase Events");
     window.addEventListener("online", (event) => {
       // Verifica si hay eventos Pendientes de Enviar
       console.log("Eventos Offline por enviar", this.ListOffline());
@@ -18,11 +18,16 @@ export class Events {
 
   ListOffline() {
     let EventsOfflineTxt = localStorage.getItem("offline_sendevents") | "[]";
+    console.log("ListOffline", ListOffline);
     return JSON.parse(EventsOfflineTxt);
   }
 
   offline(ev) {
     let l = this.ListOffline();
+    if (!Array.isArray(l)) {
+      l = [];
+      console.log("No es un array d eventos offline");
+    }
     l.push(ev);
     localStorage.setItem("offline_sendevents", JSON.stringify(l));
   }
