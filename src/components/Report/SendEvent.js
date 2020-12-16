@@ -6,13 +6,13 @@ export function SendEvent(data_event) {
   if ("geolocation" in navigator) {
     console.log("Obtiene localización");
     navigator.geolocation.getCurrentPosition(
-       (position) => {
+      (position) => {
         //console.log(position);
-         Send(data_event, position);
+        Send(data_event, position);
       },
-       (err) => {
+      (err) => {
         console.log(err);
-         Send(data_event, err);
+        Send(data_event, err);
       },
       { enableHighAccuracy: true }
     );
@@ -30,10 +30,16 @@ async function Send(data_event, glocation) {
     altitude: glocation.coords.altitude,
     altitudeAccuracy: glocation.coords.altitudeAccuracy,
     heading: glocation.coords.heading,
-    speed: glocation.coords.speed
+    speed: glocation.coords.speed,
   };
-  let dataUser = { data_event: data_event, details: { geo: geo} };
+  let dataUser = { data_event: data_event, details: { geo: geo } };
   console.log(dataUser);
+
+  let EventsOfflineTxt = localStorage.getItem("offline_sendevents") | "[]";
+  let EventsOffline = JSON.parse(EventsOfflineTxt);
+
+  console.log(EventsOfflineTxt, EventsOffline);
+
   try {
     const res = await FData.post(
       "/pgapi/community-safety-pwa/v1/receiver",
@@ -48,9 +54,12 @@ async function Send(data_event, glocation) {
       console.warn(data);
     } else {
       console.error(res);
+      EventsOffline.push(dataUser);
+      localStorage.setItem("offline_sendevents", JSON.stringify(EventsOffline));
     }
-    
   } catch (err) {
     console.warn(err);
+    EventsOffline.push(dataUser);
+    localStorage.setItem("offline_sendevents", JSON.stringify(EventsOffline));
   }
 }
