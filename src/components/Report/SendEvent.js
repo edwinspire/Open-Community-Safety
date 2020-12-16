@@ -5,7 +5,7 @@ let FData = new FetchData();
 let GL = new Geolocation();
 
 export function SendEvent(data_event) {
-  Send(data_event, position);
+  Send(data_event);
 
   /*
   if ("geolocation" in navigator) {
