@@ -2,6 +2,7 @@ require('dotenv').config({ override: true });
 const fn_move_events_closed = require("@tasks/fn_move_events_closed");
 const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
 const fn_sendemail = require("@tasks/fn_sendemail");
+const {pgWebPush} = require('@app_express_routes/webpush.js');
 
 var ExpiredEventsRunning = false;
 var SendEmailRunning = false;
@@ -32,6 +33,8 @@ const dev = NODE_ENV === "development";
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
+
+  new pgWebPush();
 
   setInterval(() => {
 
