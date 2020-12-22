@@ -17,7 +17,7 @@ export class Events {
   }
 
   ListOffline() {
-    let EventsOfflineTxt = localStorage.getItem("offline_sendevents");
+    let EventsOfflineTxt = localStorage.getItem("offline_events");
     console.log("ListOffline", EventsOfflineTxt);
     return JSON.parse(EventsOfflineTxt);
   }
@@ -29,7 +29,7 @@ export class Events {
       console.log("No es un array d eventos offline");
     }
     l.push(ev);
-    localStorage.setItem("offline_sendevents", JSON.stringify(l));
+    localStorage.setItem("offline_events", JSON.stringify(l));
   }
 
   async Send(data_event) {
