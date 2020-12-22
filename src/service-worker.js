@@ -10,9 +10,9 @@ const cached = new Set(to_cache);
 self.addEventListener('push', event => {
 	
 const data = event.data.json();
-console.log(data);
+console.log(data, self);
 
-self.localStorage.setItem("pushID",data);
+//self.localStorage.setItem("pushID",data);
 
 	self.registration.showNotification(data.title, {
 		body: data.message
