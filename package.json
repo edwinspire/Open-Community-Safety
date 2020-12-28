@@ -28,6 +28,7 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "soap": "^0.32.0",
+    "socket.io": "^3.0.4",
     "socket.io-server": "^1.0.0-b",
     "web-push": "^3.4.4"
   },

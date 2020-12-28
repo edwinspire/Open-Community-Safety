@@ -6,6 +6,7 @@
   import Event from "../../components/Event/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
   import { registration } from "../web-push-client.js";
+  const sioc = require ('socket.io-client');
 
   //  let FData = new FetchData();
   let componentSelected = Report;
@@ -19,6 +20,25 @@
   }
 
   onMount(async () => {
+
+    //var io = sioc();
+    ///console.log(io);
+
+    //var hostws = '//'+document.location.host;
+		var io = sioc.connect();
+
+		console.log(io);
+
+    io.on('connect', function(){
+      console.log('Conectado');
+    });
+  io.on('event', function(data){
+    console.log('WSEvent', data);
+  });
+  io.on('disconnect', function(){
+    console.log('Desconectado');
+  });
+
     NavOnLine = window.navigator.onLine;
     console.log(NavOnLine, navigator);
 
@@ -35,6 +55,9 @@
       
     });
   });
+
+
+
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">

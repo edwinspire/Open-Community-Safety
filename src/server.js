@@ -1,12 +1,9 @@
-require('dotenv').config({ override: true });
+require("dotenv").config({ override: true });
 const fn_move_events_closed = require("@tasks/fn_move_events_closed");
 const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
 const fn_sendemail = require("@tasks/fn_sendemail");
-const {pgWebPush} = require('@app_express_routes/webpush.js');
-
-var ExpiredEventsRunning = false;
-var SendEmailRunning = false;
-global.fecha = new Date();
+const { pgWebPush } = require("@app_express_routes/webpush.js");
+import * as sio from 'socket.io';
 
 var cluster = require("cluster");
 import * as sapper from "@sapper/server";
@@ -16,11 +13,15 @@ import virtual_route from "@app_express_routes/routes";
 import fs from "fs";
 import https from "https";
 
+var ExpiredEventsRunning = false;
+var SendEmailRunning = false;
+global.fecha = new Date();
+
 // Para generar los certificados correr el siguiente comando, completar los datos que solicita y copiar los dos archivos que se generan
 // openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt
 var privateKey = fs.readFileSync("./certs/selfsigned.key", "utf8");
 var certificate = fs.readFileSync("./certs/selfsigned.crt", "utf8");
-var credentials = { key: privateKey, cert: certificate };
+var credentials = { key: privateKey, cert: certificate,  requestCert: false };
 
 const express = require("express");
 const morgan = require("morgan");
@@ -33,11 +34,9 @@ const dev = NODE_ENV === "development";
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
-
   new pgWebPush();
 
   setInterval(() => {
-
     if (!SendEmailRunning) {
       SendEmailRunning = true;
       fn_sendemail()
@@ -53,7 +52,6 @@ if (cluster.isMaster) {
       console.log("fn_sendemail Running...");
     }
   }, 10000);
-
 
   setInterval(() => {
     if (!ExpiredEventsRunning) {
@@ -71,12 +69,7 @@ if (cluster.isMaster) {
       console.log("ExpiredEvents Running...");
     }
   }, 25 * 1000);
-
-
 }
-
-
-
 
 //const PORT = process.env.PORT || 5000 // Esto lo define Heroku
 //process.env.DATABASE_URL =  'postgresql://dbuser:secretpassword@database.server.com:3211/mydb';
@@ -89,9 +82,6 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
-
-
-
   const app = express(); //instancia de express
   app.use(morgan("dev"));
   app.use(express.urlencoded({ extended: true }));
@@ -106,30 +96,23 @@ if (cluster.isMaster) {
   );
 
   console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
-  
+
+  let httpServer;
+
   if (!process.env.LOCAL_SERVER) {
-    var httpServer = http.createServer(app);
-    httpServer.listen(PORT, () => {
-      console.log(
-        "App listening on port " +
-        PORT +
-        " " +
-        cluster.worker.id
-      );
-    });
+    httpServer = http.createServer(app);
   } else {
-    var httpsServer = https.createServer(credentials, app);
-    httpsServer.listen(PORT, () => {
-      console.log(
-        "App HTTPS listening on port " +
-        PORT +
-        " " +
-        cluster.worker.id
-      );
-    });
+    httpServer = https.createServer(credentials, app);
   }
 
+  var io = sio(httpServer);
+  io.on("connection", (socket) => {
+    console.log("A user connected", socket);
+  });
 
+  httpServer.listen(PORT, () => {
+    console.log("App listening on port " + PORT + " " + cluster.worker.id);
+  });
 }
 
 // Listen for dying workers
@@ -139,4 +122,3 @@ cluster.on("exit", function (worker) {
   console.log("Worker %d died :(", worker.id);
   cluster.fork();
 });
-
