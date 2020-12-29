@@ -6,7 +6,6 @@
   import Event from "../../components/Event/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
   import { registration } from "../web-push-client.js";
-  const sioc = require ('socket.io-client');
 
   //  let FData = new FetchData();
   let componentSelected = Report;
@@ -20,24 +19,35 @@
   }
 
   onMount(async () => {
-
-    //var io = sioc();
-    ///console.log(io);
-
-    //var hostws = '//'+document.location.host;
-		var io = sioc.connect();
-
-		console.log(io);
-
-    io.on('connect', function(){
-      console.log('Conectado');
+    const io = require("socket.io-client")();
+    io.on("chat", function (msg) {
+      console.log(msg);
     });
-  io.on('event', function(data){
-    console.log('WSEvent', data);
-  });
-  io.on('disconnect', function(){
-    console.log('Desconectado');
-  });
+
+    /*
+    var io = sioc.connect({
+      // WARNING: in that case, there is no fallback to long-polling
+      transports: ["websocket"], // or [ 'websocket', 'polling' ], which is the same thing
+    });
+    */
+/*
+    setInterval(() => {
+      console.log("Enviando a WS");
+      io.emit("chat", "Hola Mundo");
+    }, 2000);
+*/
+    io.on("connect_error", (error) => {
+      console.log(error);
+    });
+
+    io.on("error", function (data) {
+      console.log(data || "error");
+    });
+
+    io.on("disconnect", function (r) {
+      console.log("Desconectado", r);
+      io.connect();
+    });
 
     NavOnLine = window.navigator.onLine;
     console.log(NavOnLine, navigator);
@@ -52,12 +62,8 @@
     window.addEventListener("online", (event) => {
       //alert("está online");
       NavOnLine = true;
-      
     });
   });
-
-
-
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -74,7 +80,10 @@
       <strong> SEGURIDAD CIUDADANA</strong>
     </a>
     <span class="navbar-item">
-      <span class="icon" class:has-text-success={NavOnLine} class:has-text-danger={!NavOnLine}>
+      <span
+        class="icon"
+        class:has-text-success={NavOnLine}
+        class:has-text-danger={!NavOnLine}>
         <i class="fas fa-wifi" />
       </span>
     </span>

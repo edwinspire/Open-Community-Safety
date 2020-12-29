@@ -1,23 +1,21 @@
+//-- No tiene WebSocket funcional por usar Cluster --//
 require("dotenv").config({ override: true });
-const fn_move_events_closed = require("@tasks/fn_move_events_closed");
 const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
 const fn_sendemail = require("@tasks/fn_sendemail");
 const { pgWebPush } = require("@app_express_routes/webpush.js");
+const cluster = require("cluster");
 
-import * as sio from "socket.io";
-//import redisAdapter from "socket.io-redis";
-
-var cluster = require("cluster");
+//import * as sio from "socket.io";
 import * as sapper from "@sapper/server";
 import sirv from "sirv";
 import compression from "compression";
 import virtual_route from "@app_express_routes/routes";
 import fs from "fs";
-import https from "https";
 
 var ExpiredEventsRunning = false;
 var SendEmailRunning = false;
 global.fecha = new Date();
+var ListSockets = [];
 
 // Para generar los certificados correr el siguiente comando, completar los datos que solicita y copiar los dos archivos que se generan
 // openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt
@@ -27,14 +25,10 @@ var credentials = { key: privateKey, cert: certificate, requestCert: false };
 
 const express = require("express");
 const morgan = require("morgan");
-const http = require("http");
-const path = require("path");
 const cookieParser = require("cookie-parser");
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
-
-const httpServer = AppServer();
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
@@ -55,7 +49,7 @@ if (cluster.isMaster) {
     } else {
       console.log("fn_sendemail Running...");
     }
-  }, 10000);
+  }, 1000 * 300);
 
   setInterval(() => {
     if (!ExpiredEventsRunning) {
@@ -72,44 +66,18 @@ if (cluster.isMaster) {
     } else {
       console.log("ExpiredEvents Running...");
     }
-  }, 25 * 1000);
+  }, 300 * 1000);
 }
 
-if (process.env.USE_CLUSTER) {
-  if (cluster.isMaster) {
-    // Count the machine's CPUs
-    var cpuCount = require("os").cpus().length;
+if (cluster.isMaster) {
+  // Count the machine's CPUs
+  var cpuCount = require("os").cpus().length;
 
-    // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
-      cluster.fork();
-    }
-  } else {
-    httpServer.listen(PORT, () => {
-      console.log("App listening on port " + PORT + " " + cluster.worker.id);
-    });
-  }
-} else {
-  console.log("No se usará CLUSTER");
-  httpServer.listen(PORT, () => {
-    console.log("App listening on port " + PORT);
-  });
-}
-
-//const PORT = process.env.PORT || 5000 // Esto lo define Heroku
-//process.env.DATABASE_URL =  'postgresql://dbuser:secretpassword@database.server.com:3211/mydb';
-
-// Listen for dying workers
-cluster.on("exit", function (worker) {
-  // Replace the dead worker,
-  // we're not sentimental
-  console.log("Worker %d died :(", worker.id);
-  if (process.env.USE_CLUSTER) {
+  // Create a worker for each CPU
+  for (var i = 0; i < cpuCount; i += 1) {
     cluster.fork();
   }
-});
-
-function AppServer() {
+} else {
   const app = express(); //instancia de express
   app.use(morgan("dev"));
   app.use(express.urlencoded({ extended: true }));
@@ -125,19 +93,51 @@ function AppServer() {
 
   console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
 
-  let httpServ;
+  let httpServer;
 
   if (!process.env.LOCAL_SERVER) {
-    httpServ = http.createServer(app);
+    httpServer = require("http").createServer(app);
   } else {
-    httpServ = https.createServer(credentials, app);
+    httpServer = require("https").createServer(credentials, app);
   }
 
-  var io = sio(httpServ);
-
-  io.on("connection", (socket) => {
-    console.log("A user connected", socket);
+  let io = require("socket.io")(httpServer);
+  io.use((socket, next) => {
+    console.log(socket);
+    next();
+  });
+//io.listen();
+  io.on("error", (e) => {
+    console.trace(e);
   });
 
-  return httpServ;
+  httpServer.on("error", (e) => {
+    console.trace(e);
+  });
+
+  io.on("connection", (socket) => {
+
+
+
+    setInterval(() => {
+      //io.emit("chat", new Date()+ ' Papi Gallo...'+socket.id);
+
+    socket.emit("chat", new Date()+ ' Papi pollo...'+socket.id);
+    }, 2000);
+
+    
+    socket.emit("hello", "world");
+  });
+
+  httpServer.listen(PORT, () => {
+    console.log("App listening on port " + PORT + " " + cluster.worker.id);
+  });
 }
+
+// Listen for dying workers
+cluster.on("exit", function (worker) {
+  // Replace the dead worker,
+  // we're not sentimental
+  console.log("Worker %d died :(", worker.id);
+  cluster.fork();
+});

@@ -28,9 +28,7 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "soap": "^0.35.0",
-    "socket.io": "^3.0.4",
-    "socket.io-server": "^1.0.0-b",
-    "sticky-session": "^1.1.2",
+    "socket.io": "^2.3.0",
     "web-push": "^3.4.4"
   },
   "devDependencies": {
@@ -39,5 +37,9 @@
     "svelte": "^3.0.0",
     "svelte-loader": "^2.9.0",
     "webpack": "^4.7.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.2",
+    "utf-8-validate": "^5.0.3"
   }
 }
