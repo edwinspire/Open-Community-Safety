@@ -3,7 +3,9 @@ const fn_move_events_closed = require("@tasks/fn_move_events_closed");
 const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
 const fn_sendemail = require("@tasks/fn_sendemail");
 const { pgWebPush } = require("@app_express_routes/webpush.js");
-import * as sio from 'socket.io';
+
+import * as sio from "socket.io";
+//import redisAdapter from "socket.io-redis";
 
 var cluster = require("cluster");
 import * as sapper from "@sapper/server";
@@ -21,7 +23,7 @@ global.fecha = new Date();
 // openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt
 var privateKey = fs.readFileSync("./certs/selfsigned.key", "utf8");
 var certificate = fs.readFileSync("./certs/selfsigned.crt", "utf8");
-var credentials = { key: privateKey, cert: certificate,  requestCert: false };
+var credentials = { key: privateKey, cert: certificate, requestCert: false };
 
 const express = require("express");
 const morgan = require("morgan");
@@ -31,6 +33,8 @@ const cookieParser = require("cookie-parser");
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
+
+const httpServer = AppServer();
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
@@ -71,17 +75,41 @@ if (cluster.isMaster) {
   }, 25 * 1000);
 }
 
-//const PORT = process.env.PORT || 5000 // Esto lo define Heroku
-//process.env.DATABASE_URL =  'postgresql://dbuser:secretpassword@database.server.com:3211/mydb';
-if (cluster.isMaster) {
-  // Count the machine's CPUs
-  var cpuCount = require("os").cpus().length;
+if (process.env.USE_CLUSTER) {
+  if (cluster.isMaster) {
+    // Count the machine's CPUs
+    var cpuCount = require("os").cpus().length;
 
-  // Create a worker for each CPU
-  for (var i = 0; i < cpuCount; i += 1) {
-    cluster.fork();
+    // Create a worker for each CPU
+    for (var i = 0; i < cpuCount; i += 1) {
+      cluster.fork();
+    }
+  } else {
+    httpServer.listen(PORT, () => {
+      console.log("App listening on port " + PORT + " " + cluster.worker.id);
+    });
   }
 } else {
+  console.log("No se usará CLUSTER");
+  httpServer.listen(PORT, () => {
+    console.log("App listening on port " + PORT);
+  });
+}
+
+//const PORT = process.env.PORT || 5000 // Esto lo define Heroku
+//process.env.DATABASE_URL =  'postgresql://dbuser:secretpassword@database.server.com:3211/mydb';
+
+// Listen for dying workers
+cluster.on("exit", function (worker) {
+  // Replace the dead worker,
+  // we're not sentimental
+  console.log("Worker %d died :(", worker.id);
+  if (process.env.USE_CLUSTER) {
+    cluster.fork();
+  }
+});
+
+function AppServer() {
   const app = express(); //instancia de express
   app.use(morgan("dev"));
   app.use(express.urlencoded({ extended: true }));
@@ -97,28 +125,19 @@ if (cluster.isMaster) {
 
   console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
 
-  let httpServer;
+  let httpServ;
 
   if (!process.env.LOCAL_SERVER) {
-    httpServer = http.createServer(app);
+    httpServ = http.createServer(app);
   } else {
-    httpServer = https.createServer(credentials, app);
+    httpServ = https.createServer(credentials, app);
   }
 
-  var io = sio(httpServer);
+  var io = sio(httpServ);
+
   io.on("connection", (socket) => {
     console.log("A user connected", socket);
   });
 
-  httpServer.listen(PORT, () => {
-    console.log("App listening on port " + PORT + " " + cluster.worker.id);
-  });
+  return httpServ;
 }
-
-// Listen for dying workers
-cluster.on("exit", function (worker) {
-  // Replace the dead worker,
-  // we're not sentimental
-  console.log("Worker %d died :(", worker.id);
-  cluster.fork();
-});

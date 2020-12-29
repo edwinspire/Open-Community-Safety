@@ -42,6 +42,7 @@
       <div class="media">
         <div class="media-left">
           <figure class="image is-48x48">
+            <!-- svelte-ignore a11y-img-redundant-alt -->
             <img
               src="https://bulma.io/images/placeholders/96x96.png"
               alt="Placeholder image" />
