@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "sapper dev",
     "dev2": "sapper dev port 443",
+    "dev3": "DEBUG=* sapper dev",
     "start2": "node -r dotenv/config __sapper__/build",
     "build": "sapper build",
     "export": "sapper export",
@@ -28,7 +29,8 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "soap": "^0.35.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^3.0.4",
+    "socket.io-client": "^3.0.4",
     "web-push": "^3.4.4"
   },
   "devDependencies": {
