@@ -119,7 +119,7 @@ if (cluster.isMaster) {
     io.emit("chat", "Bienvenido " + socket.id);
 
     setInterval(() => {
-      socket.emit("chat", new Date() + " - " + socket.id);
+      io.emit("chat", new Date() + " - " + socket.id);
     }, 10 * 1000);
   });
 
