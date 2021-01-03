@@ -115,16 +115,16 @@ if (cluster.isMaster) {
     console.trace(e);
   });
 
-  httpServer.on("error", (e) => {
-    console.trace(e);
-  });
-
   io.on("connection", (socket) => {
-    socket.emit("chat", "Bienvenido " + socket.id);
+    io.emit("chat", "Bienvenido " + socket.id);
 
     setInterval(() => {
       socket.emit("chat", new Date() + " - " + socket.id);
     }, 10 * 1000);
+  });
+
+  httpServer.on("error", (e) => {
+    console.trace(e);
   });
 
   httpServer.listen(PORT, () => {
