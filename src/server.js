@@ -28,8 +28,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 let app = express(); //instancia de express
-let httpServer = require("https").createServer(credentials, app);
-//let httpServer = require('http').Server( app);
+//let httpServer = require("https").createServer(credentials, app);
+let httpServer = require("http").Server(app);
 let io = require("socket.io")(httpServer);
 
 app.use(morgan("dev"));
@@ -73,15 +73,13 @@ io.on("connect_error", (error) => {
 
 io.on("connection", (socket) => {
   console.log("Connection", socket.id); // ojIckSD2jqNzOqIrAGzL
-  
-  /*
+
   setInterval(() => {
-    socket.emit('chat', "Hola mundo "+socket.id);
-    socket.emit('0{"sid":"C3H6rqsoU4HnemtPAAIS","upgrades":[],"pingInterval":25000,"pingTimeout":5000}');
+    socket.emit("chat", "Hola mundo " + socket.id);
   }, 2000);
-*/
-  socket.send('Al fin');
-  io.send('Al fin 2');
+
+  socket.send("Al fin");
+  io.send("Al fin 2");
 
   socket.on("chat", (c) => {
     console.log("Ha recibido chat", socket.id);
@@ -92,7 +90,6 @@ io.on("connection", (socket) => {
     console.log("Usuario desconectado", socket.id);
     //socket.emit('test', socket.id);
   });
-
 });
 
 httpServer.listen(PORT, () => {
