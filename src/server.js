@@ -101,7 +101,6 @@ if (cluster.isMaster) {
     httpServer = require("https").createServer(credentials, app);
   }
 
-  
   let io = require("socket.io")(httpServer);
 
   /*
@@ -111,7 +110,7 @@ if (cluster.isMaster) {
   });
 */
 
-//io.listen();
+  //io.listen();
   io.on("error", (e) => {
     console.trace(e);
   });
@@ -124,11 +123,14 @@ if (cluster.isMaster) {
 
 
 
-    setInterval(() => {
-      //io.emit("chat", new Date()+ ' Papi Gallo...'+socket.id);
-    socket.emit("chat", new Date()+ ' - '+socket.id);
-    }, 10 * 60 * 1000);
+    setInterval(() => {     
 
+      io.emit("chat", new Date() + " - " + socket.id);
+    }, 10 * 1000);
+
+    setInterval(() => {
+      socket.emit("alarm", socket.id);
+    }, 5000);
   });
 
   httpServer.listen(PORT, () => {
