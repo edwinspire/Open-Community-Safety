@@ -1,11 +1,9 @@
-//-- No tiene WebSocket funcional por usar Cluster --//
 require("dotenv").config({ override: true });
 const fn_set_expired_lifetime = require("@tasks/fn_set_expired_lifetime");
 const fn_sendemail = require("@tasks/fn_sendemail");
 const { pgWebPush } = require("@app_express_routes/webpush.js");
-const cluster = require("cluster");
 
-//import * as sio from "socket.io";
+//import sio from "socket.io";
 import * as sapper from "@sapper/server";
 import sirv from "sirv";
 import compression from "compression";
@@ -15,7 +13,9 @@ import fs from "fs";
 var ExpiredEventsRunning = false;
 var SendEmailRunning = false;
 global.fecha = new Date();
-var ListSockets = [];
+
+const { PORT, NODE_ENV } = process.env;
+const dev = NODE_ENV === "development";
 
 // Para generar los certificados correr el siguiente comando, completar los datos que solicita y copiar los dos archivos que se generan
 // openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt
@@ -23,125 +23,78 @@ var privateKey = fs.readFileSync("./certs/selfsigned.key", "utf8");
 var certificate = fs.readFileSync("./certs/selfsigned.crt", "utf8");
 var credentials = { key: privateKey, cert: certificate, requestCert: false };
 
-const express = require("express");
+var express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
-const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === "development";
+let app = express(); //instancia de express
+let httpServer = require("https").createServer(credentials, app);
+//let httpServer = require('http').Server( app);
+let io = require("socket.io")(httpServer);
 
-// Esto es para que se ejecute solo en el master y no en los workers
-if (cluster.isMaster) {
-  new pgWebPush();
+app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ strict: false, limit: 50000000 })); //-- Limit 50M
+app.use(cookieParser());
+app.use(compression());
 
-  setInterval(() => {
-    if (!SendEmailRunning) {
-      SendEmailRunning = true;
-      fn_sendemail()
-        .then((ret) => {
-          console.log("fn_sendemail End", ret);
-          SendEmailRunning = false;
-        })
-        .catch((e) => {
-          console.log("fn_sendemail Error", e);
-          SendEmailRunning = false;
-        });
-    } else {
-      console.log("fn_sendemail Running...");
-    }
-  }, 1000 * 300);
+app.use(virtual_route);
+app.use(
+  compression({ threshold: 0 }),
+  sirv("static", { dev }),
+  sapper.middleware()
+);
 
-  setInterval(() => {
-    if (!ExpiredEventsRunning) {
-      ExpiredEventsRunning = true;
-      fn_set_expired_lifetime()
-        .then((ret) => {
-          console.log("ExpiredEvents Running", ret);
-          ExpiredEventsRunning = false;
-        })
-        .catch((e) => {
-          console.log("ExpiredEvents Running Error", e);
-          ExpiredEventsRunning = false;
-        });
-    } else {
-      console.log("ExpiredEvents Running...");
-    }
-  }, 300 * 1000);
-}
+console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
 
-if (cluster.isMaster) {
-  // Count the machine's CPUs
-  var cpuCount = require("os").cpus().length;
+//const PORT = process.env.PORT || 5000 // Esto lo define Heroku
+//process.env.DATABASE_URL =  'postgresql://dbuser:secretpassword@database.server.com:3211/mydb';
 
-  // Create a worker for each CPU
-  for (var i = 0; i < cpuCount; i += 1) {
-    cluster.fork();
-  }
-} else {
-  const app = express(); //instancia de express
-  app.use(morgan("dev"));
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json({ strict: false, limit: 50000000 })); //-- Limit 50M
-  app.use(cookieParser());
-  app.use(compression());
-  app.use(virtual_route);
-  app.use(
-    compression({ threshold: 0 }),
-    sirv("static", { dev }),
-    sapper.middleware()
-  );
+io.use((socket, next) => {
+  //socket.handshake.headers.accept = "*/*";
+  //socket.handshake.headers.cookie = 'io=RTXzGzIKwtS7669bAAAA';
+  //socket.handshake.xdomain = false;
 
-  console.log(process.env.LOCAL_SERVER, process.env.DATABASE_URL);
+  console.log(socket);
+  next();
+});
 
-  let httpServer;
+io.on("error", function (socket) {
+  console.log("Error", socket);
+});
 
-  if (!process.env.LOCAL_SERVER) {
-    httpServer = require("http").createServer(app);
-  } else {
-    httpServer = require("https").createServer(credentials, app);
-  }
+io.on("message", (msj) => {
+  console.log(msj);
+});
 
-  let io = require("socket.io")(httpServer);
+io.on("connect_error", (error) => {
+  console.trace(error);
+});
 
+io.on("connection", (socket) => {
+  console.log("Connection", socket.id); // ojIckSD2jqNzOqIrAGzL
+  
   /*
-  io.use((socket, next) => {
-    console.log(socket);
-    next();
-  });
+  setInterval(() => {
+    socket.emit('chat', "Hola mundo "+socket.id);
+    socket.emit('0{"sid":"C3H6rqsoU4HnemtPAAIS","upgrades":[],"pingInterval":25000,"pingTimeout":5000}');
+  }, 2000);
 */
+  socket.send('Al fin');
+  io.send('Al fin 2');
 
-  //io.listen();
-  io.on("error", (e) => {
-    console.trace(e);
+  socket.on("chat", (c) => {
+    console.log("Ha recibido chat", socket.id);
+    //socket.emit('test', socket.id);
   });
 
-  httpServer.on("error", (e) => {
-    console.trace(e);
+  socket.on("disconnect", () => {
+    console.log("Usuario desconectado", socket.id);
+    //socket.emit('test', socket.id);
   });
 
-  io.on("connection", (socket) => {
+});
 
-
-
-    setInterval(() => {     
-
-      io.emit("chat", new Date() + " - " + socket.id);
-    }, 10 * 1000);
-
-    setInterval(() => {
-      socket.emit("alarm", socket.id);
-    }, 5000);
-  });
-
-  httpServer.listen(PORT, () => {
-    console.log("App listening on port " + PORT + " " + cluster.worker.id);
-  });
-}
-
-// Listen for dying workers
-cluster.on("exit", function (worker) {
-  // Replace the dead worker,
-  // we're not sentimental
-  console.log("Worker %d died :(", worker.id);
-  cluster.fork();
+httpServer.listen(PORT, () => {
+  console.log("App listening on port " + PORT);
 });
