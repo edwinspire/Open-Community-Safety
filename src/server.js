@@ -12,6 +12,7 @@ import compression from "compression";
 import virtual_route from "@app_express_routes/routes";
 import fs from "fs";
 
+
 var ExpiredEventsRunning = false;
 var SendEmailRunning = false;
 global.fecha = new Date();
@@ -29,6 +30,8 @@ const cookieParser = require("cookie-parser");
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
+//process.env.LOCAL_SERVER = true;
+
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
@@ -97,12 +100,16 @@ if (cluster.isMaster) {
 
   if (!process.env.LOCAL_SERVER) {
     httpServer = require("http").createServer(app);
+    console.log('Usando HTTP');
+    
   } else {
     httpServer = require("https").createServer(credentials, app);
+    console.log('Usando HTTPS');
   }
 
   let io = require("socket.io")(httpServer);
 
+  
   /*
   io.use((socket, next) => {
     console.log(socket);
@@ -139,3 +146,6 @@ cluster.on("exit", function (worker) {
   console.log("Worker %d died :(", worker.id);
   cluster.fork();
 });
+
+
+//Formato de mensajes que se deben enviar desde ESP32 42["chat",{"id": "67", "name": "p"}]
