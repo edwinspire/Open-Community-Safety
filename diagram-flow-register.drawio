@@ -1,0 +1,77 @@
+<mxfile host="65bd71144e" modified="2021-01-23T05:23:58.799Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.52.1 Chrome/83.0.4103.122 Electron/9.3.5 Safari/537.36" etag="wJuubAO4cP5YGPcpvG7r" version="13.10.0" type="embed">
+    <diagram id="kuqkHUzQ6pWqC92oyJI4" name="Page-1">
+        <mxGraphModel dx="732" dy="581" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="17" value="COMMUNITY SAFETY PWA" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="20" width="1590" height="390" as="geometry">
+                        <mxRectangle x="20" y="20" width="60" height="20" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="REGISTER" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="17">
+                    <mxGeometry y="20" width="1590" height="120" as="geometry">
+                        <mxRectangle y="20" width="790" height="20" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="21" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="Start" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="40" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="22" target="24">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="Enter the data" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="210" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="24" target="26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Validate de data" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="370" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="26" target="27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Register in database" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="530" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="27" target="28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Generate link to for account activation" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="690" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="28" target="29">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="Email link to user" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="860" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="29" target="30">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="User click on the link" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="1030" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;fontColor=#f0f0f0;" edge="1" parent="18" source="30" target="31">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Active account" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="1190" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Redirect the user to the login page" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=12;fontColor=#f0f0f0;align=center;" vertex="1" parent="18">
+                    <mxGeometry x="1350" y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="LOGIN" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="17">
+                    <mxGeometry y="140" width="1590" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Lane 3" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="17">
+                    <mxGeometry y="260" width="1590" height="130" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
