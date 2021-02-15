@@ -30,6 +30,7 @@
       transports: ["websocket"], // or [ 'websocket', 'polling' ], which is the same thing
     });
     */
+    
 /*
     setInterval(() => {
       console.log("Enviando a WS");

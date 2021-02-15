@@ -2,17 +2,23 @@
   "bundler": "webpack",
   "shimport": null,
   "assets": {
-    "about": "23dae55aebd81319563b/about.about.js",
-    "home": "23dae55aebd81319563b/home.home.js",
-    "index": "23dae55aebd81319563b/index.index.js",
-    "main": "23dae55aebd81319563b/main.js",
-    "register": "23dae55aebd81319563b/register.register.js",
-    "vendors~home": "23dae55aebd81319563b/vendors~home.vendors~home.js"
+    "about": "9db4718248e713e3246b/about.about.js",
+    "endpoints": "9db4718248e713e3246b/endpoints.endpoints.js",
+    "endpoints~system": "9db4718248e713e3246b/endpoints~system.endpoints~system.js",
+    "home": "9db4718248e713e3246b/home.home.js",
+    "index": "9db4718248e713e3246b/index.index.js",
+    "main": "9db4718248e713e3246b/main.js",
+    "register": "9db4718248e713e3246b/register.register.js",
+    "system": "9db4718248e713e3246b/system.system.js",
+    "vendors~endpoints~system": "9db4718248e713e3246b/vendors~endpoints~system.vendors~endpoints~system.js",
+    "vendors~home": "9db4718248e713e3246b/vendors~home.vendors~home.js"
   },
   "css": {
     "chunks": {
       "index.svelte": [],
+      "endpoints/index.svelte": [],
       "register/index.svelte": [],
+      "system/index.svelte": [],
       "about.svelte": [],
       "home/index.svelte": []
     }
