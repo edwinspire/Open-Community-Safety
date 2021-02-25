@@ -35,6 +35,8 @@ const dev = NODE_ENV === "development";
 
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
+  require("@telegraf/telegraf.js");
+
   new pgWebPush();
 
   setInterval(() => {
@@ -55,6 +57,7 @@ if (cluster.isMaster) {
   }, 1000 * 300);
 
   setInterval(() => {
+    /*
     if (!ExpiredEventsRunning) {
       ExpiredEventsRunning = true;
       fn_set_expired_lifetime()
@@ -69,6 +72,7 @@ if (cluster.isMaster) {
     } else {
       console.log("ExpiredEvents Running...");
     }
+    */
   }, 300 * 1000);
 }
 

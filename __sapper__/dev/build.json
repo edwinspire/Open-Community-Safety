@@ -2,16 +2,16 @@
   "bundler": "webpack",
   "shimport": null,
   "assets": {
-    "about": "9db4718248e713e3246b/about.about.js",
-    "endpoints": "9db4718248e713e3246b/endpoints.endpoints.js",
-    "endpoints~system": "9db4718248e713e3246b/endpoints~system.endpoints~system.js",
-    "home": "9db4718248e713e3246b/home.home.js",
-    "index": "9db4718248e713e3246b/index.index.js",
-    "main": "9db4718248e713e3246b/main.js",
-    "register": "9db4718248e713e3246b/register.register.js",
-    "system": "9db4718248e713e3246b/system.system.js",
-    "vendors~endpoints~system": "9db4718248e713e3246b/vendors~endpoints~system.vendors~endpoints~system.js",
-    "vendors~home": "9db4718248e713e3246b/vendors~home.vendors~home.js"
+    "about": "484f8676bc647e2de0a2/about.about.js",
+    "endpoints": "484f8676bc647e2de0a2/endpoints.endpoints.js",
+    "endpoints~system": "484f8676bc647e2de0a2/endpoints~system.endpoints~system.js",
+    "home": "484f8676bc647e2de0a2/home.home.js",
+    "index": "484f8676bc647e2de0a2/index.index.js",
+    "main": "484f8676bc647e2de0a2/main.js",
+    "register": "484f8676bc647e2de0a2/register.register.js",
+    "system": "484f8676bc647e2de0a2/system.system.js",
+    "vendors~endpoints~system": "484f8676bc647e2de0a2/vendors~endpoints~system.vendors~endpoints~system.js",
+    "vendors~home": "484f8676bc647e2de0a2/vendors~home.vendors~home.js"
   },
   "css": {
     "chunks": {

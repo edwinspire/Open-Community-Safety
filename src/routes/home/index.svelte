@@ -6,8 +6,9 @@
   import Event from "../../components/Event/Main.svelte";
   import MapAccount from "../../components/Map/Map.svelte";
   import { registration } from "../web-push-client.js";
+  import { FetchData } from "../../components/FetchData.js";
 
-  //  let FData = new FetchData();
+  let FData = new FetchData();
   let componentSelected = Report;
   let idevent = 0;
   let NavOnLine = false;
@@ -16,6 +17,45 @@
   function ToggleClassMenu() {
     console.log("Toogle");
     MenuOpen = !MenuOpen;
+  }
+
+  async function StoreGeolocation(position) {
+    data = {};
+    data.timestamp = position.timestamp;
+    data.coords.latitude = position.coords.latitude;
+    data.coords.longitude = position.coords.longitude;
+    data.coords.accuracy = position.coords.accuracy;
+    data.coords.altitude = position.coords.altitude;
+    data.coords.altitudeAccuracy = position.coords.altitudeAccuracy;
+    data.coords.heading = position.coords.heading;
+    data.coords.speed = position.coords.speed;
+
+    try {
+      const res = await FData.post("/pgapi/v2/tracking_users", data, {
+        "Content-Type": "application/json",
+      });
+
+      if (res.ok) {
+        ReturnRegister = await res.json();
+        console.log(ReturnRegister);
+      }
+    } catch (error) {
+      ReturnRegister = {};
+      console.log(error);
+    }
+  }
+
+  function Tracking() {
+    let options;
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        StoreGeolocation(pos);
+      },
+      (error) => {
+        console.error(error);
+      },
+      options
+    );
   }
 
   onMount(async () => {
@@ -30,8 +70,8 @@
       transports: ["websocket"], // or [ 'websocket', 'polling' ], which is the same thing
     });
     */
-    
-/*
+
+    /*
     setInterval(() => {
       console.log("Enviando a WS");
       io.emit("chat", "Hola Mundo");
@@ -75,7 +115,8 @@
           src="logo.png"
           width="20"
           height="20"
-          alt="Seguridad Comunitaria" />
+          alt="Seguridad Comunitaria"
+        />
       </span>
 
       <strong> SEGURIDAD CIUDADANA</strong>
@@ -84,7 +125,8 @@
       <span
         class="icon"
         class:has-text-success={NavOnLine}
-        class:has-text-danger={!NavOnLine}>
+        class:has-text-danger={!NavOnLine}
+      >
         <i class="fas fa-wifi" />
       </span>
     </span>
@@ -97,7 +139,8 @@
       class="navbar-burger burger"
       aria-label="menu"
       aria-expanded="false"
-      data-target="navbarBasicExample">
+      data-target="navbarBasicExample"
+    >
       <span aria-hidden="true" />
       <span aria-hidden="true" />
       <span aria-hidden="true" />
@@ -130,11 +173,12 @@
       class:is-active={componentSelected === Report}
       on:click={() => {
         componentSelected = Report;
-      }}>
+      }}
+    >
       <a>
-        <span class="icon is-small"><i
-            class="fa fa-exclamation-triangle"
-            aria-hidden="true" /></span>
+        <span class="icon is-small"
+          ><i class="fa fa-exclamation-triangle" aria-hidden="true" /></span
+        >
         <span>SOS</span>
       </a>
     </li>
@@ -143,11 +187,12 @@
       class:is-active={componentSelected === Events}
       on:click={() => {
         componentSelected = Events;
-      }}>
+      }}
+    >
       <a>
-        <span class="icon is-small"><i
-            class="fa fa-list-alt"
-            aria-hidden="true" /></span>
+        <span class="icon is-small"
+          ><i class="fa fa-list-alt" aria-hidden="true" /></span
+        >
         <span>Eventos</span>
       </a>
     </li>
@@ -156,14 +201,16 @@
       class:is-active={componentSelected === Watched}
       on:click={() => {
         componentSelected = Event;
-      }}>
+      }}
+    >
       <a>Evento</a>
     </li>
     <li
       class:is-active={componentSelected === MapAccount}
       on:click={() => {
         componentSelected = MapAccount;
-      }}>
+      }}
+    >
       <!-- svelte-ignore a11y-missing-attribute -->
       <a>Mapa</a>
     </li>
@@ -174,6 +221,7 @@
   IdEvent={idevent}
   on:event_selected={(e) => {
     idevent = e.detail.idevent;
-    console.log('Event master: ', idevent);
+    console.log("Event master: ", idevent);
     componentSelected = Event;
-  }} />
+  }}
+/>
