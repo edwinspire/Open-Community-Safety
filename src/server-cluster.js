@@ -18,7 +18,7 @@ var certificate = fs.readFileSync("./certs/selfsigned.crt", "utf8");
 var credentials = { key: privateKey, cert: certificate, requestCert: false };
 
 let iToken = new Token();
-//ACTIVAR let CommunitySafetyBot = new community_safety();
+let CommunitySafetyBot = new community_safety();
 const FDataNode = new FetchDataNode();
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
