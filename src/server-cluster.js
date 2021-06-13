@@ -23,7 +23,7 @@ const FDataNode = new FetchDataNode();
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
   iToken.deleteAll();
-  //ACTIVAR CommunitySafetyBot.launch();
+  CommunitySafetyBot.launch();
 }
 
 if (cluster.isMaster) {
@@ -48,14 +48,14 @@ if (cluster.isMaster) {
 
   pgNotifyProcess["events.data"] = async (notify) => {
     //console.log(notify);
-  //ACTIVAR  community_safety.EmitEventToNameSpace(ServerInstance.socketio, notify);
+    community_safety.EmitEventToNameSpace(ServerInstance.socketio, notify);
   };
   ServerInstance.on("pgNotify", (notify) => {
     pgNotifyProcess[notify.channel](notify);
   });
 
 
-//ACTIVAR  community_safety.CreateSocketIONameSapce(ServerInstance.socketio);
+  community_safety.CreateSocketIONameSapce(ServerInstance.socketio);
 
 }
 
