@@ -1,0 +1,337 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>OpenMonitoringSystem</Name>
+    <RootNamespace>OpenMonitoringSystem</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>2396f4d6-1ca4-4d6b-b206-4dd516696f11</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".env">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="certs\create_ca.sh" />
+    <Content Include="certs\selfsigned.crt" />
+    <Content Include="certs\selfsigned.key" />
+    <Content Include="cypress.json" />
+    <Content Include="cypress\fixtures\example.json" />
+    <Content Include="cypress\integration\spec.js" />
+    <Content Include="cypress\plugins\index.js" />
+    <Content Include="cypress\support\commands.js" />
+    <Content Include="cypress\support\index.js" />
+    <Content Include="db\oms.backup" />
+    <Content Include="OMS-build-web-test-plan.jmx" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\client.js" />
+    <Content Include="src\components\edwinspire\Map\Map copy.svelte" />
+    <Content Include="src\components\edwinspire\Map\Map.svelte" />
+    <Content Include="src\components\edwinspire\Map\WidgetMap.svelte" />
+    <Content Include="src\components\edwinspire\Menu\Menu.svelte" />
+    <Content Include="src\components\edwinspire\Message\ModalConfirmation.svelte" />
+    <Content Include="src\components\edwinspire\pgAPI\Endpoints\EndpointForm.svelte" />
+    <Content Include="src\components\edwinspire\pgAPI\Endpoints\EndPoints.svelte" />
+    <Content Include="src\components\edwinspire\pgAPI\Endpoints\MethodForm.svelte" />
+    <Content Include="src\components\edwinspire\pgAPI\Endpoints\ModalMessage.svelte" />
+    <Content Include="src\components\edwinspire\Select\SelectFromUrl.svelte" />
+    <Content Include="src\components\edwinspire\Table\GetData.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\components\edwinspire\Table\Cell\TableCellBoolean01.svelte" />
+    <Content Include="src\components\edwinspire\Table\TableRemote.svelte" />
+    <Content Include="src\components\edwinspire\Table\Table.svelte" />
+    <Content Include="src\components\edwinspire\Table\TableCell.svelte" />
+    <Content Include="src\components\farma\inconsistencias\InconsistenciaV2.svelte" />
+    <Content Include="src\components\farma\inconsistencias\Inconsistencia.svelte" />
+    <Content Include="src\components\farma\inconsistencias\InconsistenciasDetalle.svelte" />
+    <Content Include="src\components\farma\inconsistencias\Incontbl_MovimientoInventarioSap.svelte" />
+    <Content Include="src\components\farma\inconsistencias\Incontbl_v_tbl_movinventFarmacia.svelte" />
+    <Content Include="src\components\farma\Table\TablaFactElectPVCARSinAut.svelte" />
+    <Content Include="src\components\farma\Table\TablaConsultaGuiasConNovedades.svelte" />
+    <Content Include="src\components\farma\Table\TablaITE_IntegradorSap_Sincro_Proveedores.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_134_135.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_132_133.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_130_131.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_128_129.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_126_127.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_124_125.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_313_314.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_302_303.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellPriority.svelte" />
+    <Content Include="src\components\farma\RegistrosDepositoConsulta.svelte" />
+    <Content Include="src\components\farma\Table\TablaCargarTransferenciasFarmacias.svelte" />
+    <Content Include="src\components\farma\Table\TablaCargarPlanesMercadeo.svelte" />
+    <Content Include="src\components\farma\Table\TablaCargarDevolucionesFarmacias.svelte" />
+    <Content Include="src\components\farma\Table\TablaCargarVentasMatrizSAP.svelte" />
+    <Content Include="src\components\farma\Table\TablaEventos-Resumen.svelte" />
+    <Content Include="src\components\farma\Table\TablaCargarVentasMatrizFaltanteSap.svelte" />
+    <Content Include="src\components\farma\Table\TablaClientesNovedadConAsignacionCorporativo.svelte" />
+    <Content Include="src\components\farma\Table\TablaITE_IntegradorSap_tbl_Cliente_Duplicados.svelte" />
+    <Content Include="src\components\farma\Table\TablaFactElectSAP_Novedades.svelte" />
+    <Content Include="src\components\farma\Table\TablaFactElectSAP.svelte" />
+    <Content Include="src\components\farma\Table\TablaLogs_pa_CambiarEstadoFactReserv.svelte" />
+    <Content Include="src\components\farma\Table\TablaLogs.svelte" />
+    <Content Include="src\components\farma\Menu.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellDetails.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_100_101.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_102_103.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_104_105.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_106_107.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_108_109.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_110_111.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_112_113.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_114_115.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_116_117.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_296_297.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_298_299.svelte" />
+    <Content Include="src\components\oms\Table\Cell\CellIdEventType_300_301.svelte" />
+    <Content Include="src\components\farma\Table\Cell\CellLogAccion.svelte" />
+    <Content Include="src\components\farma\Table\Cell\Celllsp_respuesta.svelte" />
+    <Content Include="src\components\scheduled_tasks\Table\Cell\CellLogAccion.svelte" />
+    <Content Include="src\components\scheduled_tasks\Table\TableMain.svelte">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\pgListen.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-server\SocketIO.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\fetch\Authentication.js" />
+    <Content Include="src\node_modules\%40edwinspire\fetch\FetchDataNode.js" />
+    <Content Include="src\node_modules\%40edwinspire\mssql\MSSql.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\ocs\Authentication.js" />
+    <Content Include="src\node_modules\%40edwinspire\oms\Authentication.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\oms\SendEvent.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\express-server\Server.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\telegraf\community-safety.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\routes\farma\consulta_guias_con_novedades\index.svelte" />
+    <Content Include="src\routes\farma\fact_elect_pv_car_sin_aut\index.svelte" />
+    <Content Include="src\routes\farma\ite_integrador_sincronizacion_proveedores\index.svelte" />
+    <Content Include="src\routes\scheduled_tasks\main\index.svelte" />
+    <Content Include="src\server-sin-cluster.js" />
+    <Content Include="static\farma\wsdl\SI_Actfactelectronica_Sync_OutService.wsdl" />
+    <Content Include="static\farma\wsdl\SI_Autorizadocumentos_Sync_Out.wsdl" />
+    <Content Include="src\components\oms\TableEvents.svelte">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\crypto\aes256.js" />
+    <Content Include="src\node_modules\%40edwinspire\crypto\sha1.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\Passport.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\pgAccessPoint.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\pgexpress.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\Response.js" />
+    <Content Include="src\node_modules\%40edwinspire\express-pgapi\webpush.js" />
+    <Content Include="src\node_modules\%40edwinspire\fetch\FetchData.js" />
+    <Content Include="src\node_modules\%40edwinspire\fetch\UrlSearch.js" />
+    <Content Include="src\node_modules\%40edwinspire\Geolocation.js" />
+    <Content Include="src\node_modules\%40edwinspire\svelt-session\Preload.js" />
+    <Content Include="src\node_modules\%40edwinspire\svelt-session\Store.js" />
+    <Content Include="src\node_modules\%40edwinspire\tokens\Tokendb.js" />
+    <Content Include="src\node_modules\%40edwinspire\utils\ArrayChunk.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\node_modules\%40edwinspire\utils\Promise\SequentialExecutionPromisesInParallelBlocks.js" />
+    <Content Include="src\node_modules\%40express-routes\routes.js" />
+    <Content Include="src\node_modules\%40pgapi-custom-response\Response.js" />
+    <Content Include="src\node_modules\%40sapper\app.mjs" />
+    <Content Include="src\node_modules\%40sapper\internal\App.svelte" />
+    <Content Include="src\node_modules\%40sapper\internal\error.svelte" />
+    <Content Include="src\node_modules\%40sapper\internal\layout.svelte" />
+    <Content Include="src\node_modules\%40sapper\internal\manifest-client.mjs" />
+    <Content Include="src\node_modules\%40sapper\internal\manifest-server.mjs" />
+    <Content Include="src\node_modules\%40sapper\internal\shared.mjs" />
+    <Content Include="src\node_modules\%40sapper\server.mjs" />
+    <Content Include="src\node_modules\%40sapper\service-worker.js" />
+    <Content Include="src\routes\about.svelte" />
+    <Content Include="src\routes\farma\cargar_ventas_matriz_faltante_sap\index.svelte" />
+    <Content Include="src\routes\farma\carga_devoluciones_farmacias\index.svelte" />
+    <Content Include="src\routes\farma\carga_planes_mercadeo\index.svelte" />
+    <Content Include="src\routes\farma\carga_transferencias_farmacias\index.svelte" />
+    <Content Include="src\routes\farma\carga_ventas_matriz_sap\index.svelte" />
+    <Content Include="src\routes\farma\check_ws_consulta_registro_dep_sap_grafico\data.js" />
+    <Content Include="src\routes\farma\check_ws_consulta_registro_dep_sap_grafico\index.svelte" />
+    <Content Include="src\routes\farma\check_ws_consulta_registro_dep_sap_grafico\test.svelte" />
+    <Content Include="src\routes\farma\check_ws_consulta_registro_dep_sap_grafico\test2.svelte" />
+    <Content Include="src\routes\farma\clientes_novedad_con_asignacion_corporativo\index.svelte" />
+    <Content Include="src\routes\farma\fact_elect_sap\index.svelte" />
+    <Content Include="src\routes\farma\fact_elect_sap_novedades\index.svelte" />
+    <Content Include="src\routes\farma\ite_integradorsap_tbl_cliente_duplicados\index.svelte" />
+    <Content Include="src\routes\farma\log_pa_cambiar_estado_factReserv\index.svelte" />
+    <Content Include="src\routes\farma\registro_depositos\consultar.svelte" />
+    <Content Include="src\routes\home\index.svelte" />
+    <Content Include="src\routes\index.svelte" />
+    <Content Include="src\routes\farma\log_seguimiento_sap\index.svelte" />
+    <Content Include="src\routes\pgAPI\index.svelte" />
+    <Content Include="src\routes\web-push-client.js" />
+    <Content Include="src\routes\_error.svelte" />
+    <Content Include="src\server.js" />
+    <Content Include="src\server-cluster.js" />
+    <Content Include="src\service-worker.js" />
+    <Content Include="src\template.html" />
+    <Content Include="static\css\bulma\bulma.min.css" />
+    <Content Include="static\css\fontawesome\css\all.css" />
+    <Content Include="static\css\fontawesome\css\all.min.css" />
+    <Content Include="static\css\fontawesome\css\brands.css" />
+    <Content Include="static\css\fontawesome\css\brands.min.css" />
+    <Content Include="static\css\fontawesome\css\fontawesome.css" />
+    <Content Include="static\css\fontawesome\css\fontawesome.min.css" />
+    <Content Include="static\css\fontawesome\css\regular.css" />
+    <Content Include="static\css\fontawesome\css\regular.min.css" />
+    <Content Include="static\css\fontawesome\css\solid.css" />
+    <Content Include="static\css\fontawesome\css\solid.min.css" />
+    <Content Include="static\css\fontawesome\css\svg-with-js.css" />
+    <Content Include="static\css\fontawesome\css\svg-with-js.min.css" />
+    <Content Include="static\css\fontawesome\css\v4-shims.css" />
+    <Content Include="static\css\fontawesome\css\v4-shims.min.css" />
+    <Content Include="static\css\fontawesome\webfonts\fa-brands-400.eot" />
+    <Content Include="static\css\fontawesome\webfonts\fa-brands-400.svg" />
+    <Content Include="static\css\fontawesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="static\css\fontawesome\webfonts\fa-brands-400.woff" />
+    <Content Include="static\css\fontawesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="static\css\fontawesome\webfonts\fa-regular-400.eot" />
+    <Content Include="static\css\fontawesome\webfonts\fa-regular-400.svg" />
+    <Content Include="static\css\fontawesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="static\css\fontawesome\webfonts\fa-regular-400.woff" />
+    <Content Include="static\css\fontawesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="static\css\fontawesome\webfonts\fa-solid-900.eot" />
+    <Content Include="static\css\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="static\css\fontawesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="static\css\fontawesome\webfonts\fa-solid-900.woff" />
+    <Content Include="static\css\fontawesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="static\favicon %281%29.png" />
+    <Content Include="static\favicon.png" />
+    <Content Include="static\global.css" />
+    <Content Include="static\icons\icon-128x128.png" />
+    <Content Include="static\icons\icon-144x144.png" />
+    <Content Include="static\icons\icon-152x152.png" />
+    <Content Include="static\icons\icon-192x192.png" />
+    <Content Include="static\icons\icon-384x384.png" />
+    <Content Include="static\icons\icon-512x512.png" />
+    <Content Include="static\icons\icon-72x72.png" />
+    <Content Include="static\icons\icon-96x96.png" />
+    <Content Include="static\img\icon.png" />
+    <Content Include="static\logo.ico" />
+    <Content Include="static\logo.png" />
+    <Content Include="static\logo.svg" />
+    <Content Include="static\manifest.json" />
+    <Content Include="static\test.html" />
+    <Content Include="static\_manifest.json" />
+    <Content Include="webpack.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="certs\" />
+    <Folder Include="cypress\" />
+    <Folder Include="cypress\fixtures\" />
+    <Folder Include="cypress\integration\" />
+    <Folder Include="cypress\plugins\" />
+    <Folder Include="cypress\support\" />
+    <Folder Include="db\" />
+    <Folder Include="src\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\edwinspire\" />
+    <Folder Include="src\components\edwinspire\Map\" />
+    <Folder Include="src\components\edwinspire\Menu\" />
+    <Folder Include="src\components\edwinspire\Message\" />
+    <Folder Include="src\components\edwinspire\pgAPI\" />
+    <Folder Include="src\components\edwinspire\pgAPI\Endpoints\" />
+    <Folder Include="src\components\edwinspire\Select\" />
+    <Folder Include="src\components\edwinspire\Table\" />
+    <Folder Include="src\components\edwinspire\Table\Cell\" />
+    <Folder Include="src\components\farma\" />
+    <Folder Include="src\components\farma\inconsistencias\" />
+    <Folder Include="src\components\farma\Table\" />
+    <Folder Include="src\components\farma\Table\Cell\" />
+    <Folder Include="src\components\scheduled_tasks\" />
+    <Folder Include="src\components\oms\Table\" />
+    <Folder Include="src\components\oms\Table\Cell\" />
+    <Folder Include="src\components\scheduled_tasks\Table\" />
+    <Folder Include="src\components\scheduled_tasks\Table\Cell\" />
+    <Folder Include="src\node_modules\%40edwinspire\mssql\" />
+    <Folder Include="src\node_modules\%40edwinspire\express-server\" />
+    <Folder Include="src\node_modules\%40edwinspire\ocs\" />
+    <Folder Include="src\node_modules\%40edwinspire\oms\" />
+    <Folder Include="src\node_modules\%40edwinspire\telegraf\" />
+    <Folder Include="src\routes\farma\ite_integrador_sincronizacion_proveedores\" />
+    <Folder Include="src\routes\farma\consulta_guias_con_novedades\" />
+    <Folder Include="src\routes\farma\fact_elect_pv_car_sin_aut\" />
+    <Folder Include="src\routes\scheduled_tasks\" />
+    <Folder Include="src\routes\scheduled_tasks\main\" />
+    <Folder Include="static\farma\wsdl\" />
+    <Folder Include="src\components\oms\" />
+    <Folder Include="src\node_modules\" />
+    <Folder Include="src\node_modules\%40edwinspire\" />
+    <Folder Include="src\node_modules\%40edwinspire\crypto\" />
+    <Folder Include="src\node_modules\%40edwinspire\express-pgapi\" />
+    <Folder Include="src\node_modules\%40edwinspire\fetch\" />
+    <Folder Include="src\node_modules\%40edwinspire\utils\" />
+    <Folder Include="src\node_modules\%40edwinspire\svelt-session\" />
+    <Folder Include="src\node_modules\%40edwinspire\tokens\" />
+    <Folder Include="src\node_modules\%40edwinspire\utils\Promise\" />
+    <Folder Include="src\node_modules\%40express-routes\" />
+    <Folder Include="src\node_modules\%40pgapi-custom-response\" />
+    <Folder Include="src\node_modules\%40sapper\" />
+    <Folder Include="src\node_modules\%40sapper\internal\" />
+    <Folder Include="src\routes\" />
+    <Folder Include="src\routes\farma\cargar_ventas_matriz_faltante_sap\" />
+    <Folder Include="src\routes\farma\carga_ventas_matriz_sap\" />
+    <Folder Include="src\routes\farma\carga_devoluciones_farmacias\" />
+    <Folder Include="src\routes\farma\carga_planes_mercadeo\" />
+    <Folder Include="src\routes\farma\carga_transferencias_farmacias\" />
+    <Folder Include="src\routes\farma\fact_elect_sap\" />
+    <Folder Include="src\routes\farma\fact_elect_sap_novedades\" />
+    <Folder Include="src\routes\farma\log_pa_cambiar_estado_factReserv\" />
+    <Folder Include="src\routes\farma\ite_integradorsap_tbl_cliente_duplicados\" />
+    <Folder Include="src\routes\farma\check_ws_consulta_registro_dep_sap_grafico\" />
+    <Folder Include="src\routes\farma\clientes_novedad_con_asignacion_corporativo\" />
+    <Folder Include="src\routes\farma\registro_depositos\" />
+    <Folder Include="src\routes\home\" />
+    <Folder Include="src\routes\farma\log_seguimiento_sap\" />
+    <Folder Include="src\routes\farma\" />
+    <Folder Include="src\routes\pgAPI\" />
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
+    <Folder Include="static\css\bulma\" />
+    <Folder Include="static\css\fontawesome\" />
+    <Folder Include="static\css\fontawesome\css\" />
+    <Folder Include="static\css\fontawesome\webfonts\" />
+    <Folder Include="static\icons\" />
+    <Folder Include="static\img\" />
+    <Folder Include="static\farma\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+</Project>

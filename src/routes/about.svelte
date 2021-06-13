@@ -7,6 +7,7 @@
 <p>This is the 'about' page. There's not much here. ok</p>
 
 <div class="field">
+  <!-- svelte-ignore a11y-label-has-associated-control -->
   <label class="label">Username</label>
   <div class="control has-icons-left has-icons-right">
     <input class="input is-success" type="text" placeholder="Text input" value="bulma">

@@ -2,24 +2,22 @@
   "bundler": "webpack",
   "shimport": null,
   "assets": {
-    "about": "484f8676bc647e2de0a2/about.about.js",
-    "endpoints": "484f8676bc647e2de0a2/endpoints.endpoints.js",
-    "endpoints~system": "484f8676bc647e2de0a2/endpoints~system.endpoints~system.js",
-    "home": "484f8676bc647e2de0a2/home.home.js",
-    "index": "484f8676bc647e2de0a2/index.index.js",
-    "main": "484f8676bc647e2de0a2/main.js",
-    "register": "484f8676bc647e2de0a2/register.register.js",
-    "system": "484f8676bc647e2de0a2/system.system.js",
-    "vendors~endpoints~system": "484f8676bc647e2de0a2/vendors~endpoints~system.vendors~endpoints~system.js",
-    "vendors~home": "484f8676bc647e2de0a2/vendors~home.vendors~home.js"
+    "about": "309916ba07ef13401827/about.about.js",
+    "home": "309916ba07ef13401827/home.home.js",
+    "home~pgAPI~scheduled_tasks_main": "309916ba07ef13401827/home~pgAPI~scheduled_tasks_main.home~pgAPI~scheduled_tasks_main.js",
+    "home~scheduled_tasks_main": "309916ba07ef13401827/home~scheduled_tasks_main.home~scheduled_tasks_main.js",
+    "index": "309916ba07ef13401827/index.index.js",
+    "main": "309916ba07ef13401827/main.js",
+    "pgAPI": "309916ba07ef13401827/pgAPI.pgAPI.js",
+    "scheduled_tasks_main": "309916ba07ef13401827/scheduled_tasks_main.scheduled_tasks_main.js",
+    "vendors~home~pgAPI~scheduled_tasks_main": "309916ba07ef13401827/vendors~home~pgAPI~scheduled_tasks_main.vendors~home~pgAPI~scheduled_tasks_main.js"
   },
   "css": {
     "chunks": {
       "index.svelte": [],
-      "endpoints/index.svelte": [],
-      "register/index.svelte": [],
-      "system/index.svelte": [],
+      "scheduled_tasks/main/index.svelte": [],
       "about.svelte": [],
+      "pgAPI/index.svelte": [],
       "home/index.svelte": []
     }
   }

@@ -1,61 +1,11 @@
 <script>
   import { onMount } from "svelte";
-  import { FetchData } from "../components/FetchData.js";
-  import { Geolocation } from "../components/Geolocation.js";
+  import { FetchData } from "@edwinspire/fetch/FetchData.js";
+  //const io = require("socket.io-client");
 
-  let country = "";
   let username = "";
   let password = "";
-  let FData = new FetchData();
-  let GeoLocation = new Geolocation();
-
-  async function Country() {
-    /// console.log(Geolocation, FetchData);
-    try {
-      let position = await GeoLocation.getCurrentPosition();
-      console.log(position);
-      GetCountry(position);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function GetCountry(position) {
-    let Params = {
-      geox: position.coords.latitude,
-      geoy: position.coords.longitude
-    };
-    //data=[timeout:10][out:json];is_in(-0.21263,-78.41053)->.a;way(pivot.a);out+tags+bb;out+ids+geom(-0.21803,-78.41111,-0.21141,-78.40560);relation(pivot.a);out+tags+bb;
-    let query = `[out:json][timeout:10];is_in(${Params.geox},${Params.geoy})->.a;relation(pivot.a);out tags qt;(way(around:20,${Params.geox},${Params.geoy}););out tags qt;`;
-    let r = await fetch("https://overpass-api.de/api/interpreter", {
-      credentials: "omit",
-      headers: {
-        accept: "*/*",
-        "accept-language": "es-ES,es;q=0.9,en;q=0.8",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "cross-site",
-      },
-      referrer: `https://www.openstreetmap.org/query?lat=${Params.geox}&lon=${Params.geoy}`,
-      referrerPolicy: "no-referrer-when-downgrade",
-      //"body": `data=%5Btimeout%3A10%5D%5Bout%3Ajson%5D%3Bis_in(${this.Params.geox}%2C${this.Params.geoy})-%3E.a%3Bway(pivot.a)%3Bout+tags+bb%3Bout+ids+geom(${Number(this.Params.geox).toFixed(5)}%2C${Number(this.Params.geoy).toFixed(5)}%2C${this.Params.geox}%2C${this.Params.geoy})%3Brelation(pivot.a)%3Bout+tags+bb%3B`,
-      body: query,
-      method: "POST",
-      mode: "cors",
-    });
-    let data = await r.json();
-
-    if (Array.isArray(data.elements) && data.elements.length > 0) {
-      if (
-        data.elements[0] &&
-        data.elements[0].tags &&
-        data.elements[0].tags.name
-      ) {
-        country = data.elements[0].tags.name;
-      }
-    }
-  }
+  let FData;
 
   async function digestMessage(message) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
@@ -68,27 +18,115 @@
   }
 
   async function Login(event) {
-    let data = await FData.login(
-      "/pgapi/v2/login",
-      username,
-      password,
-      country
-    );
+    if (username && password && username.length > 0 && password.length > 0) {
+      let response = await FData.post("/login", {
+        user: username,
+        pwd: password,
+      });
 
-    console.log(data);
-    if (data.login) {
-      window.location.href = "/home";
+      let data = await response.json();
+
+      if (!data.login) {
+        alert(data.message);
+      } else {
+        window.location.href = "/home";
+      }
     } else {
-      //window.location.href = "/";
-      alert(data.message);
+      alert("Debe llenar los campos de usuario y clave");
     }
   }
 
   onMount(() => {
-    console.log("Inicia");
-    Country();
+    //const socket = io("https://localhost:3000");
+    
+    /*
+    const socket = io();
+
+    socket.on("chat", (...args) => {
+      console.log(args);
+    });
+
+    socket.on("registred", (...args) => {
+      console.log(args);
+    });
+
+    setTimeout(() => {
+      socket.emit("register", { hola: "mundo" });
+    }, 5000);
+
+*/
+
+    FData = new FetchData();
+    // Borra todas las cookies de la aplicación
+    (function () {
+      var cookies = document.cookie.split("; ");
+      for (var c = 0; c < cookies.length; c++) {
+        var d = window.location.hostname.split(".");
+        while (d.length > 0) {
+          var cookieBase =
+            encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) +
+            "=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=" +
+            d.join(".") +
+            " ;path=";
+          var p = location.pathname.split("/");
+          document.cookie = cookieBase + "/";
+          while (p.length > 0) {
+            document.cookie = cookieBase + p.join("/");
+            p.pop();
+          }
+          d.shift();
+        }
+      }
+    })();
   });
 </script>
+
+<div class="root">
+  <div class="body">
+    <div class="wrapper">
+      <div class="container">
+        <h1>Login</h1>
+        <form
+          class="form"
+          action="/signin"
+          method="post"
+          on:submit|preventDefault={Login}
+        >
+          <input
+            bind:value={username}
+            name="user"
+            type="text"
+            placeholder="Usuario"
+            required="required"
+          />
+          <input
+            bind:value={password}
+            name="pwd"
+            type="password"
+            placeholder="Contraseña"
+            required="required"
+          />
+          <input type="submit" name="submit" value="Aceptar" />
+          <div class="links_block">
+            <a href="register">Registro</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <ul class="bg_bubbles">
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+  </ul>
+</div>
 
 <style>
   @font-face {
@@ -336,51 +374,3 @@
     }
   }
 </style>
-
-<div class="root">
-  <div class="body">
-    <div class="wrapper">
-      <div class="container">
-        <h1>Login</h1>
-        <form
-          class="form"
-          action="/pgapi/login"
-          method="post"
-          on:submit|preventDefault={Login}>
-          <input
-            bind:value={country}
-            name="country"
-            type="text"
-            placeholder="País"
-            required="required" />
-          <input
-            bind:value={username}
-            name="username"
-            type="text"
-            placeholder="Usuario"
-            required="required" />
-          <input
-            bind:value={password}
-            name="pwd"
-            type="password"
-            placeholder="Contraseña"
-            required="required" />
-          <input type="submit" name="submit" value="Aceptar" />
-          <div class="links_block"><a href="register">Nuevo Usuario</a></div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <ul class="bg_bubbles">
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-    <li />
-  </ul>
-</div>

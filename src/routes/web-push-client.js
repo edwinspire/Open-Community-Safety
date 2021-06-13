@@ -1,4 +1,4 @@
-import { Geolocation } from "../components/Geolocation.js";
+import { Geolocation } from "@edwinspire/Geolocation.js";
 const WEBPUSH_PUBLICK =
   "BNi_4RFjAjaObFkgSvt3TSwUGg1cAO9aGiZlglXexl-U8U8zrqeOrUJR9nMRa6X2p4ECzk7XAivknIp1AMyIYfY";
 

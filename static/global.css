@@ -10,11 +10,13 @@ body {
   margin: 0;
   font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* font-size: 14px;
-	line-height: 1.5;
+  line-height: 1 !important;
+  font-size: 0.8em !important;
+  /*line-height: 1.5;
 	color: #333; */
   overflow: hidden; /* Hide scrollbars */
-  min-height: 1200px;
+  /* min-height: 95vh!important;  */
+  /* min-height: 95%; */
 }
 
 details {
@@ -39,7 +41,7 @@ summary {
 }
 
 .card .media:not(:last-child) {
-  margin-bottom: .5rem!important;
+  margin-bottom: 0.5rem !important;
 }
 
 .card-header-title {
@@ -86,6 +88,9 @@ summary {
 .card-content {
   padding: 0.5rem !important;
 }
+
+
+
 
 .gbackground-black {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#959595+0,0d0d0d+46,010101+50,0a0a0a+53,4e4e4e+76,383838+87,1b1b1b+100;Black+Gloss+Pipe */
@@ -197,6 +202,24 @@ summary {
   font-size: 0.75rem !important;
 }
 
+.table thead {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#3273dc+0,214072+100 */
+background: rgb(50,115,220); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(50,115,220,1) 0%, rgba(33,64,114,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(50,115,220,1) 0%,rgba(33,64,114,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(50,115,220,1) 0%,rgba(33,64,114,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3273dc', endColorstr='#214072',GradientType=0 ); /* IE6-9 */
+
+}
+
+.table.is-bordered tr:last-child th {
+  color: #ffffff;
+}
+
+.table.is-narrow th {
+  padding: .4em!important;
+}
+
 .gbackground-silver {
   background: rgb(238, 238, 238);
   background: -moz-linear-gradient(
@@ -239,12 +262,12 @@ summary {
 }
 
 .modal-card-title {
-  font-size: 1rem !important;
+  font-size: 0.75rem !important;
 }
 
 .modal-card-foot,
 .modal-card-head {
-  padding: 0.5em !important;
+  padding: 0.3em !important;
 }
 
 .gbackground-blue a:hover {
@@ -296,3 +319,35 @@ code {
     font-size: 16px;
   }
 }
+.table {
+  margin-bottom: 0.5em !important;
+}
+
+.button.is-small {
+  font-size: 0.7rem !important;
+}
+
+.is-small.input,
+.is-small.textarea {
+  font-size: 0.7rem !important;
+}
+
+.select.is-small {
+  font-size: 0.7rem !important;
+}
+
+.file.is-small {
+  font-size: 0.7rem !important;
+}
+
+.is-size-8 {
+  font-size: 0.6rem !important;
+}
+
+.table-container:not(:last-child) {
+  margin-bottom: 0.1rem !important;
+}
+#sapper{
+  min-height: 95vh!important; 
+}
+
