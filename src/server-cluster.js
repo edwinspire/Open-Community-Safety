@@ -55,8 +55,8 @@ if (cluster.isMaster) {
   });
 
 
-  //community_safety.CreateSocketIONameSapce(ServerInstance.socketio);
-  CommunitySafetyBot.CreateSocketIONameSapce(ServerInstance.socketio);
+  community_safety.CreateSocketIONameSapce(ServerInstance.socketio);
+//  CommunitySafetyBot.CreateSocketIONameSapce(ServerInstance.socketio);
 
 }
 
