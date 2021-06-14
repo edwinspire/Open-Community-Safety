@@ -6,7 +6,7 @@ const { Server } = require("@edwinspire/express-server/Server");
 const cluster = require("cluster");
 const community_safety =
   require("@edwinspire/telegraf/community-safety").Telegraf;
-const { FetchDataNode } = require("@edwinspire/fetch/FetchDataNode");
+//const { FetchDataNode } = require("@edwinspire/fetch/FetchDataNode");
 const SendEvent = require("@edwinspire/oms/SendEvent");
 
 import fs from "fs";
@@ -19,7 +19,7 @@ var credentials = { key: privateKey, cert: certificate, requestCert: false };
 
 let iToken = new Token();
 let CommunitySafetyBot = new community_safety();
-const FDataNode = new FetchDataNode();
+//const FDataNode = new FetchDataNode();
 // Esto es para que se ejecute solo en el master y no en los workers
 if (cluster.isMaster) {
   iToken.deleteAll();
