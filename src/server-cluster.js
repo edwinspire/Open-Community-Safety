@@ -1,6 +1,4 @@
-//-- No tiene WebSocket funcional por usar Cluster --//
 require("dotenv").config({ override: true });
-//const { OMS_SERVER } = process.env;
 const { Token } = require("@edwinspire/tokens/Tokendb");
 const { Server } = require("@edwinspire/express-server/Server");
 const cluster = require("cluster");
@@ -9,6 +7,7 @@ const community_safety =
 const { FetchDataNode } = require("@edwinspire/fetch/FetchDataNode");
 const SendEvent = require("@edwinspire/oms/SendEvent");
 
+import { trace } from "console";
 import fs from "fs";
 
 // Para generar los certificados correr el siguiente comando, completar los datos que solicita y copiar los dos archivos que se generan
@@ -47,15 +46,26 @@ if (cluster.isMaster) {
   };
 
   pgNotifyProcess["events.data"] = async (notify) => {
-    //console.log(notify);
-    community_safety.EmitEventToNameSpace(ServerInstance.socketio, notify);
+try {
+  let payloadNotify = JSON.parse(notify.payload);
+  if (payloadNotify.idevent && payloadNotify.idevent > 0) {
+    let event = await community_safety.getEventById(payloadNotify.idevent);
+    community_safety.EmitEventToNameSpace(ServerInstance.socketio, event);
+    CommunitySafetyBot.sendMessageToGroup(event);
+  } else {
+    console.error('El evento no es válido', payloadNotify);
+  }
+} catch (error) {
+  console.trace(error);
+}
   };
+
   ServerInstance.on("pgNotify", (notify) => {
     pgNotifyProcess[notify.channel](notify);
   });
 
 
-  community_safety.CreateSocketIONameSapce(ServerInstance.socketio);
+  community_safety.CreateSocketIONameSpace(ServerInstance.socketio);
 
 }
 
