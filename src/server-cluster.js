@@ -46,18 +46,18 @@ if (cluster.isMaster) {
   };
 
   pgNotifyProcess["events.data"] = async (notify) => {
-try {
-  let payloadNotify = JSON.parse(notify.payload);
-  if (payloadNotify.idevent && payloadNotify.idevent > 0) {
-    let event = await community_safety.getEventById(payloadNotify.idevent);
-    community_safety.EmitEventToNameSpace(ServerInstance.socketio, event);
-    CommunitySafetyBot.sendMessageToGroup(event);
-  } else {
-    console.error('El evento no es válido', payloadNotify);
-  }
-} catch (error) {
-  console.trace(error);
-}
+    try {
+      let payloadNotify = JSON.parse(notify.payload);
+      if (payloadNotify && payloadNotify.idevent && payloadNotify.idevent > 0) {
+        let event = await community_safety.getEventById(payloadNotify.idevent);
+        community_safety.EmitEventToNameSpace(ServerInstance.socketio, event);
+        //CommunitySafetyBot.sendMessageToGroup(event);
+      } else {
+        console.error('pgNotifyProcess - El evento no es válido', notify);
+      }
+    } catch (error) {
+      console.log('ServerInstance Error: ', error);
+    }
   };
 
   ServerInstance.on("pgNotify", (notify) => {
