@@ -1,3 +1,7 @@
 require("dotenv").config({ override: true });
-//require("./server-cluster");
-require("./server-not-cluster");
+const { WITH_NODE_CLUSTER } = process.env;
+if (WITH_NODE_CLUSTER === "true") {
+  require("./server-cluster");
+} else {
+  require("./server-not-cluster");
+}
