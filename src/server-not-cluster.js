@@ -28,6 +28,5 @@ let ServerInstance = new Server({
 community_safety.CreateSocketIONameSpace(ServerInstance.socketio);
 
 ServerInstance.on("pgNotify", (notify) => {
-  //console.log(notify);
   CommunitySafetyBot.ProcessPgNotification(ServerInstance.socketio, notify);
 });
