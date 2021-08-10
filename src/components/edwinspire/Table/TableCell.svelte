@@ -1,11 +1,10 @@
 <script>
-  import moment, { now } from "moment";
+  import moment from "moment";
   import TableCellBoolean01 from "./Cell/TableCellBoolean01.svelte";
 
   import TableCellDetails from "../../oms/Table/Cell/CellDetails.svelte";
   import TableCellPriority from "../../oms/Table/Cell/CellPriority.svelte";
 
- 
   export let type;
   export let value;
   export let row;
@@ -55,10 +54,10 @@
       </td>
     {/if}
   {:else}
-    <td on:click>con tipo desconicido {value}</td>
+    <td on:click>con tipo desconocido {value}</td>
   {/if}
-{:else if typeof  value === "object" && value !== null}
-  <td on:click>{@html JSON.stringify( value, null, '</br>')}</td>
+{:else if typeof value === "object" && value !== null}
+  <td on:click>{@html JSON.stringify(value, null, "</br>")}</td>
 {:else}
   <td on:click>{value}</td>
 {/if}

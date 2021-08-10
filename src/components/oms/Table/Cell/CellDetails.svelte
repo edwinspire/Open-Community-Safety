@@ -22,53 +22,38 @@
 
   export let value;
   export let row = {};
+
+  const ListCellType = {
+    OCSC100: CellIdEventType_100_101,
+    "02": CellIdEventType_102_103,
+    "03": CellIdEventType_104_105,
+    "04": CellIdEventType_106_107,
+    "05": CellIdEventType_108_109,
+    "06": CellIdEventType_110_111,
+    "07": CellIdEventType_112_113,
+    "08": CellIdEventType_114_115,
+    "09": CellIdEventType_116_117,
+    "10": CellIdEventType_124_125,
+    "11": CellIdEventType_126_127,
+    "12": CellIdEventType_128_129,
+    "13": CellIdEventType_130_131,
+    "14": CellIdEventType_132_133,
+    "15": CellIdEventType_134_135,
+    "16": CellIdEventType_296_297,
+    "17": CellIdEventType_298_299,
+    "18": CellIdEventType_300_301,
+    "19": CellIdEventType_302_303,
+    "20": CellIdEventType_313_314,
+  };
+
 </script>
 
 <td class="has-text-centered" on:click>
-  {#if row.ideventtype == 100 || row.ideventtype == 101}
-    <CellIdEventType_100_101 {value} />
-  {:else if row.ideventtype == 102 || row.ideventtype == 103}
-    <CellIdEventType_102_103 {value} />
-  {:else if row.ideventtype == 104 || row.ideventtype == 105}
-    <CellIdEventType_104_105 {value} />
-  {:else if row.ideventtype == 106 || row.ideventtype == 107}
-    <CellIdEventType_106_107 {value} />
-  {:else if row.ideventtype == 108 || row.ideventtype == 109}
-    <CellIdEventType_108_109 {value} />
-  {:else if row.ideventtype == 110 || row.ideventtype == 111}
-    <CellIdEventType_110_111 {value} />
-  {:else if row.ideventtype == 112 || row.ideventtype == 113}
-    <CellIdEventType_112_113 {value} />
-  {:else if row.ideventtype == 114 || row.ideventtype == 115}
-    <CellIdEventType_114_115 {value} />
-  {:else if row.ideventtype == 116 || row.ideventtype == 117}
-    <CellIdEventType_116_117 {value} />
-  {:else if row.ideventtype == 124 || row.ideventtype == 125}
-    <CellIdEventType_124_125 {value} />
-  {:else if row.ideventtype == 126 || row.ideventtype == 127}
-    <CellIdEventType_126_127 {value} />
-  {:else if row.ideventtype == 128 || row.ideventtype == 129}
-    <CellIdEventType_128_129 {value} />
-  {:else if row.ideventtype == 130 || row.ideventtype == 131}
-    <CellIdEventType_130_131 {value} />
-  {:else if row.ideventtype == 132 || row.ideventtype == 133}
-    <CellIdEventType_132_133 {value} />
-    {:else if row.ideventtype == 134 || row.ideventtype == 135}
-    <CellIdEventType_134_135 {value} />    
-  {:else if row.ideventtype == 296 || row.ideventtype == 297}
-    <CellIdEventType_296_297 {value} />
-  {:else if row.ideventtype == 298 || row.ideventtype == 299}
-    <CellIdEventType_298_299 {value} />
-  {:else if row.ideventtype == 300 || row.ideventtype == 301}
-    <CellIdEventType_300_301 {value} />
-  {:else if row.ideventtype == 302 || row.ideventtype == 303}
-    <CellIdEventType_302_303 {value} />
-  {:else if row.ideventtype == 313 || row.ideventtype == 314}
-    <CellIdEventType_313_314 {value} />
+  {#if ListCellType[row.code]}
+    <svelte:component this={ListCellType[row.code]} />
+  {:else if ListCellType[row.code.substring(1)]}
+    <svelte:component this={ListCellType[row.code.substring(1)]} />
   {:else}
     {JSON.stringify(value)}
   {/if}
 </td>
-
-<style>
-</style>

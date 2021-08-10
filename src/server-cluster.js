@@ -3,11 +3,10 @@ const { Token } = require("@edwinspire/tokens/Tokendb");
 const { Server } = require("@edwinspire/express-server/Server");
 const cluster = require("cluster");
 const community_safety =
-  require("@edwinspire/telegraf/community-safety").Telegraf;
+  require("@edwinspire/ocs/telegraf/community-safety").Telegraf;
 const { FetchDataNode } = require("@edwinspire/fetch/FetchDataNode");
 const SendEvent = require("@edwinspire/oms/SendEvent");
 
-import { trace } from "console";
 import fs from "fs";
 
 // Para generar los certificados correr el siguiente comando, completar los datos que solicita y copiar los dos archivos que se generan

@@ -1,9 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  //import { CurrentSession } from "@edwinspire/svelt-session/Store";
   import Tabla from "../edwinspire/Table/Table.svelte";
-  let NavOnLine = false;
-  let MenuOpen = false;
 
   /*
   idevent, dateevent, idaccount, account_name, 

@@ -2,7 +2,7 @@ require("dotenv").config({ override: true });
 const { Token } = require("@edwinspire/tokens/Tokendb");
 const { Server } = require("@edwinspire/express-server/Server");
 const community_safety =
-  require("@edwinspire/telegraf/community-safety").Telegraf;
+  require("@edwinspire/ocs/telegraf/community-safety").Telegraf;
 //const { FetchDataNode } = require("@edwinspire/fetch/FetchDataNode");
 //const SendEvent = require("@edwinspire/oms/SendEvent");
 
