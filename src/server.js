@@ -13,7 +13,7 @@ const { PORT, EXPRESSJS_SERVER_TIMEOUT } = process.env
 var listDeviceSockets = {}
 var listAuthorizedDevices = {
   '72d448af-4e1a-4d54-8bf1-f7fb2536d51e': {
-    telegram_groups: ['eca0ddf986277544059c57ac87b50373'],
+    telegram_groups: ['eca0ddf986277544059c57ac87b50373', '336136f24ce7c4ef042ddaf5c78a0597'],
     geox: 0,
     geoy: 0,
   },

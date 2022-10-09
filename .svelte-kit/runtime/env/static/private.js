@@ -156,10 +156,10 @@ export const npm_config_user_agent = "npm/8.11.0 node/v16.16.0 win32 x64 workspa
 export const npm_execpath = "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js";
 
 /** @type {import('$env/static/private').npm_lifecycle_event} */
-export const npm_lifecycle_event = "build";
+export const npm_lifecycle_event = "start";
 
 /** @type {import('$env/static/private').npm_lifecycle_script} */
-export const npm_lifecycle_script = "vite build";
+export const npm_lifecycle_script = "vite build && node src/server.js";
 
 /** @type {import('$env/static/private').npm_node_execpath} */
 export const npm_node_execpath = "C:\\Program Files\\nodejs\\node.exe";

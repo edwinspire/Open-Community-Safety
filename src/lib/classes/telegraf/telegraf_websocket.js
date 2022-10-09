@@ -13,7 +13,7 @@ const textTurnoff = '🔇 APAGAR'
 
 const DBJson = {
   OCSeca0ddf986277544059c57ac87b50373: {
-    id_group: -1001622810034,
+    id_group: -1001345810034,
     devices: [{ id_device: 'OCS_3D59F8' }, { id_device: 'OCS_E34AB1' }],
   },
 }
@@ -123,6 +123,7 @@ export class TelegrafOCS extends EventEmitter {
     }
   }
 
+  /*
   // @ts-ignore
   cmndPublish(ctx, last_level_topic, payload, msg_reply) {
     this.publishToDevices(
@@ -141,7 +142,9 @@ export class TelegrafOCS extends EventEmitter {
       )
     }
   }
+  */
 
+  /*
   publishToDevices(uuid_group, last_level_topic, payload) {
     let dataGroup = DBJson[uuid_group]
     console.log(dataGroup)
@@ -164,6 +167,7 @@ export class TelegrafOCS extends EventEmitter {
     }
     return dataGroup
   }
+  */
 
   async sendMessageToGroup(idgroup, message) {
     console.log('sendMessageToGroup => ', idgroup);
