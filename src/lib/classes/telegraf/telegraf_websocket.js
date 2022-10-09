@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { BOT_TOKEN, MQTT_BROKER, MQTT_PORT, MQTT_ROOT_TOPIC } = process.env
+const { BOT_TOKEN, PORT, MQTT_BROKER, MQTT_PORT, MQTT_ROOT_TOPIC } = process.env
 import crypto from 'crypto'
 console.log('BOT_TOKEN: ', BOT_TOKEN)
 import WebSocket from 'ws'
@@ -195,7 +195,7 @@ export class TelegrafOCS extends EventEmitter {
   launch() {
     try {
       this.ws_client = new WebSocket(
-        'ws://localhost:3001/ws/device?device=telegrambot',
+        'ws://localhost:'+PORT+'/ws/device?device=telegrambot',
       )
 
       this.ws_client.on('open', () => {
