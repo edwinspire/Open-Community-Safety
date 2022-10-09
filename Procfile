@@ -1,1 +1,1 @@
-web: node ./__sapper__/build/index.js
+web: node .src/server.js
