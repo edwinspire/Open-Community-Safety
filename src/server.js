@@ -13,12 +13,18 @@ const { PORT, EXPRESSJS_SERVER_TIMEOUT } = process.env
 var listDeviceSockets = {}
 var listAuthorizedDevices = {
   '72d448af-4e1a-4d54-8bf1-f7fb2536d51e': {
-    telegram_groups: ['eca0ddf986277544059c57ac87b50373', '336136f24ce7c4ef042ddaf5c78a0597'],
+    telegram_groups: [
+      'eca0ddf986277544059c57ac87b50373',
+      '336136f24ce7c4ef042ddaf5c78a0597',
+    ],
     geox: 0,
     geoy: 0,
   },
   '624e8fdf-91bc-463d-bec9-44d8d0b74c0b': {},
   'e272dd45-e4c9-4344-bbfa-de73171f380b': {},
+  '4a2dbea8-950d-43c7-b334-2c31627afbc2': {
+    telegram_groups: ['eca0ddf986277544059c57ac87b50373'],
+  },
   telegrambot: {},
   '1e9058bf-26b1-4341-a694-bbbd5833c00e': {
     telegram_groups: ['eca0ddf986277544059c57ac87b50373'],
@@ -91,6 +97,7 @@ const webSocketServer = new WebSocketExpress(
   authentication_websocket,
 )
 webSocketServer.on('client_connection', (data) => {
+  // console.log(data);
   let deviceid = data.url.searchParams.get('device')
   if (data.url.pathname == '/ws/device' && deviceid) {
     listDeviceSockets[deviceid] = {
@@ -126,7 +133,7 @@ httpServer.listen(PORT, () => {
 })
 
 function authentication_websocket(request, socket, head, urlData) {
-  //console.log('Autenticación', urlData)
+  console.log('Autenticación', urlData)
   let isAuthenticated = false
   let deviceid = urlData.searchParams.get('device')
   if (urlData.pathname == '/ws/device' && deviceid) {
@@ -194,6 +201,7 @@ function onwsCommandDevice(message, client_data) {
 }
 
 function onwsRequestdevice(message, client_data) {
+  console.log(message)
   switch (message.request) {
     case 1000:
       if (
