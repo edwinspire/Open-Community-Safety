@@ -12,7 +12,7 @@ export const APPDATA = "C:\\Users\\edelacruz\\AppData\\Roaming";
 export const ChocolateyInstall = "C:\\ProgramData\\chocolatey";
 
 /** @type {import('$env/static/private').CHROME_CRASHPAD_PIPE_NAME} */
-export const CHROME_CRASHPAD_PIPE_NAME = "\\\\.\\pipe\\crashpad_21080_WVKHUSMYOAEPILVW";
+export const CHROME_CRASHPAD_PIPE_NAME = "\\\\.\\pipe\\crashpad_44580_TOWEHJMDDUDGUZDE";
 
 /** @type {import('$env/static/private').COLOR} */
 export const COLOR = "1";
@@ -72,7 +72,7 @@ export const HOSTNAME = "edelacruz-lp";
 export const INFOPATH = "C:\\Program Files\\Git\\usr\\local\\info;C:\\Program Files\\Git\\usr\\share\\info;C:\\Program Files\\Git\\usr\\info;C:\\Program Files\\Git\\share\\info";
 
 /** @type {import('$env/static/private').INIT_CWD} */
-export const INIT_CWD = "D:\\edwinspire\\proyectos\\Node\\Open-Community-Safety";
+export const INIT_CWD = "D:\\edwinspire\\proyectos\\Node\\ocs\\Open-Community-Safety";
 
 /** @type {import('$env/static/private').IWBPath} */
 export const IWBPath = "C:\\Program Files (x86)\\SAP\\FrontEnd\\iwb";
@@ -132,7 +132,7 @@ export const npm_config_global_prefix = "C:\\Users\\edelacruz\\AppData\\Roaming\
 export const npm_config_init_module = "C:\\Users\\edelacruz\\.npm-init.js";
 
 /** @type {import('$env/static/private').npm_config_local_prefix} */
-export const npm_config_local_prefix = "D:\\edwinspire\\proyectos\\Node\\Open-Community-Safety";
+export const npm_config_local_prefix = "D:\\edwinspire\\proyectos\\Node\\ocs\\Open-Community-Safety";
 
 /** @type {import('$env/static/private').npm_config_metrics_registry} */
 export const npm_config_metrics_registry = "https://registry.npmjs.org/";
@@ -165,7 +165,7 @@ export const npm_lifecycle_script = "vite build && node src/server.js";
 export const npm_node_execpath = "C:\\Program Files\\nodejs\\node.exe";
 
 /** @type {import('$env/static/private').npm_package_json} */
-export const npm_package_json = "D:\\edwinspire\\proyectos\\Node\\Open-Community-Safety\\package.json";
+export const npm_package_json = "D:\\edwinspire\\proyectos\\Node\\ocs\\Open-Community-Safety\\package.json";
 
 /** @type {import('$env/static/private').npm_package_name} */
 export const npm_package_name = "my-app";
@@ -195,7 +195,7 @@ export const ORIGINAL_XDG_CURRENT_DESKTOP = "undefined";
 export const OS = "Windows_NT";
 
 /** @type {import('$env/static/private').PATH} */
-export const PATH = "D:\\edwinspire\\proyectos\\Node\\Open-Community-Safety\\node_modules\\.bin;D:\\edwinspire\\proyectos\\Node\\node_modules\\.bin;D:\\edwinspire\\proyectos\\node_modules\\.bin;D:\\edwinspire\\node_modules\\.bin;D:\\node_modules\\.bin;C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\@npmcli\\run-script\\lib\\node-gyp-bin;C:\\Users\\edelacruz\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\edelacruz\\bin;C:\\Python310\\Scripts;C:\\Python310;C:\\Program Files (x86)\\VMware\\VMware Player\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn;C:\\Program Files\\Azure Data Studio\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\dotnet;C:\\Program Files\\PuTTY;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\ProgramData\\DockerDesktop\\version-bin;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn;C:\\Program Files\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn;C:\\Program Files\\TortoiseSVN\\bin;C:\\Users\\edelacruz\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\edelacruz\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\edelacruz\\.dotnet\\tools;C:\\Users\\edelacruz\\AppData\\Roaming\\npm;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl";
+export const PATH = "D:\\edwinspire\\proyectos\\Node\\ocs\\Open-Community-Safety\\node_modules\\.bin;D:\\edwinspire\\proyectos\\Node\\ocs\\node_modules\\.bin;D:\\edwinspire\\proyectos\\Node\\node_modules\\.bin;D:\\edwinspire\\proyectos\\node_modules\\.bin;D:\\edwinspire\\node_modules\\.bin;D:\\node_modules\\.bin;C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\@npmcli\\run-script\\lib\\node-gyp-bin;C:\\Users\\edelacruz\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\edelacruz\\bin;C:\\Python310\\Scripts;C:\\Python310;C:\\Program Files (x86)\\VMware\\VMware Player\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn;C:\\Program Files\\Azure Data Studio\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\dotnet;C:\\Program Files\\PuTTY;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\ProgramData\\DockerDesktop\\version-bin;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn;C:\\Program Files\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn;C:\\Program Files\\TortoiseSVN\\bin;C:\\Users\\edelacruz\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\edelacruz\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\edelacruz\\.dotnet\\tools;C:\\Users\\edelacruz\\AppData\\Roaming\\npm;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl";
 
 /** @type {import('$env/static/private').PATHEXT} */
 export const PATHEXT = ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW";
@@ -237,7 +237,10 @@ export const PSModulePath = "%ProgramFiles%\\WindowsPowerShell\\Modules;C:\\Wind
 export const PUBLIC = "C:\\Users\\Public";
 
 /** @type {import('$env/static/private').PWD} */
-export const PWD = "D:/edwinspire/proyectos/Node/Open-Community-Safety";
+export const PWD = "D:/edwinspire/proyectos/Node/ocs/Open-Community-Safety";
+
+/** @type {import('$env/static/private').SESSIONNAME} */
+export const SESSIONNAME = "Console";
 
 /** @type {import('$env/static/private').SHELL} */
 export const SHELL = "C:\\Program Files\\Git\\usr\\bin\\bash.exe";
@@ -270,7 +273,7 @@ export const TERM = "xterm-256color";
 export const TERM_PROGRAM = "vscode";
 
 /** @type {import('$env/static/private').TERM_PROGRAM_VERSION} */
-export const TERM_PROGRAM_VERSION = "1.69.2";
+export const TERM_PROGRAM_VERSION = "1.72.2";
 
 /** @type {import('$env/static/private').TMP} */
 export const TMP = "C:\\Users\\EDELAC~1\\AppData\\Local\\Temp";
@@ -306,7 +309,7 @@ export const VSCODE_GIT_ASKPASS_MAIN = "c:\\Users\\edelacruz\\AppData\\Local\\Pr
 export const VSCODE_GIT_ASKPASS_NODE = "C:\\Users\\edelacruz\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe";
 
 /** @type {import('$env/static/private').VSCODE_GIT_IPC_HANDLE} */
-export const VSCODE_GIT_IPC_HANDLE = "\\\\.\\pipe\\vscode-git-94ab2bbce2-sock";
+export const VSCODE_GIT_IPC_HANDLE = "\\\\.\\pipe\\vscode-git-413cd3a056-sock";
 
 /** @type {import('$env/static/private').WINDIR} */
 export const WINDIR = "C:\\Windows";

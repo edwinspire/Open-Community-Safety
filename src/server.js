@@ -23,7 +23,10 @@ var listAuthorizedDevices = {
   '624e8fdf-91bc-463d-bec9-44d8d0b74c0b': {},
   'e272dd45-e4c9-4344-bbfa-de73171f380b': {},
   '4a2dbea8-950d-43c7-b334-2c31627afbc2': {
-    telegram_groups: ['eca0ddf986277544059c57ac87b50373'],
+    telegram_groups: [
+      'eca0ddf986277544059c57ac87b50373',
+      '336136f24ce7c4ef042ddaf5c78a0597',
+    ],
   },
   telegrambot: {},
   '1e9058bf-26b1-4341-a694-bbbd5833c00e': {
@@ -209,7 +212,7 @@ function onwsRequestdevice(message, client_data) {
         '00a0aa00-aa00-0000-0000-000000000000'
       ) {
         client_data.socket.send(
-          JSON.stringify({ command: 1000, deviceid: crypto.randomUUID() }),
+          JSON.stringify({ command: 1000, deviceId: crypto.randomUUID() }),
         )
         setTimeout(() => {
           client_data.socket.terminate()
