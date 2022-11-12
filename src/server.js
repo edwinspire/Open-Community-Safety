@@ -20,6 +20,12 @@ var listAuthorizedDevices = {
     geox: 0,
     geoy: 0,
   },
+  '0426e015-3335-44f5-af06-3a5a8965cb28': {
+    telegram_groups: [
+      'eca0ddf986277544059c57ac87b50373',
+      '336136f24ce7c4ef042ddaf5c78a0597',
+    ],
+  },
   '624e8fdf-91bc-463d-bec9-44d8d0b74c0b': {},
   'e272dd45-e4c9-4344-bbfa-de73171f380b': {},
   '4a2dbea8-950d-43c7-b334-2c31627afbc2': {
@@ -82,7 +88,7 @@ function sendMessageToGroup(deviceid, message) {
 
   let device = listDeviceSockets[deviceid]
 
-  console.log('device ==> ', device)
+//  console.log('device ==> ', device.)
 
   if (device && device.device && device.device.telegram_groups) {
     device.device.telegram_groups.forEach((group) => {
@@ -173,7 +179,7 @@ function onMessageFromDevice(data) {
 }
 
 function onwsEventDevice(message, client_data) {
-  console.log('onwsEventDevice ===>>>')
+  console.log('onwsEventDevice ===>>>', message)
 
   switch (message.event) {
     case 'SZ': // Cambio de estado de la zona
@@ -186,11 +192,11 @@ function onwsEventDevice(message, client_data) {
               alarm_type: 1,
             },
             // uuid_group: '',
-            from_device: client_data.url.searchParams.get('device'),
+            from_device: message.deviceId,
           })
           sendMessageToGroup(
-            client_data.url.searchParams.get('device'),
-            'ALARMA DESDE PULSADOR FISICO',
+            message.deviceId,
+            'Alarma pulsador: ' + message.data.name,
           )
           break
       }
