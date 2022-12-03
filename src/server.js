@@ -10,7 +10,7 @@ import ocsdb from './lib/ocs/database/sequelize.js'
 import { device as devicedb } from './lib/ocs/database/models/devices.js'
 import { telegram_groups_devices as tgddb } from './lib/ocs/database/models/telegram_groups_devices.js'
 import { telegram_groups as tgdb } from './lib/ocs/database/models/telegram_groups.js'
-import { enum_input_type as input_type_db } from './lib/ocs/database/models/enum_input_types.js'
+import { enum_input_type as enum_input_type_db } from './lib/ocs/database/models/enum_input_types.js'
 
 //import sqlitedb from './lib/apirest/database/sequelize.js'
 //import { pruebas } from './lib/apirest/database/models/pruebas.js'
@@ -311,7 +311,7 @@ async function onwsEventDevice(message, client_data) {
 
         if (datadev && !datadev.error) {
           // Obtiene la etiqueta del tipo de entrada que genera la alarma
-          const datainputtype = await enum_input_type.findAll({
+          const datainputtype = await enum_input_type_db.findAll({
             where: { id: message.event.input.config.type },
           })
           let label_input = 'EMERGENCIA'
