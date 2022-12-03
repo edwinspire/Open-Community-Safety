@@ -12,7 +12,7 @@ export const APPDATA = "C:\\Users\\edelacruz\\AppData\\Roaming";
 export const ChocolateyInstall = "C:\\ProgramData\\chocolatey";
 
 /** @type {import('$env/static/private').CHROME_CRASHPAD_PIPE_NAME} */
-export const CHROME_CRASHPAD_PIPE_NAME = "\\\\.\\pipe\\crashpad_44580_TOWEHJMDDUDGUZDE";
+export const CHROME_CRASHPAD_PIPE_NAME = "\\\\.\\pipe\\crashpad_28344_OYYNUBEOVUHAEJTO";
 
 /** @type {import('$env/static/private').COLOR} */
 export const COLOR = "1";
@@ -84,7 +84,7 @@ export const LANG = "es_ES.UTF-8";
 export const LOCALAPPDATA = "C:\\Users\\edelacruz\\AppData\\Local";
 
 /** @type {import('$env/static/private').LOGONSERVER} */
-export const LOGONSERVER = "\\\\DCFARMA03";
+export const LOGONSERVER = "\\\\SRV-AD-USA";
 
 /** @type {import('$env/static/private').MANPATH} */
 export const MANPATH = "C:\\Program Files\\Git\\mingw64\\local\\man;C:\\Program Files\\Git\\mingw64\\share\\man;C:\\Program Files\\Git\\usr\\local\\man;C:\\Program Files\\Git\\usr\\share\\man;C:\\Program Files\\Git\\usr\\man;C:\\Program Files\\Git\\share\\man";
@@ -156,10 +156,10 @@ export const npm_config_user_agent = "npm/8.11.0 node/v16.16.0 win32 x64 workspa
 export const npm_execpath = "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js";
 
 /** @type {import('$env/static/private').npm_lifecycle_event} */
-export const npm_lifecycle_event = "start";
+export const npm_lifecycle_event = "build";
 
 /** @type {import('$env/static/private').npm_lifecycle_script} */
-export const npm_lifecycle_script = "vite build && node src/server.js";
+export const npm_lifecycle_script = "vite build";
 
 /** @type {import('$env/static/private').npm_node_execpath} */
 export const npm_node_execpath = "C:\\Program Files\\nodejs\\node.exe";
@@ -273,7 +273,7 @@ export const TERM = "xterm-256color";
 export const TERM_PROGRAM = "vscode";
 
 /** @type {import('$env/static/private').TERM_PROGRAM_VERSION} */
-export const TERM_PROGRAM_VERSION = "1.72.2";
+export const TERM_PROGRAM_VERSION = "1.73.1";
 
 /** @type {import('$env/static/private').TMP} */
 export const TMP = "C:\\Users\\EDELAC~1\\AppData\\Local\\Temp";
@@ -322,3 +322,15 @@ export const BOT_TOKEN = "1878582988:AAH3Q1j5LzAo8cEBXYtMEEEy4swosLq6SZ8";
 
 /** @type {import('$env/static/private').PORT} */
 export const PORT = "3000";
+
+/** @type {import('$env/static/private').DATABASE_URL_OCS} */
+export const DATABASE_URL_OCS = "postgresql://postgres:VdAOEdDYKDqTD4SdjGf0@containers-us-west-53.railway.app:5945/railway";
+
+/** @type {import('$env/static/private').DATABASE_URL_APIREST} */
+export const DATABASE_URL_APIREST = "sqlite://apirest.sqlite3/";
+
+/** @type {import('$env/static/private').JWT_PASSWORD} */
+export const JWT_PASSWORD = "tjhgvryti87j";
+
+/** @type {import('$env/static/private').BUILD_DB_ON_START} */
+export const BUILD_DB_ON_START = "false";

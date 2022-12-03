@@ -114,4 +114,8 @@ declare module '$env/static/private' {
 	export const _: string;
 	export const BOT_TOKEN: string;
 	export const PORT: string;
+	export const DATABASE_URL_OCS: string;
+	export const DATABASE_URL_APIREST: string;
+	export const JWT_PASSWORD: string;
+	export const BUILD_DB_ON_START: string;
 }
