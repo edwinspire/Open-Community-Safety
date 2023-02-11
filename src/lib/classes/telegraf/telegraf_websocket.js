@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { BOT_TOKEN, PORT, MQTT_BROKER, MQTT_PORT, MQTT_ROOT_TOPIC } = process.env
+const { BOT_TOKEN, PORT } = process.env
 import crypto from 'crypto'
 //console.log('BOT_TOKEN: ', BOT_TOKEN)
 import WebSocket from 'ws'
@@ -8,7 +8,7 @@ import { Telegraf, Markup } from 'telegraf'
 import { telegram_groups as tgdb } from '../../../lib/ocs/database/models/telegram_groups.js'
 import { device as devicedb } from '../../../lib/ocs/database/models/devices.js'
 import dbsequelize from '../../../lib/ocs/database/sequelize.js'
-import { QueryTypes } from 'sequelize';
+import { QueryTypes } from 'sequelize'
 import jwt from 'jsonwebtoken'
 
 const telegrambotref = 'ad509bae25bff24934ade98570462d7f' // uuid para poderse conectar al websocket
@@ -46,7 +46,7 @@ export class TelegrafOCS extends EventEmitter {
       try {
         // const data = await devicedb.findAll({ where: { uuid: r.deviceId } })
         const list_devices = await dbsequelize.query(
-          `SELECT dev.iddevice, dev.uuid, dev.chip_model, dev.latitude, dev.longitude, dev.iddevicestatus, dev.allow_activation_by_geolocation, tg.idtg
+          `SELECT dev.iddevice, dev.uuid, dev.name, dev.chip_model, dev.latitude, dev.longitude, dev.iddevicestatus, dev.allow_activation_by_geolocation, tg.idtg
        FROM public.devices dev
          INNER JOIN 
          telegram_groups_devices tg ON dev.uuid = tg.uuid
@@ -59,8 +59,20 @@ export class TelegrafOCS extends EventEmitter {
             },
           },
         )
-        console.log('Pasa ')
-        ctx.reply('devices: ' + JSON.stringify(list_devices))
+
+        if (
+          list_devices &&
+          Array.isArray(list_devices) &&
+          list_devices.length > 0
+        ) {
+          let lista_str = list_devices.map((d, index) => {
+            return `${index+1}) deviceId: ${d.uuid} - Name: ${d.name}`
+          })
+
+          ctx.reply('Devices:\n' + lista_str.join('\n'))
+        } else {
+          ctx.reply('No se encuentran dispositivos registrados en este grupo')
+        }
       } catch (error) {
         console.log('error: ', error)
         ctx.reply('devices: ' + JSON.stringify(error))

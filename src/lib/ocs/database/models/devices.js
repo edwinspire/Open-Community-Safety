@@ -10,6 +10,7 @@ export const device = dbsequelize.define(
     rowkey: { type: DataTypes.SMALLINT, defaultValue: 0 },
     uuid: { type: DataTypes.UUID, allowNull: false, unique: true },
     name: { type: DataTypes.TEXT },
+    last_connection: { type: DataTypes.DATE },
     chip_model: { type: DataTypes.TEXT },
     latitude: { type: DataTypes.DECIMAL, defaultValue: 0 },
     longitude: { type: DataTypes.DECIMAL, defaultValue: 0 },

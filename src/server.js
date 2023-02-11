@@ -15,14 +15,12 @@ import { enum_input_type as enum_input_type_db } from './lib/ocs/database/models
 //import sqlitedb from './lib/apirest/database/sequelize.js'
 //import { pruebas } from './lib/apirest/database/models/pruebas.js'
 
-
 import sequelize from 'sequelize'
 
 import jwt from 'jsonwebtoken'
 
 //import {DataBase} from './lib/ocs/apirest.js';
 //
-
 
 import crypto from 'crypto'
 
@@ -276,6 +274,7 @@ async function onwsResponseDevice(message, client_data) {
         if (datadev && !datadev.error) {
           let updev = await devicedb.update(
             {
+              last_connection: sequelize.fn('NOW'),
               latitude: message.data.latitude,
               longitude: message.data.longitude,
               chip_model: message.data.ChipModel,
@@ -333,7 +332,12 @@ async function onwsEventDevice(message, client_data) {
               CommunitySafetyBot.sendMessageToGroupFromUUID(
                 tg.idtg,
                 label_input + ': ' + message.event.input.config.name,
-              )
+              );
+              // Envia la señal a todos los dispositivos asociados al grupo
+              wsSendMessageToDevices({
+                message: { command: 1, siren_type: message.event.input.config.siren_type },
+                uuid_group: tg.idtg,
+              })
             })
           }
         }
