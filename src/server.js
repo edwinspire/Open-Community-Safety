@@ -9,7 +9,7 @@ import ocsdb from './lib/ocs/database/sequelize.js'
 //import './lib/ocs/database/models/devices_status.js'
 import { device as devicedb } from './lib/ocs/database/models/devices.js'
 import { telegram_groups_devices as tgddb } from './lib/ocs/database/models/telegram_groups_devices.js'
-import { telegram_groups as tgdb } from './lib/ocs/database/models/telegram_groups.js'
+//import { telegram_groups as tgdb } from './lib/ocs/database/models/telegram_groups.js'
 import { enum_input_type as enum_input_type_db } from './lib/ocs/database/models/enum_input_types.js'
 
 //import sqlitedb from './lib/apirest/database/sequelize.js'
@@ -119,6 +119,8 @@ async function wsSendMessageToDevices({ message, uuid_group, from_device }) {
   }
 }
 
+
+/*
 function sendMessageToGroup(deviceid, message) {
   console.log('sendMessageToGroup ==>> deviceid', deviceid)
 
@@ -132,6 +134,7 @@ function sendMessageToGroup(deviceid, message) {
     })
   }
 }
+*/
 
 const app = express()
 const httpServer = createServer(app)
@@ -143,13 +146,11 @@ const webSocketServer = new WebSocketExpress(
 )
 
 webSocketServer.on('client_connection', (data) => {
-  console.log('client_connection >> ')
-
   // Verificamos que el cliente sea un dispositivo
   if (data.url.pathname == '/ws/device') {
     // Obtenemos el iddevice
     let datadevice = decodeddevicedata(data.url.searchParams.get('deviceId'))
-
+    console.log('client_connection >> ', datadevice)
     if (!datadevice.error && datadevice.decoded.deviceId) {
       listDeviceSockets[datadevice.decoded.deviceId] = data.socket
     }
@@ -332,10 +333,13 @@ async function onwsEventDevice(message, client_data) {
               CommunitySafetyBot.sendMessageToGroupFromUUID(
                 tg.idtg,
                 label_input + ': ' + message.event.input.config.name,
-              );
+              )
               // Envia la señal a todos los dispositivos asociados al grupo
               wsSendMessageToDevices({
-                message: { command: 1, siren_type: message.event.input.config.siren_type },
+                message: {
+                  command: 1,
+                  siren_type: message.event.input.config.siren_type,
+                },
                 uuid_group: tg.idtg,
               })
             })
