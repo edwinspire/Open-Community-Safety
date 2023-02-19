@@ -113,7 +113,12 @@ async function wsSendMessageToDevices({ message, uuid_group, from_device }) {
     datatg.forEach((dev) => {
       console.log('dev.uuid ==>>> ', dev.uuid)
       if (listDeviceSockets[dev.uuid]) {
+
+        console.log("Socket isAlive ", listDeviceSockets[dev.uuid]);
+
         listDeviceSockets[dev.uuid].send(JSON.stringify(message))
+      } else {
+        console.log(dev.uuid + " no existe en la lista de sockets habilitados");
       }
     })
   }
@@ -158,8 +163,6 @@ webSocketServer.on('client_connection', (data) => {
 })
 
 webSocketServer.on('message', (data) => {
-  //console.log('Message', Date.now(), data.url)
-
   if (
     data.url.pathname.startsWith('/ws/device') &&
     data.url.searchParams.get('deviceId')
@@ -264,11 +267,11 @@ function onMessageFromDevice(data) {
 
 // Procesa la respuesta a un requerimiento realizado al dispositivo
 async function onwsResponseDevice(message, client_data) {
- // console.log('onwsResponseDevice ===>>>', message)
+  // console.log('onwsResponseDevice ===>>>', message)
 
   switch (message.response) {
     case 1000: // Responde a solicitud de datos de configuración
-    //  console.log('Datos de configuración del dispositivo', message.data)
+      //  console.log('Datos de configuración del dispositivo', message.data)
 
       try {
         let datadev = decodeddevicedata(message.data.deviceId)
