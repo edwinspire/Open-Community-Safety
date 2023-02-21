@@ -114,7 +114,7 @@ async function wsSendMessageToDevices({ message, uuid_group, from_device }) {
       console.log('dev.uuid ==>>> ', dev.uuid)
       if (listDeviceSockets[dev.uuid]) {
 
-        console.log("Socket isAlive ", listDeviceSockets[dev.uuid]);
+      //  console.log("Socket isAlive ", listDeviceSockets[dev.uuid]);
 
         listDeviceSockets[dev.uuid].send(JSON.stringify(message))
       } else {
@@ -158,6 +158,8 @@ webSocketServer.on('client_connection', (data) => {
     console.log('client_connection >> ', datadevice)
     if (!datadevice.error && datadevice.decoded.deviceId) {
       listDeviceSockets[datadevice.decoded.deviceId] = data.socket
+    }else{
+      console.log("Cliente no reconocido ", datadevice);
     }
   }
 })
@@ -274,7 +276,10 @@ async function onwsResponseDevice(message, client_data) {
       //  console.log('Datos de configuración del dispositivo', message.data)
 
       try {
-        let datadev = decodeddevicedata(message.data.deviceId)
+        let datadev = decodeddevicedata(message.data.deviceId);
+
+        console.log("onwsResponseDevice", datadev);
+
         if (datadev && !datadev.error) {
           let updev = await devicedb.update(
             {
@@ -357,7 +362,7 @@ async function onwsEventDevice(message, client_data) {
 }
 
 function onwsCommandDevice(message, client_data) {
-  console.log('******* onwsCommandDevice - NO IMPEMENTADO *******')
+  console.log('******* onwsCommandDevice - NO IMPEMENTADO *******', message)
 }
 
 function createDeviceToken(deviceId) {
