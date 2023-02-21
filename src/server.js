@@ -269,7 +269,7 @@ function onMessageFromDevice(data) {
 
 // Procesa la respuesta a un requerimiento realizado al dispositivo
 async function onwsResponseDevice(message, client_data) {
-  // console.log('onwsResponseDevice ===>>>', message)
+   console.log('onwsResponseDevice (1) ', message)
 
   switch (message.response) {
     case 1000: // Responde a solicitud de datos de configuración
@@ -278,7 +278,7 @@ async function onwsResponseDevice(message, client_data) {
       try {
         let datadev = decodeddevicedata(message.data.deviceId);
 
-        console.log("onwsResponseDevice", datadev);
+        console.log("onwsResponseDevice (2) ", datadev);
 
         if (datadev && !datadev.error) {
           let updev = await devicedb.update(
