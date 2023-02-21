@@ -276,7 +276,9 @@ async function onwsResponseDevice(message, client_data) {
       //  console.log('Datos de configuración del dispositivo', message.data)
 
       try {
-        let datadev = decodeddevicedata(message.data.deviceId);
+//        let datadev = decodeddevicedata(message.data.deviceId);
+
+        let datadev = decodeddevicedata(message.data.info.deviceId); // Para la última versión
 
         console.log("onwsResponseDevice (2) ", datadev);
 
