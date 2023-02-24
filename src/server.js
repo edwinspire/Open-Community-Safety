@@ -113,17 +113,15 @@ async function wsSendMessageToDevices({ message, uuid_group, from_device }) {
     datatg.forEach((dev) => {
       console.log('dev.uuid ==>>> ', dev.uuid)
       if (listDeviceSockets[dev.uuid]) {
-
-      //  console.log("Socket isAlive ", listDeviceSockets[dev.uuid]);
+        //  console.log("Socket isAlive ", listDeviceSockets[dev.uuid]);
 
         listDeviceSockets[dev.uuid].send(JSON.stringify(message))
       } else {
-        console.log(dev.uuid + " no existe en la lista de sockets habilitados");
+        console.log(dev.uuid + ' no existe en la lista de sockets habilitados')
       }
     })
   }
 }
-
 
 /*
 function sendMessageToGroup(deviceid, message) {
@@ -158,8 +156,8 @@ webSocketServer.on('client_connection', (data) => {
     console.log('client_connection >> ', datadevice)
     if (!datadevice.error && datadevice.decoded.deviceId) {
       listDeviceSockets[datadevice.decoded.deviceId] = data.socket
-    }else{
-      console.log("Cliente no reconocido ", datadevice);
+    } else {
+      console.log('Cliente no reconocido ', datadevice)
     }
   }
 })
@@ -269,18 +267,18 @@ function onMessageFromDevice(data) {
 
 // Procesa la respuesta a un requerimiento realizado al dispositivo
 async function onwsResponseDevice(message, client_data) {
-   console.log('onwsResponseDevice (1) ', message)
+  console.log('onwsResponseDevice (1) ', message)
 
   switch (message.response) {
     case 1000: // Responde a solicitud de datos de configuración
       //  console.log('Datos de configuración del dispositivo', message.data)
 
       try {
-//        let datadev = decodeddevicedata(message.data.deviceId);
+        //        let datadev = decodeddevicedata(message.data.deviceId);
 
-        let datadev = decodeddevicedata(message.data.info.deviceId); // Para la última versión
+        let datadev = decodeddevicedata(message.data.info.deviceId) // Para la última versión
 
-        console.log("onwsResponseDevice (2) ", datadev);
+        console.log('onwsResponseDevice (2) ', datadev)
 
         if (datadev && !datadev.error) {
           let updev = await devicedb.update(
@@ -300,6 +298,19 @@ async function onwsResponseDevice(message, client_data) {
             },
           )
           console.log(updev)
+          // Se envía notificación a los grupos de Telegram indicando que el dispositivo se ha conectado
+          const datatg = await tgddb.findAll({
+            where: { uuid: datadev.decoded.deviceId },
+          })
+
+          if (datatg && Array.isArray(datatg)) {
+            datatg.forEach((tg) => {
+              CommunitySafetyBot.sendMessageToGroupFromUUID(
+                tg.idtg,
+                'Dispositivo conectado: ' + message.data.name,
+              )
+            })
+          }
         }
       } catch (error) {
         console.trace(error)
