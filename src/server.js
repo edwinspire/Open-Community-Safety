@@ -278,7 +278,7 @@ async function onwsResponseDevice(message, client_data) {
 
         let datadev = decodeddevicedata(message.data.info.deviceId) // Para la última versión
 
-        console.log('onwsResponseDevice (2) ', datadev)
+        console.log('onwsResponseDevice (2) ', message.data)
 
         if (datadev && !datadev.error) {
           let updev = await devicedb.update(
@@ -287,7 +287,7 @@ async function onwsResponseDevice(message, client_data) {
               latitude: message.data.latitude,
               longitude: message.data.longitude,
               chip_model: message.data.ChipModel,
-              name: message.data.name,
+              name: message.data.info.name,
               allow_activation_by_geolocation: message.data.acbgl,
               ts: sequelize.fn('NOW'),
             },
@@ -307,7 +307,7 @@ async function onwsResponseDevice(message, client_data) {
             datatg.forEach((tg) => {
               CommunitySafetyBot.sendMessageToGroupFromUUID(
                 tg.idtg,
-                'Dispositivo conectado: ' + message.data.name,
+                'Dispositivo conectado: ' + message.data.info.name,
               )
             })
           }
