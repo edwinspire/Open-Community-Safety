@@ -284,11 +284,11 @@ async function onwsResponseDevice(message, client_data) {
           let updev = await devicedb.update(
             {
               last_connection: sequelize.fn('NOW'),
-              latitude: message.data.latitude,
-              longitude: message.data.longitude,
-              chip_model: message.data.ChipModel,
+              latitude: message.data.geo.latitude,
+              longitude: message.data.geo.longitude,
+              chip_model: message.data.info.ChipModel,
               name: message.data.info.name,
-              allow_activation_by_geolocation: message.data.acbgl,
+              allow_activation_by_geolocation: message.data.geo.acbgl,
               ts: sequelize.fn('NOW'),
             },
             {
