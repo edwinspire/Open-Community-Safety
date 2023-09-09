@@ -1,8 +1,10 @@
 import { DataTypes, NOW } from 'sequelize'
 import dbsequelize from '../sequelize.js'
+import { tbl_with_prefix } from "./utils.js";
+
 
 export const enum_input_type = dbsequelize.define(
-  'enum_input_types',
+  tbl_with_prefix( 'enum_input_types'),
   {
     id: {
       type: DataTypes.INTEGER,

@@ -2,9 +2,10 @@ import { DataTypes, NOW } from 'sequelize'
 import dbsequelize from '../sequelize.js'
 import { device } from './devices.js'
 import { telegram_groups } from './telegram_groups.js'
+import { tbl_with_prefix } from "./utils.js";
 
 export const telegram_groups_devices = dbsequelize.define(
-  'telegram_groups_devices',
+  tbl_with_prefix( 'telegram_groups_devices'),
   {
     idtgd: {
       type: DataTypes.BIGINT,

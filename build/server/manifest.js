@@ -1,57 +1,36 @@
-export const manifest = {
+const manifest = (() => {
+function __memo(fn) {
+	let value;
+	return () => value ??= (value = fn());
+}
+
+return {
 	appDir: "_app",
-	assets: new Set(["css/bulma/bulma-rtl.css","css/bulma/bulma-rtl.css.map","css/bulma/bulma-rtl.min.css","css/bulma/bulma.css","css/bulma/bulma.css.map","css/bulma/bulma.min.css","css/fontawesome/css/all.css","css/fontawesome/css/all.min.css","css/fontawesome/css/brands.css","css/fontawesome/css/brands.min.css","css/fontawesome/css/fontawesome.css","css/fontawesome/css/fontawesome.min.css","css/fontawesome/css/regular.css","css/fontawesome/css/regular.min.css","css/fontawesome/css/solid.css","css/fontawesome/css/solid.min.css","css/fontawesome/css/svg-with-js.css","css/fontawesome/css/svg-with-js.min.css","css/fontawesome/css/v4-font-face.css","css/fontawesome/css/v4-font-face.min.css","css/fontawesome/css/v4-shims.css","css/fontawesome/css/v4-shims.min.css","css/fontawesome/css/v5-font-face.css","css/fontawesome/css/v5-font-face.min.css","css/fontawesome/webfonts/fa-brands-400.ttf","css/fontawesome/webfonts/fa-brands-400.woff2","css/fontawesome/webfonts/fa-regular-400.ttf","css/fontawesome/webfonts/fa-regular-400.woff2","css/fontawesome/webfonts/fa-solid-900.ttf","css/fontawesome/webfonts/fa-solid-900.woff2","css/fontawesome/webfonts/fa-v4compatibility.ttf","css/fontawesome/webfonts/fa-v4compatibility.woff2","favicon.png","robots.txt","svelte-welcome.png","svelte-welcome.webp"]),
-	mimeTypes: {".css":"text/css",".map":"application/json",".ttf":"font/ttf",".woff2":"font/woff2",".png":"image/png",".txt":"text/plain",".webp":"image/webp"},
+	appPath: "_app",
+	assets: new Set(["favicon.png"]),
+	mimeTypes: {".png":"image/png"},
 	_: {
-		entry: {"file":"_app/immutable/start-4b545446.js","imports":["_app/immutable/start-4b545446.js","_app/immutable/chunks/index-b1fe9a41.js","_app/immutable/chunks/index-4fdc4e88.js","_app/immutable/chunks/singletons-eca981c1.js"],"stylesheets":[]},
+		client: {"start":"_app/immutable/entry/start.2c96b4c3.js","app":"_app/immutable/entry/app.fd4ac08f.js","imports":["_app/immutable/entry/start.2c96b4c3.js","_app/immutable/chunks/scheduler.5efc86c8.js","_app/immutable/chunks/singletons.8681aba2.js","_app/immutable/chunks/index.a2bd2d17.js","_app/immutable/entry/app.fd4ac08f.js","_app/immutable/chunks/scheduler.5efc86c8.js","_app/immutable/chunks/index.601d3939.js"],"stylesheets":[],"fonts":[]},
 		nodes: [
-			() => import('./nodes/0.js'),
-			() => import('./nodes/1.js'),
-			() => import('./nodes/3.js'),
-			() => import('./nodes/2.js'),
-			() => import('./nodes/4.js')
+			__memo(() => import('./chunks/0-ced74eb6.js')),
+			__memo(() => import('./chunks/1-f07b029e.js')),
+			__memo(() => import('./chunks/2-5447f5c8.js')),
+			__memo(() => import('./chunks/3-8727f680.js'))
 		],
 		routes: [
 			{
-				type: 'page',
-				id: "",
+				id: "/",
 				pattern: /^\/$/,
-				names: [],
-				types: [],
-				path: "/",
-				shadow: null,
-				a: [0,2],
-				b: [1]
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 2 },
+				endpoint: null
 			},
 			{
-				type: 'page',
-				id: "about",
-				pattern: /^\/about\/?$/,
-				names: [],
-				types: [],
-				path: "/about",
-				shadow: null,
-				a: [0,3],
-				b: [1]
-			},
-			{
-				type: 'page',
-				id: "todos",
-				pattern: /^\/todos\/?$/,
-				names: [],
-				types: [],
-				path: "/todos",
-				shadow: () => import('./entries/endpoints/todos/index.ts.js'),
-				a: [0,4],
-				b: [1]
-			},
-			{
-				type: 'endpoint',
-				id: "apirest/[environment]/[app]/[route]/[version]",
-				pattern: /^\/apirest\/([^/]+?)\/([^/]+?)\/([^/]+?)\/([^/]+?)\/?$/,
-				names: ["environment","app","route","version"],
-				types: [null,null,null,null],
-				load: () => import('./entries/endpoints/apirest/_environment_/_app_/_route_/_version_.js')
+				id: "/apiserver",
+				pattern: /^\/apiserver\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 3 },
+				endpoint: null
 			}
 		],
 		matchers: async () => {
@@ -59,4 +38,10 @@ export const manifest = {
 			return {  };
 		}
 	}
-};
+}
+})();
+
+const prerendered = new Set([]);
+
+export { manifest, prerendered };
+//# sourceMappingURL=manifest.js.map

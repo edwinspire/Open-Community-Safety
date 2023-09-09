@@ -1,8 +1,10 @@
 import { DataTypes, NOW } from 'sequelize'
 import dbsequelize from '../sequelize.js'
+import { tbl_with_prefix } from "./utils.js";
+
 
 export const enum_devices_status = dbsequelize.define(
-  'enum_devices_status',
+  tbl_with_prefix( 'enum_devices_status'),
   {
     iddevicestatus: {
       type: DataTypes.BIGINT,
