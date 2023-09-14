@@ -9,7 +9,6 @@ export const telegram_groups = dbsequelize.define(
       type: DataTypes.UUID,
       primaryKey: true, allowNull: false
     },
-    ts: { type: DataTypes.DATE, defaultValue: NOW },
     rowkey: { type: DataTypes.SMALLINT, defaultValue: 0 },
     enabled: { type: DataTypes.BOOLEAN, defaultValue: true },
     group: { type: DataTypes.BIGINT, unique: true, allowNull: false },
