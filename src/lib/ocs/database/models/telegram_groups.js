@@ -18,7 +18,6 @@ export const telegram_groups = dbsequelize.define(
     allow_community_use: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: true }
   },
   {
-    freezeTableName: true,
-    timestamps: false
+    freezeTableName: true
   },
 )

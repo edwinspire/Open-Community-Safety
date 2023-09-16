@@ -17,7 +17,6 @@ export const enum_devices_status = dbsequelize.define(
     description: { type: DataTypes.TEXT, allowNull: true },
   },
   {
-    freezeTableName: true,
-    timestamps: false
+    freezeTableName: true
   },
 )

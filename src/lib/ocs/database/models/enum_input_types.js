@@ -16,7 +16,6 @@ export const enum_input_type = dbsequelize.define(
     description: { type: DataTypes.TEXT, allowNull: true },
   },
   {
-    freezeTableName: true,
-    timestamps: false
+    freezeTableName: true
   },
 )

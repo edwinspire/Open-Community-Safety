@@ -6,7 +6,7 @@ import { tbl_with_prefix } from "./utils.js";
 export const device = dbsequelize.define(
   tbl_with_prefix('devices'),
   {
-    uuid: { type: DataTypes.UUID, allowNull: false, unique: true, primaryKey: true },
+    device_id: { type: DataTypes.UUID, allowNull: false, unique: true, primaryKey: true },
     rowkey: { type: DataTypes.SMALLINT, defaultValue: 0 },
     name: { type: DataTypes.TEXT },
     last_connection: { type: DataTypes.DATE },

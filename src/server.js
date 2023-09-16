@@ -2,12 +2,14 @@ import { handler } from "../build/handler.js";
 import { ServerAPI } from "@edwinspire/libapiserver";
 import ocsdb from "./lib/ocs/database/sequelize.js";
 import { device as devicedb } from "./lib/ocs/database/models/devices.js";
-import { local_host_root, app_name } from "./lib/ocs/utils.js";
+import { telegram_groups_devices } from "./lib/ocs/database/models/telegram_groups_devices.js";
+import { app_name } from "./lib/ocs/utils.js";
 import { fn_upsertDevice, processCMD, processRequest } from "./lib/ocs/fn/device.js";
 import { fn_upsertTelegramGroup } from "./lib/ocs/fn/telegram_groups.js";
+import { fn_upsertTelegramGroupDevices } from "./lib/ocs/fn/telegram_groups_devices.js";
 import { TelegrafOCS } from './lib/ocs/telegraf.js'
 
-const { BUILD_DB_ON_START, OCS_URL_WS_DEVICE, OCS_URL_ADMIN_DEVICE } =
+const { BUILD_DB_ON_START, OCS_URL_WS_DEVICE } =
 	process.env;
 
 try {
@@ -25,6 +27,7 @@ try {
 		);
 	}
 
+	// Escucha los mensajes solo de la url indicada 
 	server.on(`ws/msg${OCS_URL_WS_DEVICE}`, async (e) => {
 
 		if (e.request.url == OCS_URL_WS_DEVICE) {
@@ -60,6 +63,7 @@ try {
 
 	server.appendAppFunction(app_name, "UpsertDevice", fn_upsertDevice);
 	server.appendAppFunction(app_name, "UpsertTelegramGroup", fn_upsertTelegramGroup);
+	server.appendAppFunction(app_name, "UpsertTelegramGroupDevices", fn_upsertTelegramGroupDevices);
 
 
 	let CommunitySafetyBot = new TelegrafOCS()

@@ -51,7 +51,7 @@ export async function processRequest(data, e, clients) {
         );
 
         let respF = await uFetch.post(local_host_root(OCS_URL_ADMIN_DEVICE), {
-          uuid: data_values.deviceId,
+          device_id: data_values.deviceId,
           name: data_values.name,
           last_connection: Date.now(),
           chip: data_values.chip,

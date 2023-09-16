@@ -13,27 +13,25 @@ export const telegram_groups_devices = dbsequelize.define(
       allowNull: false,
       autoIncrement: true,
     },
-    ts: { type: DataTypes.DATE, defaultValue: NOW },
     rowkey: { type: DataTypes.SMALLINT, defaultValue: 0 },
     enabled: { type: DataTypes.BOOLEAN, defaultValue: true },
     idtg: { type: DataTypes.UUID, allowNull: false },
-    uuid: { type: DataTypes.UUID, allowNull: false },
+    device_id: { type: DataTypes.UUID, allowNull: false },
   },
   {
     freezeTableName: true,
-    timestamps: false,
     indexes: [
       {
         unique: true,
-        fields: ['idtg', 'uuid'],
+        fields: ['idtg', 'device_id'],
       },
     ],
   },
 )
 
 device.hasMany(telegram_groups_devices, {
-  foreignKey: 'uuid',
-  sourceKey: 'uuid',
+  foreignKey: 'device_id',
+  sourceKey: 'device_id',
 })
 
 telegram_groups.hasMany(telegram_groups_devices, {
