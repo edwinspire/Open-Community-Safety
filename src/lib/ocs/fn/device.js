@@ -1,7 +1,10 @@
 import { upsertDevice } from "../../ocs/database/api/device.js";
+import { device } from "../../ocs/database/models/devices.js";
+import { telegram_groups_devices } from "../../ocs/database/models/telegram_groups_devices.js";
+
 import { v4 as uuidv4 } from "uuid";
 import uF from "@edwinspire/universal-fetch";
-import { local_host_root, app_name } from "../../ocs/utils.js";
+import { local_host_root, fetchOCS } from "../../ocs/utils.js";
 //"./lib/ocs/utils.js";
 
 const { OCS_URL_WS_DEVICE, OCS_URL_ADMIN_DEVICE } = process.env;
@@ -22,7 +25,7 @@ export const fn_upsertDevice = async (
 };
 
 /**
- * @param {{ data: any; req: any; deviceId: string; }} data
+ * @param {{ data: any; req: any; device_id: string; }} data
  * @param {{ ws: { send: (arg0: string) => void; APIServer: { authorization: { username: any; password: any; }; }; }; }} e
  * @param {any[]} clients
  */
@@ -31,19 +34,19 @@ export async function processRequest(data, e, clients) {
 
   let data_values = data.data;
 
-  //console.log(">>>>> data_values", data_values);
+  console.log("processRequest >>>>> data_values", data);
 
   switch (data.req) {
-    case 1000:
+    case 1:
       // Registra dispositivo
-      if (data.deviceId == "00a0aa00-aa00-0000-0000-000000000000") {
+      if (data_values.device_id == "00a0aa00-aa00-0000-0000-000000000000") {
         // Si tiene el valor por default se le envía uno nuevo
         console.log("Default id -  se devuelve un nuevo id");
 
-        e.ws.send(JSON.stringify({ cmd: 1000, deviceId: uuidv4() }));
-      } else if (data_values && data_values.deviceId) {
+        e.ws.send(JSON.stringify({ cmd: 1, device_id: uuidv4() }));
+      } else if (data_values && data_values.device_id) {
         // Tiene ya un id asignado, se registra el dispositivo
-        console.log("Registrar dispositivo", e.ws);
+        console.log("Registrar dispositivo", data_values);
 
         uFetch.setBasicAuthorization(
           e.ws.APIServer.authorization.username,
@@ -51,22 +54,22 @@ export async function processRequest(data, e, clients) {
         );
 
         let respF = await uFetch.post(local_host_root(OCS_URL_ADMIN_DEVICE), {
-          device_id: data_values.deviceId,
+          device_id: data_values.device_id,
           name: data_values.name,
           last_connection: Date.now(),
           chip: data_values.chip,
           chip_model: data_values.chip_model,
           chip_version: data_values.chip_version,
-          latitude: data_values.lat,
-          longitude: data_values.lon,
-          allow_activation_by_geolocation: data_values.acbgl,
+          //         latitude: data_values.lat,
+          //         longitude: data_values.lon,
+          //         allow_activation_by_geolocation: data_values.acbgl,
         });
 
         clients.forEach((c) => {
           if (c.ocs) {
-            c.ocs.deviceId = data_values.deviceId;
+            c.ocs.device_id = data_values.device_id;
           } else {
-            c.ocs = { deviceId: data_values.deviceId };
+            c.ocs = { device_id: data_values.device_id };
           }
           //  console.log('>>> forEach ' , c.ocs);
         });
@@ -82,42 +85,121 @@ export async function processRequest(data, e, clients) {
 }
 
 /**
- * @param {{ cmd: any; deviceId: any; req: any; }} data
- * @param {any} e
- * @param {any} clients
+ * @param {{ send: (arg0: string) => void; }} WebSocketClient
+ * @param {number} command
+ * @param {any} data
  */
-export async function processCMD(data, e, clients) {
-  const uFetch = new uF();
+function sendCommandWebsocket(command, data, WebSocketClient) {
+  WebSocketClient.send(JSON.stringify({ cmd: command, data: data }));
+}
 
-  //console.log(e.ws);
+/**
+ * @param {any} id_group
+ */
+async function getListDevicesByGroup(id_group) {
+  let list_group = [];
 
-  clients.forEach(
-    (
-      /** @type {{ ocs: { deviceId: any; }; send: (arg0: string) => void; }} */ c
-    ) => {
-      //  console.log(">>>>>>>>>>>>>>>->>>>>>>>>> forEach", c);
+  try {
+    // Obtiene la lista de dispositivos asociados a ese grupo
+    let resp_tgd = await fetchOCS(OCS_URL_ADMIN_DEVICE).get("", {
+      id_group: id_group,
+    });
 
-      switch (data.cmd) {
-        case 1: // Trigger alarm
-          if (data.deviceId) {
-            console.log("CMD", data.deviceId);
+    // Lista de grupos
+    list_group = await resp_tgd.json();
 
-            if (c.ocs && data.deviceId == c.ocs.deviceId) {
-              //  console.log(">> Se envia el comando al dispositivo");
-              c.send(JSON.stringify({ cmd: data.cmd }));
-              break;
-            }
-          } else {
-            // Aqui obtener la lista de dispositivos que pertenecen al grupo para enviar el comando
-            console.log("Se debe enviar el comando a todos los dispositivos");
+console.log('getListDevicesByGroup >> ', id_group, list_group);
+
+  } catch (error) {
+    console.trace(error);
+  }
+
+  return list_group;
+}
+
+
+/**
+ * @param {{ id_group: any; cmd: any; device_id: any; req?: undefined; data?: any; }} data
+ * @param {{ ocs: { device_id: any; }; send: (arg0: string) => void; }[]} clients
+ * @param {import("ws")[]} e
+ */
+export async function processCMD(data, clients, e) {
+
+  /**
+   * @type {{ device_id: any; }[]}
+   */
+  let device_by_groups = [];
+
+  if (data.id_group) {
+    // Obtener la lista de dispositivos del grupo
+    device_by_groups = await getListDevicesByGroup(data.id_group);
+  }
+
+//  console.log("processCMD >>>> ", data, e, clients);
+
+  if (data.cmd) {
+
+    clients.forEach(
+      (
+      /** @type {{ ocs: { device_id: any; }; send: (arg0: string) => void; }} */ c
+      ) => {
+
+        if (data.device_id) {
+
+          if (c.ocs && data.device_id == c.ocs.device_id) {
+            sendCommandWebsocket(data.cmd, data.data, c);
+            return;
           }
 
-          break;
+        } else if (data.id_group) {
+          // Commando para el grupo
 
-        default:
-          console.log("No es mil", data.req);
-          break;
+          device_by_groups.forEach((/** @type {{ device_id: any; }} */ g) => {
+
+            if (g.device_id = c.ocs.device_id) {
+              sendCommandWebsocket(data.cmd, data.data, c);
+            }
+
+          });
+
+        } else {
+          console.log('Comando no tiene destino');
+        }
+
       }
-    }
-  );
+    );
+
+
+  } else {
+    console.log('Data no tiene comando.');
+  }
+
 }
+
+export const fn_getDeviceAndGroupByIdGroup = async (
+  /** @type {any} */ req,
+  /** @type {{ status: (arg0: number) => { (): any; new (): any; json: { (arg0: import("sequelize").Model<any, any>[]): void; new (): any; }; }; }} */ res,
+  /** @type {any} */ data
+) => {
+  try {
+    let datar = await device.findAll({
+      include: [
+        {
+          model: telegram_groups_devices,
+          required: true, // Cambia a false si deseas un LEFT JOIN en lugar de un INNER JOIN
+          where: {
+            idtg: data.id_group, // Filtra por el valor deseado de idevice_id
+          },
+        },
+      ],
+      raw: true,
+    });
+
+    console.log("----> fn_getDeviceAndGroup", datar);
+
+    res.status(200).json(datar);
+  } catch (error) {
+    // @ts-ignore
+    res.status(500).json({ error: error.message });
+  }
+};

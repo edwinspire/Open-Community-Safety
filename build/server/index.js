@@ -162,7 +162,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "f0pes6"
+  version_hash: "1f3x305"
 };
 function get_hooks() {
   return {};
@@ -1313,6 +1313,7 @@ class ActionFailure {
 function exec(match, params, matchers) {
   const result = {};
   const values = match.slice(1);
+  const values_needing_match = values.filter((value) => value !== void 0);
   let buffered = 0;
   for (let i = 0; i < params.length; i += 1) {
     const param = params[i];
@@ -1331,6 +1332,9 @@ function exec(match, params, matchers) {
       const next_param = params[i + 1];
       const next_value = values[i + 1];
       if (next_param && !next_param.rest && next_param.optional && next_value && param.chained) {
+        buffered = 0;
+      }
+      if (!next_param && !next_value && Object.keys(result).length === values_needing_match.length) {
         buffered = 0;
       }
       continue;
@@ -1479,8 +1483,8 @@ async function render_endpoint(event, mod, state) {
     /** @type {import('types').HttpMethod} */
     event.request.method
   );
-  let handler = mod[method];
-  if (!handler && method === "HEAD") {
+  let handler = mod[method] || mod.fallback;
+  if (method === "HEAD" && mod.GET && !mod.HEAD) {
     handler = mod.GET;
   }
   if (!handler) {
@@ -1593,6 +1597,7 @@ function make_trackable(url, callback) {
   return tracked;
 }
 function disable_hash(url) {
+  allow_nodejs_console_log(url);
   Object.defineProperty(url, "hash", {
     get() {
       throw new Error(
@@ -1602,12 +1607,20 @@ function disable_hash(url) {
   });
 }
 function disable_search(url) {
+  allow_nodejs_console_log(url);
   for (const property of ["search", "searchParams"]) {
     Object.defineProperty(url, property, {
       get() {
         throw new Error(`Cannot access url.${property} on a page with prerendering enabled`);
       }
     });
+  }
+}
+function allow_nodejs_console_log(url) {
+  {
+    url[Symbol.for("nodejs.util.inspect.custom")] = (depth, opts, inspect) => {
+      return inspect(new URL(url), opts);
+    };
   }
 }
 const DATA_SUFFIX = "/__data.json";
@@ -2896,6 +2909,14 @@ async function respond_with_error({
   error: error2,
   resolve_opts
 }) {
+  if (event.request.headers.get("x-sveltekit-error")) {
+    return static_error_page(
+      options2,
+      status,
+      /** @type {Error} */
+      error2.message
+    );
+  }
   const fetched = [];
   try {
     const branch = [];
@@ -3952,6 +3973,13 @@ async function respond(request, options2, manifest, state) {
           }
         }
         return response;
+      }
+      if (state.error && event2.isSubRequest) {
+        return await fetch(request, {
+          headers: {
+            "x-sveltekit-error": "true"
+          }
+        });
       }
       if (state.error) {
         return text("Internal Server Error", {

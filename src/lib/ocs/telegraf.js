@@ -153,28 +153,33 @@ export class TelegrafOCS extends EventEmitter {
 
     this.bot.hears(textEmergency, async (ctx) => {
       this.sendEvent(ctx, "EMERGENCIA", {
-        event: "set_alarm",
-        data: { siren_type: 2 },
+        cmd: 2,
+        data: {
+          lowtime: 1000,
+          hightime: 1000 * 120,
+          totaltime: 1000 * 120,
+        },
       });
     });
     this.bot.hears(textwarning, (ctx) => {
       this.sendEvent(ctx, "ADVERTENCIA", {
-        event: "set_alarm",
-        data: { siren_type: 3 },
+        cmd: 2,
+        data: { lowtime: 4000, hightime: 3000, totaltime: 1000 * 60 * 20 },
       });
     });
 
     this.bot.hears(textTest, (ctx) => {
       console.log(textTest);
       this.sendEvent(ctx, "PRUEBA", {
-        event: "set_alarm",
-        data: { siren_type: 4 },
+        cmd: 2,
+        data: { lowtime: 800, hightime: 800, totaltime: 3500 },
       });
     });
+
     this.bot.hears(textTurnoff, (ctx) => {
       this.sendEvent(ctx, "APAGAR", {
-        event: "set_alarm",
-        data: { siren_type: 0 },
+        cmd: 2,
+        data: { lowtime: 1, hightime: 1, totaltime: 0 },
       });
     });
 
@@ -301,8 +306,8 @@ export class TelegrafOCS extends EventEmitter {
             if (data_resp && data_resp.idtg) {
               ctx.reply(
                 data_resp.name +
-                " se encuentra registrado. ID: " +
-                data_resp.idtg
+                  " se encuentra registrado. ID: " +
+                  data_resp.idtg
               );
             } else {
               ctx.reply("No se pudo registrar en este momento.");
@@ -365,11 +370,11 @@ export class TelegrafOCS extends EventEmitter {
               data_dev_group
             );
             let data_resp = await resp_tgd.json();
-            console.log(">>> Data registro ", data_dev_group, data_resp);
+            //console.log(">>> Data registro ", data_dev_group, data_resp);
             if (data_resp && data_resp.idtg) {
               let allow_activation_by_geolocation =
                 ctx.session.wizard.allow_activation_by_geolocation.toUpperCase() ==
-                  "SI"
+                "SI"
                   ? true
                   : false;
 
@@ -388,14 +393,10 @@ export class TelegrafOCS extends EventEmitter {
               );
               data_resp = await resp_dev.json();
 
-              console.log("RESP DEV >>>>>", data_resp);
+              //console.log("RESP DEV >>>>>", data_resp);
 
               ctx.reply(
-                "El dispositivo ID: " +
-                data_resp.device_id
-                +
-                " se encuentra registrado en el grupo: " +
-                ctx.update.message.chat.title
+                `El dispositivo ${data_resp.device_id} se encuentra registrado en el grupo ${ctx.update.message.chat.title}.`
               );
             } else if (
               data_resp.error &&
@@ -458,6 +459,7 @@ export class TelegrafOCS extends EventEmitter {
     );
   }
 
+  /*
   async registerDevice(ctx) {
     //TODO: Permitir registrar solo grupos
     ctx.reply("Un momento por favor. Se está registrando el dispositivo...");
@@ -485,6 +487,7 @@ export class TelegrafOCS extends EventEmitter {
       ctx.reply("Ocurrió un error, no se pudo registrar");
     }
   }
+  */
 
   // @ts-ignore
   sendEvent(ctx, message, event) {
@@ -492,10 +495,7 @@ export class TelegrafOCS extends EventEmitter {
 
     listGroups[uuid_group] = ctx.update.message.chat.id;
 
-    this.emit("event", {
-      event: event,
-      uuid_group: uuid_group,
-    });
+    this.emit("event", { ...event, id_group: uuid_group });
 
     if (message && message.length > 0) {
       ctx.reply(
