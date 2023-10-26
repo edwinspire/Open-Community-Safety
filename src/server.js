@@ -15,20 +15,20 @@ import { TelegrafOCS } from "./lib/ocs/telegraf.js";
 const { BUILD_DB_ON_START, OCS_URL_WS_DEVICE, OCS_URL_ADMIN_DEVICE } =
   process.env;
 
-  // Este bloque inicial carga los archivos de tareas de forma automática
- /* 
-  require("fs")
-	.readdirSync(tasks_dir)
-	.forEach(function (file) {
-	  if (file !== "private") {
-		console.log("Load Task -> " + file);
-		module.exports[path.basename(file, ".js")] = require(path.join(
-		  tasks_dir,
-		  file
-		));
-	  }
-	});
-  */
+// Este bloque inicial carga los archivos de tareas de forma automática
+/* 
+ require("fs")
+ .readdirSync(tasks_dir)
+ .forEach(function (file) {
+   if (file !== "private") {
+   console.log("Load Task -> " + file);
+   module.exports[path.basename(file, ".js")] = require(path.join(
+     tasks_dir,
+     file
+   ));
+   }
+ });
+ */
 
 
 try {
@@ -48,9 +48,17 @@ try {
 
   // Escucha los mensajes solo de la url indicada
   server.on(`ws/msg${OCS_URL_WS_DEVICE}`, async (e) => {
+
     if (e.request.url == OCS_URL_WS_DEVICE) {
       console.log(">>>> websocket_message >>", e.data);
-      let data = JSON.parse(e.data);
+
+      let data;
+      try {
+        data = JSON.parse(e.data);
+      } catch (error) {
+        console.trace(error);
+        data = {};
+      }
 
       if (data.req) {
         processRequest(data, e, server.websocketClients(OCS_URL_WS_DEVICE));
@@ -60,41 +68,42 @@ try {
       } else if (data.tele) {
         console.log("Tele");
       }
+
     }
 
     //	console.log('XXXXXXXXXXXXXXXXXXXXX', OCS_URL_WS_DEVICE, server.websocketClients(OCS_URL_WS_DEVICE));
   });
 
   /*
-		server.on("ws_client_connection", (e)=>{
-		console.log('ws_client_connection', e);
-		});
-		*/
+    server.on("ws_client_connection", (e)=>{
+    console.log('ws_client_connection', e);
+    });
+    */
 
   /*
-		server.on("ws_message", (e)=>{
-			console.log('ws_message', String(e.message));
-			});
-			*/
+    server.on("ws_message", (e)=>{
+      console.log('ws_message', String(e.message));
+      });
+      */
 
-			/*
-  server.appendAppFunction(app_name, "UpsertDevice", fn_upsertDevice);
-  server.appendAppFunction(
-    app_name,
-    "UpsertTelegramGroup",
-    fn_upsertTelegramGroup
-  );
-  server.appendAppFunction(
-    app_name,
-    "UpsertTelegramGroupDevices",
-    fn_upsertTelegramGroupDevices
-  );
-  server.appendAppFunction(
-    app_name,
-    "GetDeviceAndGroupByIdGroup",
-    fn_getDeviceAndGroupByIdGroup
-  );
-  */
+  /*
+server.appendAppFunction(app_name, "UpsertDevice", fn_upsertDevice);
+server.appendAppFunction(
+app_name,
+"UpsertTelegramGroup",
+fn_upsertTelegramGroup
+);
+server.appendAppFunction(
+app_name,
+"UpsertTelegramGroupDevices",
+fn_upsertTelegramGroupDevices
+);
+server.appendAppFunction(
+app_name,
+"GetDeviceAndGroupByIdGroup",
+fn_getDeviceAndGroupByIdGroup
+);
+*/
 
   let CommunitySafetyBot = new TelegrafOCS();
   CommunitySafetyBot.launch();
@@ -112,7 +121,7 @@ try {
             cmd: e.cmd,
             device_id: undefined,
             req: undefined,
-			data: e.data
+            data: e.data
           },
 
 
