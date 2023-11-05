@@ -3,7 +3,7 @@ import { ServerAPI } from "@edwinspire/libapiserver";
 import ocsdb from "./lib/ocs/database/sequelize.js";
 import { device as devicedb } from "./lib/ocs/database/models/devices.js";
 import { telegram_groups_devices } from "./lib/ocs/database/models/telegram_groups_devices.js";
-//import { app_name, CommunicationCommandFromNumberExists, CommunicationCommand } from "./lib/ocs/utils.js";
+import { CommunicationCommandFromNumberExists, CommunicationCommand } from "./lib/ocs/utils.js";
 import {
 
   commandFromDevices, commandFromGroup
@@ -46,6 +46,10 @@ try {
     );
   }
 
+
+  let CommunitySafetyBot = new TelegrafOCS();
+  CommunitySafetyBot.launch();
+
   // Escucha los mensajes solo de la url indicada
   server.on(`ws/msg${OCS_URL_WS_DEVICE}`, async (e) => {
 
@@ -63,6 +67,17 @@ try {
       let result = await commandFromDevices(data, e.ws, server.websocketClients(OCS_URL_WS_DEVICE));
 
       console.log(result);
+      // @ts-ignore
+      if (result.response && !result.error) {
+
+        // @ts-ignore
+        switch (result.response) {
+          case CommunicationCommand.REGISTER_DEVICE_SUCCESS:
+            CommunitySafetyBot.sendMessageToGroupFromDeviceId(data.data.device_id, 'Registrado');
+            break;
+
+        }
+      }
 
 
     }
@@ -70,7 +85,7 @@ try {
     //	console.log('XXXXXXXXXXXXXXXXXXXXX', OCS_URL_WS_DEVICE, server.websocketClients(OCS_URL_WS_DEVICE));
   });
 
-  
+
   /*
     server.on("ws_message", (e)=>{
       console.log('ws_message', String(e.message));
@@ -96,8 +111,6 @@ fn_getDeviceAndGroupByIdGroup
 );
 */
 
-  let CommunitySafetyBot = new TelegrafOCS();
-  CommunitySafetyBot.launch();
 
   CommunitySafetyBot.on("event", async (e) => {
     console.log("CommunitySafetyBot event ---> ", e);

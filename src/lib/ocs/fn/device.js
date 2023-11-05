@@ -144,16 +144,16 @@ export async function commandFromDevices(command, websocket_client, websocket_cl
           break;
         default:
           console.log(`Command ${command.cmd} not implemented.`);
-          ret = { error: `Command ${command.cmd} not implemented.` };
+          ret = { response: undefined, error: `Command ${command.cmd} not implemented.` };
           break;
       }
 
     } else {
-      ret = { error: `Command ${command.cmd} not found` };
+      ret = { response: undefined, error: `Command ${command.cmd} not found` };
     }
   } catch (error) {
     // @ts-ignore
-    ret = { error };
+    ret = { error, response: undefined };
   }
   return ret;
 }

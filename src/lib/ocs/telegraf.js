@@ -15,7 +15,8 @@ import crypto from "crypto";
 //import WebSocket from "ws";
 import { EventEmitter } from "events";
 import { Telegraf, Markup, session, Scenes } from "telegraf";
-//import { telegram_groups as tgdb } from './database/models/telegram_groups.js'
+import { telegram_groups as tgdb } from './database/models/telegram_groups.js'
+import { telegram_groups_devices as tgddb } from './database/models/telegram_groups_devices.js'
 //import { device as devicedb } from '../../../lib/ocs/database/models/devices.js'
 import dbsequelize from "./database/sequelize.js";
 import { QueryTypes } from "sequelize";
@@ -473,51 +474,6 @@ export class TelegrafOCS extends EventEmitter {
     }
   }
 
-  /*
-  // @ts-ignore
-  cmndPublish(ctx, last_level_topic, payload, msg_reply) {
-    this.publishToDevices(
-      TelegrafOCS.getUUIDGroup(ctx.update.message.chat.id),
-      last_level_topic,
-      payload,
-    )
-
-    if (msg_reply && msg_reply.length > 0) {
-      ctx.reply(
-        ctx.update.message.from.last_name +
-          ' ' +
-          ctx.update.message.from.first_name +
-          ' ' +
-          msg_reply,
-      )
-    }
-  }
-  */
-
-  /*
-  publishToDevices(uuid_group, last_level_topic, payload) {
-    let dataGroup = DBJson[uuid_group]
-    console.log(dataGroup)
-
-    if (dataGroup) {
-      if (dataGroup.devices && dataGroup.devices.length > 0) {
-        if (this.ws_client) {
-          dataGroup.devices.forEach((dev) => {
-            this.ws_client.send(payload)
-          })
-        } else {
-          console.error('this.mqtt_client no se ha inicializado')
-        }
-      } else {
-        this.sendMessageToGroup(
-          dataGroup.idgroup,
-          'No hay dispositivos asociados a este grupo.',
-        )
-      }
-    }
-    return dataGroup
-  }
-  */
 
   async sendMessageToGroup(idgroup, message) {
     console.log("sendMessageToGroup => ", idgroup);
@@ -550,6 +506,29 @@ export class TelegrafOCS extends EventEmitter {
 
     return await this.sendMessageToGroup(idgroup, message);
   }
+
+
+  // TODO: Mejorar este método para que haga una sola consulta a la base
+  async sendMessageToGroupFromDeviceId(device_id, message) {
+    let idgroup;
+
+    try {
+      let tg = await tgddb.findAll({
+        where: {
+          device_id: device_id,
+        },
+      });
+
+      if (tg && Array.isArray(tg) && tg.length > 0) {
+        idgroup = tg[0].idtg;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    return await this.sendMessageToGroupFromUUID(idgroup, message);
+  }
+
 
   // @ts-ignore
   static getUUIDGroup(idgroup) {
