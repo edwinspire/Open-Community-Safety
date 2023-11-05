@@ -20,7 +20,7 @@ import { Telegraf, Markup, session, Scenes } from "telegraf";
 import dbsequelize from "./database/sequelize.js";
 import { QueryTypes } from "sequelize";
 import jwt from "jsonwebtoken";
-import { fetchOCS, CommunicationCommand } from "./utils.js";
+import { fetchOCSGet, fetchOCSPost, CommunicationCommand } from "./utils.js";
 
 //const telegrambotref = "ad509bae25bff24934ade98570462d7f"; // uuid para poderse conectar al websocket
 const textEmergency = "🚨 EMERGENCIA";
@@ -300,7 +300,7 @@ export class TelegrafOCS extends EventEmitter {
               longitude: ctx.session.wizard.geo.longitude,
             };
 
-            let resp = await fetchOCS(OCS_URL_TELEGRAM_GROUPS).post("", data);
+            let resp = await fetchOCSPost(OCS_URL_TELEGRAM_GROUPS, data);
             let data_resp = await resp.json();
             console.log("Data registro ", data, data_resp);
             if (data_resp && data_resp.idtg) {
@@ -365,10 +365,7 @@ export class TelegrafOCS extends EventEmitter {
               device_id: ctx.session.wizard.device_id,
             };
             // Relaciona el dicpositivo con el grupo
-            let resp_tgd = await fetchOCS(OCS_URL_TELEGRAM_DEVICES).post(
-              "",
-              data_dev_group
-            );
+            let resp_tgd = await fetchOCSPost(OCS_URL_TELEGRAM_DEVICES, data_dev_group);
             let data_resp = await resp_tgd.json();
             //console.log(">>> Data registro ", data_dev_group, data_resp);
             if (data_resp && data_resp.idtg) {
@@ -387,10 +384,7 @@ export class TelegrafOCS extends EventEmitter {
                   allow_activation_by_geolocation,
               };
 
-              let resp_dev = await fetchOCS(OCS_URL_ADMIN_DEVICE).post(
-                "",
-                data_dev
-              );
+              let resp_dev = await fetchOCSPost(OCS_URL_ADMIN_DEVICE, data_dev);
               data_resp = await resp_dev.json();
 
               //console.log("RESP DEV >>>>>", data_resp);

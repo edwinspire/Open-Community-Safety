@@ -4,10 +4,10 @@ import { telegram_groups_devices } from "../../ocs/database/models/telegram_grou
 
 import { v4 as uuidv4 } from "uuid";
 import uF from "@edwinspire/universal-fetch";
-import { local_host_root, fetchOCS, CommunicationCommandFromNumberExists, CommunicationCommand } from "../../ocs/utils.js";
+import { local_host_root, fetchOCSGet, fetchOCSPost, CommunicationCommandFromNumberExists, CommunicationCommand } from "../../ocs/utils.js";
 //"./lib/ocs/utils.js";
 
-const { OCS_URL_WS_DEVICE, OCS_URL_ADMIN_DEVICE } = process.env;
+const { OCS_URL_ADMIN_DEVICE } = process.env;
 
 export const fn_upsertDevice = async (
   /** @type {any} */ req,
@@ -23,8 +23,6 @@ export const fn_upsertDevice = async (
     res.status(500).json({ error: error.message });
   }
 };
-
-
 
 /**
  * @param {{ device_id: string; name: any; chip: any; chip_model: any; chip_version: any; }} data
@@ -49,7 +47,7 @@ async function RegisterDevice(data, ws) {
         ws.APIServer.authorization.password
       );
 
-      let respF = await uFetch.post(local_host_root(OCS_URL_ADMIN_DEVICE), {
+      let respF = await fetchOCSPost(OCS_URL_ADMIN_DEVICE, {
         device_id: data.device_id,
         name: data.name,
         last_connection: Date.now(),
@@ -74,6 +72,7 @@ async function RegisterDevice(data, ws) {
 
     } catch (error) {
       //      ws.send(JSON.stringify({ cmd: CommunicationCommand.REGISTER_DEVICE_ERROR, data: { message: error.message } }));
+      // @ts-ignore
       sendCommandWebsocket(CommunicationCommand.REGISTER_DEVICE_ERROR, { message: error.message }, ws);
 
     }
@@ -103,7 +102,7 @@ async function getListDevicesByGroup(id_group) {
 
   try {
     // Obtiene la lista de dispositivos asociados a ese grupo
-    let resp_tgd = await fetchOCS(OCS_URL_ADMIN_DEVICE).get("", {
+    let resp_tgd = await fetchOCSGet(OCS_URL_ADMIN_DEVICE, {
       id_group: id_group,
     });
 
@@ -200,11 +199,11 @@ export async function commandFromGroup(command, websocket_clients) {
   }
 }
 
-
+/*
 export const fn_getDeviceAndGroupByIdGroup = async (
-  /** @type {any} */ req,
-  /** @type {{ status: (arg0: number) => { (): any; new (): any; json: { (arg0: import("sequelize").Model<any, any>[]): void; new (): any; }; }; }} */ res,
-  /** @type {any} */ data
+   req,
+   res,
+   data
 ) => {
   try {
     let datar = await device.findAll({
@@ -228,3 +227,4 @@ export const fn_getDeviceAndGroupByIdGroup = async (
     res.status(500).json({ error: error.message });
   }
 };
+*/

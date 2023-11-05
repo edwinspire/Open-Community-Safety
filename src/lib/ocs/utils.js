@@ -3,17 +3,33 @@ import uFetch from "@edwinspire/universal-fetch";
 
 export const app_name = "ocs";
 
-export const local_host_root = (/** @type {string} */ path) => {
-    let p = `http://localhost:${PORT}${path}`;
+export const local_host_root = (path = '') => {
+    let p = `http://localhost:${PORT}${path || ''}`;
     console.log(p);
     return p;
 }
 
-export const fetchOCS = (/** @type {string} */ url) => {
+export const _fetchOCS = (/** @type {string} */ url = '') => {
     // @ts-ignore
     let f = new uFetch(local_host_root(url));
     f.setBasicAuthorization(LOCAL_WS_USERNAME, LOCAL_WS_PASSWORD);
     return f;
+}
+
+
+export const fetchOCSGet = (/** @type {string} */ url = '', /** @type {any} */ data) => {
+    // @ts-ignore
+    let f = new uFetch(local_host_root(url));
+    f.setBasicAuthorization(LOCAL_WS_USERNAME, LOCAL_WS_PASSWORD);
+    return f.get(undefined, data);
+}
+
+
+export const fetchOCSPost = (/** @type {string} */ url = '', /** @type {any} */ data) => {
+    // @ts-ignore
+    let f = new uFetch(local_host_root(url));
+    f.setBasicAuthorization(LOCAL_WS_USERNAME, LOCAL_WS_PASSWORD);
+    return f.post(undefined, data);
 }
 
 export const CommunicationCommand =
@@ -40,7 +56,9 @@ export const CommunicationCommand =
 export function CommunicationCommandFromNumberExists(val) {
 
     for (const v in CommunicationCommand) {
+        // @ts-ignore
         if (CommunicationCommand[v] === val) {
+            // @ts-ignore
             return CommunicationCommand[v];
         }
     }

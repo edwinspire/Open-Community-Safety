@@ -3,7 +3,7 @@ import { ServerAPI } from "@edwinspire/libapiserver";
 import ocsdb from "./lib/ocs/database/sequelize.js";
 import { device as devicedb } from "./lib/ocs/database/models/devices.js";
 import { telegram_groups_devices } from "./lib/ocs/database/models/telegram_groups_devices.js";
-import { app_name, fetchOCS, CommunicationCommandFromNumberExists, CommunicationCommand } from "./lib/ocs/utils.js";
+//import { app_name, CommunicationCommandFromNumberExists, CommunicationCommand } from "./lib/ocs/utils.js";
 import {
 
   commandFromDevices, commandFromGroup
