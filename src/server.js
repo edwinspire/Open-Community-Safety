@@ -73,7 +73,7 @@ try {
         // @ts-ignore
         switch (result.response) {
           case CommunicationCommand.REGISTER_DEVICE_SUCCESS:
-            CommunitySafetyBot.sendMessageToGroupFromDeviceId(data.data.device_id, 'Registrado');
+            CommunitySafetyBot.sendMessageToGroupFromDeviceId(data.data.device_id, `Device ${data.data.name} online [${data.data.device_id}].`);
             break;
 
         }
