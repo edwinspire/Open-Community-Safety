@@ -24,27 +24,7 @@ export const fn_upsertDevice = async (
   }
 };
 
-/**
- * @param {{ data: any; req: any; device_id: string; }} data
- * @param {{ ws: { send: (arg0: string) => void; APIServer: { authorization: { username: any; password: any; }; }; }; }} e
- * @param {any[]} clients
- */
-export async function processRequest(data, e, clients) {
 
-  let data_values = data.data;
-
-  console.log("processRequest >>>>> data_values", data);
-
-  switch (data.req) {
-    case CommunicationCommand.REGISTER_DEVICE:
-      RegisterDevice(data_values, e.ws);
-      break;
-
-    default:
-      console.log("No es mil", data.req);
-      break;
-  }
-}
 
 /**
  * @param {{ device_id: string; name: any; chip: any; chip_model: any; chip_version: any; }} data
