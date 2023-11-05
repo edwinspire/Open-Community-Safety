@@ -453,35 +453,6 @@ export class TelegrafOCS extends EventEmitter {
     );
   }
 
-  /*
-  async registerDevice(ctx) {
-    //TODO: Permitir registrar solo grupos
-    ctx.reply("Un momento por favor. Se está registrando el dispositivo...");
-    try {
-      console.log(ctx.update.message);
-
-      let data = {
-        idtg: TelegrafOCS.getUUIDGroup(ctx.update.message.chat.id),
-        device_id: ctx.update.message.chat.id,
-      };
-
-      let resp = await fetchOCS(OCS_URL_TELEGRAM_DEVICES).post("", data);
-      let data_resp = await resp.json();
-      console.log("Data registro ", data, data_resp);
-
-      if (data_resp && data_resp.idtg) {
-        ctx.reply(
-          data_resp.name + " se encuentra registrado. ID: " + data_resp.idtg
-        );
-      } else {
-        ctx.reply("No se pudo registrar en este momento.");
-      }
-    } catch (error) {
-      console.log(error);
-      ctx.reply("Ocurrió un error, no se pudo registrar");
-    }
-  }
-  */
 
   // @ts-ignore
   sendEvent(ctx, message, event) {

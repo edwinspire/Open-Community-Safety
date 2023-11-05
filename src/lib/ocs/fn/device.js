@@ -30,12 +30,17 @@ export const fn_upsertDevice = async (
  */
 async function RegisterDevice(data, ws) {
 
+  let ret = {};
+
   // Registra dispositivo
   if (data.device_id == "00a0aa00-aa00-0000-0000-000000000000") {
     // Si tiene el valor por default se le envía uno nuevo
     console.log("Default id -  se devuelve un nuevo id");
-    sendCommandWebsocket(CommunicationCommand.SET_DEVICE_ID, { device_id: uuidv4() }, ws);
+    let new_id = uuidv4();
+    sendCommandWebsocket(CommunicationCommand.SET_DEVICE_ID, { device_id: new_id }, ws);
     // ws.send(JSON.stringify({ cmd: CommunicationCommand.SET_DEVICE_ID, device_id: uuidv4() }));
+    ret = { response: CommunicationCommand.SET_DEVICE_ID, device_id: new_id };
+
   } else if (data && data.device_id) {
     try {
       // Tiene ya un id asignado, se registra el dispositivo
@@ -69,16 +74,18 @@ async function RegisterDevice(data, ws) {
 
       //  ws.send(JSON.stringify({ cmd: CommunicationCommand.REGISTER_DEVICE_SUCCESS }));
       sendCommandWebsocket(CommunicationCommand.REGISTER_DEVICE_SUCCESS, {}, ws);
-
+      ret = { response: CommunicationCommand.REGISTER_DEVICE_SUCCESS }
     } catch (error) {
       //      ws.send(JSON.stringify({ cmd: CommunicationCommand.REGISTER_DEVICE_ERROR, data: { message: error.message } }));
       // @ts-ignore
       sendCommandWebsocket(CommunicationCommand.REGISTER_DEVICE_ERROR, { message: error.message }, ws);
-
+      // @ts-ignore
+      ret = { response: CommunicationCommand.REGISTER_DEVICE_ERROR, error: error.message }
     }
 
   }
 
+  return ret;
 }
 
 /**
@@ -125,21 +132,30 @@ async function getListDevicesByGroup(id_group) {
  */
 export async function commandFromDevices(command, websocket_client, websocket_clients) {
 
-  if (command.cmd && CommunicationCommandFromNumberExists(command.cmd)) {
+  let ret = {};
 
-    switch (command.cmd) {
+  try {
+    if (command.cmd && CommunicationCommandFromNumberExists(command.cmd)) {
 
-      case CommunicationCommand.REGISTER_DEVICE:
-        await RegisterDevice(command.data, websocket_client);
-        break;
-      default:
-        console.log(`Command ${command.cmd} not implemented.`);
-        break;
+      switch (command.cmd) {
+
+        case CommunicationCommand.REGISTER_DEVICE:
+          ret = await RegisterDevice(command.data, websocket_client);
+          break;
+        default:
+          console.log(`Command ${command.cmd} not implemented.`);
+          ret = { error: `Command ${command.cmd} not implemented.` };
+          break;
+      }
+
+    } else {
+      ret = { error: `Command ${command.cmd} not found` };
     }
-
-  } else {
-    console.log(`Command ${command.cmd} not found`);
+  } catch (error) {
+    // @ts-ignore
+    ret = { error };
   }
+  return ret;
 }
 
 

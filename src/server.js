@@ -60,31 +60,17 @@ try {
         data = {};
       }
 
-      commandFromDevices(data, e.ws, server.websocketClients(OCS_URL_WS_DEVICE));
+      let result = await commandFromDevices(data, e.ws, server.websocketClients(OCS_URL_WS_DEVICE));
 
+      console.log(result);
 
-      /*
-      if (data.req) {
-        processRequest(data, e, server.websocketClients(OCS_URL_WS_DEVICE));
-      } else if (data.cmd) {
-        console.log("Command");
-        processCMD(data, e, server.websocketClients(OCS_URL_WS_DEVICE));
-      } else if (data.tele) {
-        console.log("Tele");
-      }
-      */
 
     }
 
     //	console.log('XXXXXXXXXXXXXXXXXXXXX', OCS_URL_WS_DEVICE, server.websocketClients(OCS_URL_WS_DEVICE));
   });
 
-  /*
-    server.on("ws_client_connection", (e)=>{
-    console.log('ws_client_connection', e);
-    });
-    */
-
+  
   /*
     server.on("ws_message", (e)=>{
       console.log('ws_message', String(e.message));
@@ -121,23 +107,6 @@ fn_getDeviceAndGroupByIdGroup
         let list_clients = await server.websocketClients(OCS_URL_WS_DEVICE);
 
         await commandFromGroup(e, list_clients);
-
-        /*
-        await processCMD(
-          {
-            id_group: e.id_group,
-            cmd: e.cmd,
-            device_id: undefined,
-            req: undefined,
-            data: e.data
-          },
-
-
-          // @ts-ignore
-          list_clients,
-          e
-        );
-*/
 
       } catch (error) {
         console.log(error);
