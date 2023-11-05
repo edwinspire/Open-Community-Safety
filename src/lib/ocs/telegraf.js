@@ -153,7 +153,7 @@ export class TelegrafOCS extends EventEmitter {
 
     this.bot.hears(textEmergency, async (ctx) => {
       this.sendEvent(ctx, "EMERGENCIA", {
-        cmd: 2,
+        cmd: 3,
         data: {
           lowtime: 1000,
           hightime: 1000 * 120,
@@ -163,7 +163,7 @@ export class TelegrafOCS extends EventEmitter {
     });
     this.bot.hears(textwarning, (ctx) => {
       this.sendEvent(ctx, "ADVERTENCIA", {
-        cmd: 2,
+        cmd: 3,
         data: { lowtime: 4000, hightime: 3000, totaltime: 1000 * 60 * 20 },
       });
     });
@@ -171,14 +171,14 @@ export class TelegrafOCS extends EventEmitter {
     this.bot.hears(textTest, (ctx) => {
       console.log(textTest);
       this.sendEvent(ctx, "PRUEBA", {
-        cmd: 2,
+        cmd: 3,
         data: { lowtime: 800, hightime: 800, totaltime: 3500 },
       });
     });
 
     this.bot.hears(textTurnoff, (ctx) => {
       this.sendEvent(ctx, "APAGAR", {
-        cmd: 2,
+        cmd: 3,
         data: { lowtime: 1, hightime: 1, totaltime: 0 },
       });
     });
