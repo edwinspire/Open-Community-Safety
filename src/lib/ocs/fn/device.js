@@ -139,61 +139,6 @@ async function getListDevicesByGroup(id_group) {
   return list_group;
 }
 
-
-/**
- * @param {{ id_group: any; cmd: any; device_id: any; req?: undefined; data?: any; }} data
- * @param {{ ocs: { device_id: any; }; send: (arg0: string) => void; }[]} clients
- * @param {import("ws")[]} e
- */
-export async function _processCMD(data, clients, e) {
-
-  /**
-   * @type {{ device_id: any; }[]}
-   */
-  let device_by_groups = [];
-
-  if (data.id_group) {
-    // Obtener la lista de dispositivos del grupo
-    device_by_groups = await getListDevicesByGroup(data.id_group);
-  }
-
-  //  console.log("processCMD >>>> ", data, e, clients);
-
-
-  clients.forEach(
-    (
-      /** @type {{ ocs: { device_id: any; }; send: (arg0: string) => void; }} */ c
-    ) => {
-
-      if (data.device_id) {
-
-        if (c.ocs && data.device_id == c.ocs.device_id) {
-          sendCommandWebsocket(data.cmd, data.data, c);
-          return;
-        }
-
-      } else if (data.id_group) {
-        // Commando para el grupo
-
-        device_by_groups.forEach((/** @type {{ device_id: any; }} */ g) => {
-
-          if (g.device_id = c.ocs.device_id) {
-            sendCommandWebsocket(data.cmd, data.data, c);
-          }
-
-        });
-
-      } else {
-        console.log('Comando no tiene destino');
-      }
-
-    }
-  );
-
-
-}
-
-
 /**
  * @param {{ cmd: number; data: { device_id: string; name: any; chip: any; chip_model: any; chip_version: any; }; }} command
  * @param {{ send: any; APIServer: any; ocs?: any; }} websocket_client
