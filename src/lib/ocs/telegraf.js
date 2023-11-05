@@ -20,7 +20,7 @@ import { Telegraf, Markup, session, Scenes } from "telegraf";
 import dbsequelize from "./database/sequelize.js";
 import { QueryTypes } from "sequelize";
 import jwt from "jsonwebtoken";
-import { fetchOCS } from "./utils.js";
+import { fetchOCS, CommunicationCommand } from "./utils.js";
 
 //const telegrambotref = "ad509bae25bff24934ade98570462d7f"; // uuid para poderse conectar al websocket
 const textEmergency = "🚨 EMERGENCIA";
@@ -153,7 +153,7 @@ export class TelegrafOCS extends EventEmitter {
 
     this.bot.hears(textEmergency, async (ctx) => {
       this.sendEvent(ctx, "EMERGENCIA", {
-        cmd: 3,
+        cmd: CommunicationCommand.ALARM,
         data: {
           lowtime: 1000,
           hightime: 1000 * 120,
@@ -163,7 +163,7 @@ export class TelegrafOCS extends EventEmitter {
     });
     this.bot.hears(textwarning, (ctx) => {
       this.sendEvent(ctx, "ADVERTENCIA", {
-        cmd: 3,
+        cmd: CommunicationCommand.ALARM,
         data: { lowtime: 4000, hightime: 3000, totaltime: 1000 * 60 * 20 },
       });
     });
@@ -171,14 +171,14 @@ export class TelegrafOCS extends EventEmitter {
     this.bot.hears(textTest, (ctx) => {
       console.log(textTest);
       this.sendEvent(ctx, "PRUEBA", {
-        cmd: 3,
+        cmd: CommunicationCommand.ALARM,
         data: { lowtime: 800, hightime: 800, totaltime: 3500 },
       });
     });
 
     this.bot.hears(textTurnoff, (ctx) => {
       this.sendEvent(ctx, "APAGAR", {
-        cmd: 3,
+        cmd: CommunicationCommand.ALARM,
         data: { lowtime: 1, hightime: 1, totaltime: 0 },
       });
     });
@@ -306,8 +306,8 @@ export class TelegrafOCS extends EventEmitter {
             if (data_resp && data_resp.idtg) {
               ctx.reply(
                 data_resp.name +
-                  " se encuentra registrado. ID: " +
-                  data_resp.idtg
+                " se encuentra registrado. ID: " +
+                data_resp.idtg
               );
             } else {
               ctx.reply("No se pudo registrar en este momento.");
@@ -374,7 +374,7 @@ export class TelegrafOCS extends EventEmitter {
             if (data_resp && data_resp.idtg) {
               let allow_activation_by_geolocation =
                 ctx.session.wizard.allow_activation_by_geolocation.toUpperCase() ==
-                "SI"
+                  "SI"
                   ? true
                   : false;
 
@@ -494,8 +494,12 @@ export class TelegrafOCS extends EventEmitter {
     let uuid_group = TelegrafOCS.getUUIDGroup(ctx.update.message.chat.id);
 
     listGroups[uuid_group] = ctx.update.message.chat.id;
+    let cmd = event;
+    if (cmd.data) {
+      cmd.data.id_group = uuid_group
+    }
 
-    this.emit("event", { ...event, id_group: uuid_group });
+    this.emit("event", cmd);
 
     if (message && message.length > 0) {
       ctx.reply(

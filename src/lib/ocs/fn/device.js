@@ -4,7 +4,7 @@ import { telegram_groups_devices } from "../../ocs/database/models/telegram_grou
 
 import { v4 as uuidv4 } from "uuid";
 import uF from "@edwinspire/universal-fetch";
-import { local_host_root, fetchOCS } from "../../ocs/utils.js";
+import { local_host_root, fetchOCS, CommunicationCommandFromNumberExists, CommunicationCommand } from "../../ocs/utils.js";
 //"./lib/ocs/utils.js";
 
 const { OCS_URL_WS_DEVICE, OCS_URL_ADMIN_DEVICE } = process.env;
@@ -30,52 +30,14 @@ export const fn_upsertDevice = async (
  * @param {any[]} clients
  */
 export async function processRequest(data, e, clients) {
-  const uFetch = new uF();
 
   let data_values = data.data;
 
   console.log("processRequest >>>>> data_values", data);
 
   switch (data.req) {
-    case 1:
-      // Registra dispositivo
-      if (data_values.device_id == "00a0aa00-aa00-0000-0000-000000000000") {
-        // Si tiene el valor por default se le envía uno nuevo
-        console.log("Default id -  se devuelve un nuevo id");
-
-        e.ws.send(JSON.stringify({ cmd: 1, device_id: uuidv4() }));
-      } else if (data_values && data_values.device_id) {
-        // Tiene ya un id asignado, se registra el dispositivo
-        console.log("Registrar dispositivo", data_values);
-
-        uFetch.setBasicAuthorization(
-          e.ws.APIServer.authorization.username,
-          e.ws.APIServer.authorization.password
-        );
-
-        let respF = await uFetch.post(local_host_root(OCS_URL_ADMIN_DEVICE), {
-          device_id: data_values.device_id,
-          name: data_values.name,
-          last_connection: Date.now(),
-          chip: data_values.chip,
-          chip_model: data_values.chip_model,
-          chip_version: data_values.chip_version,
-          //         latitude: data_values.lat,
-          //         longitude: data_values.lon,
-          //         allow_activation_by_geolocation: data_values.acbgl,
-        });
-
-        clients.forEach((c) => {
-          if (c.ocs) {
-            c.ocs.device_id = data_values.device_id;
-          } else {
-            c.ocs = { device_id: data_values.device_id };
-          }
-          //  console.log('>>> forEach ' , c.ocs);
-        });
-
-        console.log(await respF.json());
-      }
+    case CommunicationCommand.REGISTER_DEVICE:
+      RegisterDevice(data_values, e.ws);
       break;
 
     default:
@@ -85,12 +47,72 @@ export async function processRequest(data, e, clients) {
 }
 
 /**
+ * @param {{ device_id: string; name: any; chip: any; chip_model: any; chip_version: any; }} data
+ * @param {{ send: any; APIServer: any; ocs?: any; }} ws
+ */
+async function RegisterDevice(data, ws) {
+
+  // Registra dispositivo
+  if (data.device_id == "00a0aa00-aa00-0000-0000-000000000000") {
+    // Si tiene el valor por default se le envía uno nuevo
+    console.log("Default id -  se devuelve un nuevo id");
+    sendCommandWebsocket(CommunicationCommand.SET_DEVICE_ID, { device_id: uuidv4() }, ws);
+    // ws.send(JSON.stringify({ cmd: CommunicationCommand.SET_DEVICE_ID, device_id: uuidv4() }));
+  } else if (data && data.device_id) {
+    try {
+      // Tiene ya un id asignado, se registra el dispositivo
+      console.log("Registrar dispositivo", data);
+      const uFetch = new uF();
+
+      uFetch.setBasicAuthorization(
+        ws.APIServer.authorization.username,
+        ws.APIServer.authorization.password
+      );
+
+      let respF = await uFetch.post(local_host_root(OCS_URL_ADMIN_DEVICE), {
+        device_id: data.device_id,
+        name: data.name,
+        last_connection: Date.now(),
+        chip: data.chip,
+        chip_model: data.chip_model,
+        chip_version: data.chip_version,
+        //         latitude: data_values.lat,
+        //         longitude: data_values.lon,
+        //         allow_activation_by_geolocation: data_values.acbgl,
+      });
+
+      if (ws.ocs) {
+        ws.ocs.device_id = data.device_id;
+      } else {
+        ws.ocs = { device_id: data.device_id };
+      }
+
+      console.log(await respF.json());
+
+      //  ws.send(JSON.stringify({ cmd: CommunicationCommand.REGISTER_DEVICE_SUCCESS }));
+      sendCommandWebsocket(CommunicationCommand.REGISTER_DEVICE_SUCCESS, {}, ws);
+
+    } catch (error) {
+      //      ws.send(JSON.stringify({ cmd: CommunicationCommand.REGISTER_DEVICE_ERROR, data: { message: error.message } }));
+      sendCommandWebsocket(CommunicationCommand.REGISTER_DEVICE_ERROR, { message: error.message }, ws);
+
+    }
+
+  }
+
+}
+
+/**
  * @param {{ send: (arg0: string) => void; }} WebSocketClient
  * @param {number} command
  * @param {any} data
  */
 function sendCommandWebsocket(command, data, WebSocketClient) {
-  WebSocketClient.send(JSON.stringify({ cmd: command, data: data }));
+  if (WebSocketClient) {
+    WebSocketClient.send(JSON.stringify({ cmd: command, data: data }));
+  } else {
+    console.log('sendCommandWebsocket: Not websocket client.');
+  }
 }
 
 /**
@@ -108,7 +130,7 @@ async function getListDevicesByGroup(id_group) {
     // Lista de grupos
     list_group = await resp_tgd.json();
 
-console.log('getListDevicesByGroup >> ', id_group, list_group);
+    console.log('getListDevicesByGroup >> ', id_group, list_group);
 
   } catch (error) {
     console.trace(error);
@@ -123,7 +145,7 @@ console.log('getListDevicesByGroup >> ', id_group, list_group);
  * @param {{ ocs: { device_id: any; }; send: (arg0: string) => void; }[]} clients
  * @param {import("ws")[]} e
  */
-export async function processCMD(data, clients, e) {
+export async function _processCMD(data, clients, e) {
 
   /**
    * @type {{ device_id: any; }[]}
@@ -135,46 +157,124 @@ export async function processCMD(data, clients, e) {
     device_by_groups = await getListDevicesByGroup(data.id_group);
   }
 
-//  console.log("processCMD >>>> ", data, e, clients);
+  //  console.log("processCMD >>>> ", data, e, clients);
 
-  if (data.cmd) {
 
-    clients.forEach(
-      (
+  clients.forEach(
+    (
       /** @type {{ ocs: { device_id: any; }; send: (arg0: string) => void; }} */ c
-      ) => {
+    ) => {
 
-        if (data.device_id) {
+      if (data.device_id) {
 
-          if (c.ocs && data.device_id == c.ocs.device_id) {
-            sendCommandWebsocket(data.cmd, data.data, c);
-            return;
-          }
-
-        } else if (data.id_group) {
-          // Commando para el grupo
-
-          device_by_groups.forEach((/** @type {{ device_id: any; }} */ g) => {
-
-            if (g.device_id = c.ocs.device_id) {
-              sendCommandWebsocket(data.cmd, data.data, c);
-            }
-
-          });
-
-        } else {
-          console.log('Comando no tiene destino');
+        if (c.ocs && data.device_id == c.ocs.device_id) {
+          sendCommandWebsocket(data.cmd, data.data, c);
+          return;
         }
 
+      } else if (data.id_group) {
+        // Commando para el grupo
+
+        device_by_groups.forEach((/** @type {{ device_id: any; }} */ g) => {
+
+          if (g.device_id = c.ocs.device_id) {
+            sendCommandWebsocket(data.cmd, data.data, c);
+          }
+
+        });
+
+      } else {
+        console.log('Comando no tiene destino');
       }
-    );
 
+    }
+  );
 
-  } else {
-    console.log('Data no tiene comando.');
-  }
 
 }
+
+
+/**
+ * @param {{ cmd: number; data: { device_id: string; name: any; chip: any; chip_model: any; chip_version: any; }; }} command
+ * @param {{ send: any; APIServer: any; ocs?: any; }} websocket_client
+ * @param {any[]} websocket_clients
+ */
+export async function commandFromDevices(command, websocket_client, websocket_clients) {
+
+  if (command.cmd && CommunicationCommandFromNumberExists(command.cmd)) {
+
+    switch (command.cmd) {
+
+      case CommunicationCommand.REGISTER_DEVICE:
+        await RegisterDevice(command.data, websocket_client);
+        break;
+      default:
+        console.log(`Command ${command.cmd} not implemented.`);
+        break;
+    }
+
+  } else {
+    console.log(`Command ${command.cmd} not found`);
+  }
+}
+
+
+
+/**
+ * @param {{ cmd: number; data: { id_group: any; }; }} command
+ * @param {any[]} websocket_clients
+ */
+export async function commandFromGroup(command, websocket_clients) {
+
+  if (command.cmd && CommunicationCommandFromNumberExists(command.cmd)) {
+
+    /**
+     * @type {{ device_id: any; }[]}
+     */
+    let device_by_groups = [];
+
+    if (command.data.id_group) {
+      // Obtener la lista de dispositivos del grupo
+      device_by_groups = await getListDevicesByGroup(command.data.id_group);
+
+      console.log(`Groups: ${device_by_groups.length} | websocket_clients: ${websocket_clients.length}`);
+
+      if (device_by_groups.length > 0) {
+        switch (command.cmd) {
+
+          case CommunicationCommand.ALARM:
+            //       await RegisterDevice(command.data, websocket_client);
+            device_by_groups.forEach((/** @type {{ device_id: any; }} */ g) => {
+
+              let wsClient = websocket_clients.find((c) => {
+                console.log(`Compare g ${g.device_id} == ${c.ocs.device_id}`);
+                return g.device_id == c.ocs.device_id;
+              });
+
+              sendCommandWebsocket(CommunicationCommand.ALARM, command.data, wsClient);
+
+            });
+
+            break;
+          default:
+            console.log(`Command ${command.cmd} not implemented.`);
+            break;
+        }
+      } else {
+
+        console.log('No hay dispositivos registrados');
+
+      }
+
+    } else {
+      console.log(`id_group undefined`);
+    }
+
+  } else {
+    console.log(`Command ${command.cmd} not found`);
+  }
+}
+
 
 export const fn_getDeviceAndGroupByIdGroup = async (
   /** @type {any} */ req,

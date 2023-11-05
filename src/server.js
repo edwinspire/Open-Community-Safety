@@ -3,10 +3,10 @@ import { ServerAPI } from "@edwinspire/libapiserver";
 import ocsdb from "./lib/ocs/database/sequelize.js";
 import { device as devicedb } from "./lib/ocs/database/models/devices.js";
 import { telegram_groups_devices } from "./lib/ocs/database/models/telegram_groups_devices.js";
-import { app_name, fetchOCS } from "./lib/ocs/utils.js";
+import { app_name, fetchOCS, CommunicationCommandFromNumberExists, CommunicationCommand } from "./lib/ocs/utils.js";
 import {
-  processCMD,
-  processRequest
+
+  commandFromDevices, commandFromGroup
 } from "./lib/ocs/fn/device.js";
 //import { fn_upsertTelegramGroup } from "./lib/ocs/fn/telegram_groups.js";
 //import { fn_upsertTelegramGroupDevices } from "./lib/ocs/fn/telegram_groups_devices.js";
@@ -60,6 +60,10 @@ try {
         data = {};
       }
 
+      commandFromDevices(data, e.ws, server.websocketClients(OCS_URL_WS_DEVICE));
+
+
+      /*
       if (data.req) {
         processRequest(data, e, server.websocketClients(OCS_URL_WS_DEVICE));
       } else if (data.cmd) {
@@ -68,6 +72,7 @@ try {
       } else if (data.tele) {
         console.log("Tele");
       }
+      */
 
     }
 
@@ -115,6 +120,9 @@ fn_getDeviceAndGroupByIdGroup
       try {
         let list_clients = await server.websocketClients(OCS_URL_WS_DEVICE);
 
+        await commandFromGroup(e, list_clients);
+
+        /*
         await processCMD(
           {
             id_group: e.id_group,
@@ -129,6 +137,8 @@ fn_getDeviceAndGroupByIdGroup
           list_clients,
           e
         );
+*/
+
       } catch (error) {
         console.log(error);
       }
