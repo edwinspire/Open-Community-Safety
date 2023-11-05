@@ -4,8 +4,7 @@ import { telegram_groups_devices } from "../../ocs/database/models/telegram_grou
 
 import { v4 as uuidv4 } from "uuid";
 import uF from "@edwinspire/universal-fetch";
-import { local_host_root, fetchOCSGet, fetchOCSPost, CommunicationCommandFromNumberExists, CommunicationCommand } from "../../ocs/utils.js";
-//"./lib/ocs/utils.js";
+import { fetchOCSGet, fetchOCSPost, CommunicationCommandFromNumberExists, CommunicationCommand } from "../../ocs/utils.js";
 
 const { OCS_URL_ADMIN_DEVICE } = process.env;
 
@@ -142,6 +141,11 @@ export async function commandFromDevices(command, websocket_client, websocket_cl
         case CommunicationCommand.REGISTER_DEVICE:
           ret = await RegisterDevice(command.data, websocket_client);
           break;
+
+          case CommunicationCommand.DISCONNET:
+            websocket_client.finalize();
+            console.log('Websocket DISCONNET...');
+            break;
         default:
           console.log(`Command ${command.cmd} not implemented.`);
           ret = { response: undefined, error: `Command ${command.cmd} not implemented.` };

@@ -522,11 +522,18 @@ export class TelegrafOCS extends EventEmitter {
       if (tg && Array.isArray(tg) && tg.length > 0) {
         idgroup = tg[0].idtg;
       }
+
+      if (idgroup) {
+        return await this.sendMessageToGroupFromUUID(idgroup, message);
+      }else{
+        return {};
+      }
+
     } catch (error) {
       console.log(error);
+      throw error;
     }
 
-    return await this.sendMessageToGroupFromUUID(idgroup, message);
   }
 
 

@@ -75,7 +75,6 @@ try {
           case CommunicationCommand.REGISTER_DEVICE_SUCCESS:
             CommunitySafetyBot.sendMessageToGroupFromDeviceId(data.data.device_id, `Device ${data.data.name} online [${data.data.device_id}].`);
             break;
-
         }
       }
 
